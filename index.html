@@ -83,13 +83,15 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-      <div class="pb-3 mt-3 mb-3 user-panel d-flex">
-        <div class="image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">Marcos Rubí</a>
-        </div>
+      <div class="pb-3 mt-3 mb-3 user-panel">
+        <button type="button" class="btn d-flex" data-toggle="modal" data-target="#modal-data-username">
+          <div class="image">
+            <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          </div>
+          <div class="info">
+            <a href="#" class="d-block">Marcos Rubí</a>
+          </div>
+        </button>
       </div>
 
 
@@ -106,6 +108,33 @@
               </p>
             </a>
           </li>
+          <li class="nav-header">PRÉSTAMOS</li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-file-invoice-dollar"></i>
+              <p>
+                Completados
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-dollar-sign"></i>
+              <p>
+                En Proceso
+              </p>
+              <span class="badge badge-success right">6</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-comments-dollar"></i>
+              <p>
+                Pendientes
+              </p>
+              <span class="badge badge-primary right">6</span>
+            </a>
+          </li>
           <li class="nav-header">ESTADÍSTICAS</li>
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -118,7 +147,7 @@
           <li class="nav-header">PAGOS</li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-money-check-alt"></i>
+              <i class="nav-icon fas fa-calendar-times"></i>
               <p>
                 Atrasados
               </p>
@@ -127,7 +156,7 @@
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-money-check-alt"></i>
+              <i class="nav-icon fas fa-hourglass-half"></i>
               <p>
                 Próximos
               </p>
@@ -137,11 +166,20 @@
           <li class="nav-header">AVISOS</li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-money-check-alt"></i>
+              <i class="nav-icon fas fa-clock"></i>
               <p>
                 Recordatorios
               </p>
               <span class="badge badge-primary right">2</span>
+            </a>
+          </li>
+          <li class="nav-header">SISTEMA</li>
+          <li class="nav-item">
+            <a href="./iniciar-sesion/" class="nav-link">
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <p>
+                Cerrar sesión
+              </p>
             </a>
           </li>
         </ul>
@@ -162,7 +200,7 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>$3,206.87</h3>
+                <h3>$1,380.00</h3>
 
                 <p>Ganancias obtenidas</p>
               </div>
@@ -239,7 +277,7 @@
               <div class="card-body">
                 <div class="d-flex">
                   <p class="d-flex flex-column">
-                    <span class="text-lg text-bold">$18,230.00</span>
+                    <span class="text-lg text-bold">$9,230.00</span>
                     <span>Ingresos e inversión del 2023</span>
                   </p>
                   <p class="ml-auto text-right d-flex flex-column">
@@ -295,8 +333,10 @@
                   <tbody>
                   <tr>
                     <td>
-                      <img src="dist/img/default-150x150.png" alt="Product 1" class="mr-2 img-circle img-size-32">
-                      Evelia Ruelas Sánchez
+                      <a href="#">
+                        <img src="dist/img/default-150x150.png" alt="Product 1" class="mr-2 img-circle img-size-32">
+                        Evelia Ruelas Sánchez
+                      </a> 
                     </td>
                     <td>$130 USD</td>
                     <td>
@@ -308,14 +348,16 @@
                     </td>
                     <td>
                       <a href="#" class="text-muted">
-                        <i class="fas fa-search"></i>
+                        <i class="fas fa-search-dollar fa-lg"></i>
                       </a>
                     </td>
                   </tr>
                   <tr>
                     <td>
-                      <img src="dist/img/default-150x150.png" alt="Product 1" class="mr-2 img-circle img-size-32">
-                      Almendra Godoy Tamayo
+                      <a href="#">
+                        <img src="dist/img/default-150x150.png" alt="Product 1" class="mr-2 img-circle img-size-32">
+                        Almendra Godoy Tamayo
+                      </a> 
                     </td>
                     <td>$29 USD</td>
                     <td>
@@ -323,18 +365,20 @@
                         <i class="fas fa-arrow-down"></i>
                         0.5%
                       </small>
-                      123,234 Sold
+                      123,234
                     </td>
                     <td>
                       <a href="#" class="text-muted">
-                        <i class="fas fa-search"></i>
+                        <i class="fas fa-search-dollar fa-lg"></i>
                       </a>
                     </td>
                   </tr>
                   <tr>
                     <td>
-                      <img src="dist/img/default-150x150.png" alt="Product 1" class="mr-2 img-circle img-size-32">
-                      Alvin Valle Montez
+                      <a href="#">
+                        <img src="dist/img/default-150x150.png" alt="Product 1" class="mr-2 img-circle img-size-32">
+                        Alvin Valle Montez
+                      </a> 
                     </td>
                     <td>$1,230 USD</td>
                     <td>
@@ -342,18 +386,20 @@
                         <i class="fas fa-arrow-down"></i>
                         3%
                       </small>
-                      198 Sold
+                      198
                     </td>
                     <td>
                       <a href="#" class="text-muted">
-                        <i class="fas fa-search"></i>
+                        <i class="fas fa-search-dollar fa-lg"></i>
                       </a>
                     </td>
                   </tr>
                   <tr>
                     <td>
-                      <img src="dist/img/default-150x150.png" alt="Product 1" class="mr-2 img-circle img-size-32">
-                      Jairo Linares Santiago
+                      <a href="#">
+                        <img src="dist/img/default-150x150.png" alt="Product 1" class="mr-2 img-circle img-size-32">
+                        Jairo Linares Santiago
+                      </a> 
                     </td>
                     <td>$199 USD</td>
                     <td>
@@ -361,18 +407,20 @@
                         <i class="fas fa-arrow-up"></i>
                         63%
                       </small>
-                      87 Sold
+                      87
                     </td>
                     <td>
                       <a href="#" class="text-muted">
-                        <i class="fas fa-search"></i>
+                        <i class="fas fa-search-dollar fa-lg"></i>
                       </a>
                     </td>
                   </tr>
                   <tr>
                     <td>
-                      <img src="dist/img/default-150x150.png" alt="Product 1" class="mr-2 img-circle img-size-32">
-                      Troilo Viera Comejo
+                      <a href="#">
+                        <img src="dist/img/default-150x150.png" alt="Product 1" class="mr-2 img-circle img-size-32">
+                        Troilo Viera Comejo
+                      </a> 
                     </td>
                     <td>$199 USD</td>
                     <td>
@@ -380,11 +428,11 @@
                         <i class="fas fa-arrow-up"></i>
                         63%
                       </small>
-                      87 Sold
+                      87
                     </td>
                     <td>
                       <a href="#" class="text-muted">
-                        <i class="fas fa-search"></i>
+                        <i class="fas fa-search-dollar fa-lg"></i>
                       </a>
                     </td>
                   </tr>
@@ -451,7 +499,7 @@
                 <div class="timeline-item">
                   <span class="time"><i class="fas fa-clock"></i> Hace 3 días</span>
 
-                  <h3 class="timeline-header"><a href="#">Troilo Viera Comejo</a> solicitud de préstamo denegado</h3>
+                  <h3 class="timeline-header"><a href="#">Troilo Viera Comejo</a> solicitud de préstamo denegada</h3>
                 </div>
               </div>
               <!-- END timeline item -->
@@ -474,7 +522,7 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
-
+  
   <!-- Main Footer -->
   <footer class="main-footer">
     <strong>Copyright &copy; 2023 <a href="https://hernanstore.com">Hernan Store</a>.</strong>
@@ -483,6 +531,70 @@
       <b>Version</b> 0.0.1
     </div>
   </footer>
+
+  <div class="modal fade" id="modal-data-username">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Actualiza tus datos <b>Márcos Rubí</b></h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- form start -->
+          <form>
+            <div class="pb-0 card-body">
+              <div class="form-group">
+                <label for="txtEmail">Email</label>
+                <input type="email" class="form-control" id="txtEmail" placeholder="Enter email">
+              </div>              
+              <div class="form-group">
+                <label for="exampleInputFile">Foto de perfil</label>
+                <div class="input-group">
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="exampleInputFile">
+                    <label class="custom-file-label" for="exampleInputFile">Subir imagen</label>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-0 shadow-none card collapsed-card">
+                <div class="p-0 card-header d-flex">
+                  <div class="pb-2 card-tools">
+                    <button type="button" class="text-md btn btn-tool text-danger" data-card-widget="collapse">Cambiar contraseña</i>
+                    </button>
+                  </div>
+                  <!-- /.card-tools -->
+                </div>
+                <!-- /.card-header -->
+                <div class="px-0 py-2 card-body">
+                  <div class="gap-1 d-flex">
+                    <div class="form-group">
+                      <label for="txtOldPassword">Contraseña actual</label>
+                      <input type="password" class="form-control" id="txtOldPassword" placeholder="Contraseña actual">
+                    </div>
+                    <div class="form-group">
+                      <label for="txtNewPassword">Nueva contraseña</label>
+                      <input type="password" class="form-control" id="txtNewPassword" placeholder="Nueva contraseña">
+                    </div>
+                  </div>
+                </div>
+                <!-- /.card-body -->
+              </div>
+            </div>
+            <!-- /.card-body -->
+
+            <div class="card-footer">
+              <button type="submit" class="btn btn-block btn-primary">Actualizar datos</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
 </div>
 <!-- ./wrapper -->
 
