@@ -55,7 +55,7 @@ require_once '../func/LoginValidator.php';
                     </thead>
                     <tbody>
                       <tr>
-                        <td>Serapio Cantú Valdivia</td>
+                        <td><a href="<?= $_SESSION['Path'] ?>/cliente/?id=1">Serapio Cantú Valdivia</a></td>
                         <td>91500 Piedras de Afilar</td>
                         <td>9340 5126</td>
                         <td>
@@ -71,7 +71,7 @@ require_once '../func/LoginValidator.php';
                         </td>
                       </tr>
                       <tr>
-                        <td>Elena Ramirez</td>
+                        <td><a href="<?= $_SESSION['Path'] ?>/cliente/?id=1">Elena Ramirez</a></td>
                         <td>12345 Main Street</td>
                         <td>555-123-4567</td>
                         <td>
@@ -87,7 +87,7 @@ require_once '../func/LoginValidator.php';
                         </td>
                       </tr>
                       <tr>
-                        <td>Juan Perez</td>
+                        <td><a href="<?= $_SESSION['Path'] ?>/cliente/?id=1">Juan Perez</a></td>
                         <td>9876 Elm Avenue</td>
                         <td>555-987-6543</td>
                         <td>
@@ -103,7 +103,7 @@ require_once '../func/LoginValidator.php';
                         </td>
                       </tr>
                       <tr>
-                        <td>María González</td>
+                        <td><a href="<?= $_SESSION['Path'] ?>/cliente/?id=1">María González</a></td>
                         <td>4567 Oak Lane</td>
                         <td>555-234-5678</td>
                         <td>
@@ -119,7 +119,7 @@ require_once '../func/LoginValidator.php';
                         </td>
                       </tr>
                       <tr>
-                        <td>Ricardo Sánchez</td>
+                        <td><a href="<?= $_SESSION['Path'] ?>/cliente/?id=1">Ricardo Sánchez</a></td>
                         <td>6543 Pine Road</td>
                         <td>555-678-9012</td>
                         <td>
@@ -135,7 +135,7 @@ require_once '../func/LoginValidator.php';
                         </td>
                       </tr>
                       <tr>
-                        <td>Laura Brown</td>
+                        <td><a href="<?= $_SESSION['Path'] ?>/cliente/?id=1">Laura Brown</a></td>
                         <td>7890 Maple Avenue</td>
                         <td>555-345-6789</td>
                         <td>
@@ -151,7 +151,7 @@ require_once '../func/LoginValidator.php';
                         </td>
                       </tr>
                       <tr>
-                        <td>Alexander Smith</td>
+                        <td><a href="<?= $_SESSION['Path'] ?>/cliente/?id=1">Alexander Smith</a></td>
                         <td>5678 Birch Lane</td>
                         <td>555-890-1234</td>
                         <td>
@@ -167,7 +167,7 @@ require_once '../func/LoginValidator.php';
                         </td>
                       </tr>
                       <tr>
-                        <td>Sophia Johnson</td>
+                        <td><a href="<?= $_SESSION['Path'] ?>/cliente/?id=1">Sophia Johnson</a></td>
                         <td>4321 Cedar Road</td>
                         <td>555-567-8901</td>
                         <td>
@@ -183,7 +183,7 @@ require_once '../func/LoginValidator.php';
                         </td>
                       </tr>
                       <tr>
-                        <td>William Anderson</td>
+                        <td><a href="<?= $_SESSION['Path'] ?>/cliente/?id=1">William Anderson</a></td>
                         <td>8765 Elm Street</td>
                         <td>555-901-2345</td>
                         <td>
@@ -199,7 +199,7 @@ require_once '../func/LoginValidator.php';
                         </td>
                       </tr>
                       <tr>
-                        <td>Isabella Martinez</td>
+                        <td><a href="<?= $_SESSION['Path'] ?>/cliente/?id=1">Isabella Martinez</a></td>
                         <td>7890 Oak Avenue</td>
                         <td>555-234-5678</td>
                         <td>
@@ -215,7 +215,7 @@ require_once '../func/LoginValidator.php';
                         </td>
                       </tr>
                       <tr>
-                        <td>Sofia Brown</td>
+                        <td><a href="<?= $_SESSION['Path'] ?>/cliente/?id=1">Sofia Brown</a></td>
                         <td>6789 Pine Avenue</td>
                         <td>555-123-4567</td>
                         <td>
@@ -231,7 +231,7 @@ require_once '../func/LoginValidator.php';
                         </td>
                       </tr>
                       <tr>
-                        <td>Liam Davis</td>
+                        <td><a href="<?= $_SESSION['Path'] ?>/cliente/?id=1">Liam Davis</a></td>
                         <td>9876 Elm Street</td>
                         <td>555-234-5678</td>
                         <td>
@@ -247,7 +247,7 @@ require_once '../func/LoginValidator.php';
                         </td>
                       </tr>
                       <tr>
-                        <td>Emma Martinez</td>
+                        <td><a href="<?= $_SESSION['Path'] ?>/cliente/?id=1">Emma Martinez</a></td>
                         <td>2345 Maple Avenue</td>
                         <td>555-901-2345</td>
                         <td>
@@ -263,7 +263,7 @@ require_once '../func/LoginValidator.php';
                         </td>
                       </tr>
                       <tr>
-                        <td>Oliver Johnson</td>
+                        <td><a href="<?= $_SESSION['Path'] ?>/cliente/?id=1">Oliver Johnson</a></td>
                         <td>8765 Oak Lane</td>
                         <td>555-567-8901</td>
                         <td>
