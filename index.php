@@ -152,14 +152,6 @@ require_once './func/LoginValidator.php';
               <div class="card">
                 <div class="border-0 card-header">
                   <h3 class="card-title">Últimos préstamos</h3>
-                  <!-- <div class="card-tools">
-                  <a href="#" class="btn btn-tool btn-sm">
-                    <i class="fas fa-download"></i>
-                  </a>
-                  <a href="#" class="btn btn-tool btn-sm">
-                    <i class="fas fa-bars"></i>
-                  </a>
-                </div> -->
                 </div>
                 <div class="p-0 card-body table-responsive">
                   <table class="table table-striped table-valign-middle">
@@ -359,12 +351,6 @@ require_once './func/LoginValidator.php';
     </div>
     <!-- /.content-wrapper -->
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
-
     <!-- Main Footer -->
     <?php require_once './components/Footer.php' ?>
 
@@ -380,12 +366,11 @@ require_once './func/LoginValidator.php';
   <!-- AdminLTE -->
   <script src="dist/js/adminlte.js"></script>
 
-  <!-- OPTIONAL SCRIPTS -->
+  <!-- Charts Scripts -->
   <script src="plugins/chart.js/Chart.min.js"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="dist/js/demo.js"></script>
-  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
   <script src="dist/js/pages/dashboard3.js"></script>
+  <!-- required -->
+  <script src="dist/js/demo.js"></script>
 </body>
 
 </html>

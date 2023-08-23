@@ -296,12 +296,6 @@ require_once '../func/LoginValidator.php';
     </div>
     <!-- /.content-wrapper -->
     <?php require_once '../components/Footer.php' ?>
-
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
   </div>
   <!-- ./wrapper -->
   <!-- jQuery -->

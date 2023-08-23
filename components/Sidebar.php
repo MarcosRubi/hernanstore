@@ -23,88 +23,154 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-item">
-                    <a href="<?= $_SESSION['Path'] ?>/clientes/" class="nav-link">
-                        <i class="nav-icon fas fa-users"></i>
+                <li class="nav-item menu-open">
+                    <a href="#" class="nav-link active">
                         <p>
-                            Clientes
+                            CLIENTES
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?= $_SESSION['Path'] ?>/clientes/" class="nav-link">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>
+                                    Listar Clientes
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= $_SESSION['Path'] ?>/cliente/nuevo" class="nav-link">
+                                <i class="nav-icon fas fa-user-plus"></i>
+                                <p>
+                                    Nuevo Cliente
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+
                 <li class="nav-item">
-                    <a href="<?= $_SESSION['Path'] ?>/cliente/nuevo" class="nav-link">
-                        <i class="nav-icon fas fa-user-plus"></i>
+                    <a href="#" class="nav-link ">
                         <p>
-                            Nuevo Cliente
+                            PRESTAMOS
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                                <p>
+                                    Completados
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-dollar-sign"></i>
+                                <p>
+                                    En Proceso
+                                </p>
+                                <span class="badge badge-success right">6</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-comments-dollar"></i>
+                                <p>
+                                    Pendientes
+                                </p>
+                                <span class="badge badge-primary right">6</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-                <li class="nav-header">PRÉSTAMOS</li>
+
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                    <a href="#" class="nav-link ">
                         <p>
-                            Completados
+                            PAGOS
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-calendar-times"></i>
+                                <p>
+                                    Atrasados
+                                </p>
+                                <span class="badge badge-danger right">2</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-hourglass-half"></i>
+                                <p>
+                                    Próximos
+                                </p>
+                                <span class="badge badge-warning right">6</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-dollar-sign"></i>
+                    <a href="#" class="nav-link ">
                         <p>
-                            En Proceso
+                            AVISOS
+                            <i class="right fas fa-angle-left"></i>
                         </p>
-                        <span class="badge badge-success right">6</span>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-clock"></i>
+                                <p>
+                                    Recordatorios
+                                </p>
+                                <span class="badge badge-primary right">2</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-comments-dollar"></i>
+                    <a href="#" class="nav-link ">
                         <p>
-                            Pendientes
-                        </p>
-                        <span class="badge badge-primary right">6</span>
-                    </a>
-                </li>
-                <li class="nav-header">ESTADÍSTICAS</li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-chart-bar"></i>
-                        <p>
-                            Reporte
+                            ADMINISTRADOR
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-chart-bar"></i>
+                                <p>
+                                    Reporte
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-users-cog"></i>
+                                <p>
+                                    Empleados
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-th-list"></i>
+                                <p>
+                                    Estados
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-                <li class="nav-header">PAGOS</li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-calendar-times"></i>
-                        <p>
-                            Atrasados
-                        </p>
-                        <span class="badge badge-danger right">2</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-hourglass-half"></i>
-                        <p>
-                            Próximos
-                        </p>
-                        <span class="badge badge-warning right">6</span>
-                    </a>
-                </li>
-                <li class="nav-header">AVISOS</li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-clock"></i>
-                        <p>
-                            Recordatorios
-                        </p>
-                        <span class="badge badge-primary right">2</span>
-                    </a>
-                </li>
-                <li class="nav-header">SISTEMA</li>
+
                 <li class="nav-item">
                     <a href="<?= $_SESSION['Path'] ?>/func/SessionDestroy.php" class="nav-link">
                         <i class="nav-icon fas fa-sign-out-alt"></i>
@@ -113,6 +179,7 @@
                         </p>
                     </a>
                 </li>
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

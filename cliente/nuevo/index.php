@@ -108,6 +108,8 @@ require_once '../../func/LoginValidator.php';
     <!-- AdminLTE App -->
     <script src="../../dist/js/adminlte.min.js"></script>
     <!-- Page specific script -->
+    <script src="../../dist/js/demo.js"></script>
+
     <script>
         $(function() {
             //Phone Number

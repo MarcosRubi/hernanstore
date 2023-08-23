@@ -1,7 +1,6 @@
 <?php
 session_start();
-
-require_once '../utils/Variables.php';
+$BASE_URL = "http://127.0.0.1/Proyectos/hernanstore.com";
 
 // require_once '../bd/bd.php';
 // require_once '../class/Empleados.php';
