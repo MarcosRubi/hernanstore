@@ -25,9 +25,17 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
                     <a href="<?= $_SESSION['Path'] ?>/clientes/" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
+                        <i class="nav-icon fas fa-users"></i>
                         <p>
                             Clientes
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= $_SESSION['Path'] ?>/cliente/nuevo" class="nav-link">
+                        <i class="nav-icon fas fa-user-plus"></i>
+                        <p>
+                            Nuevo Cliente
                         </p>
                     </a>
                 </li>
