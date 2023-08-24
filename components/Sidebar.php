@@ -191,7 +191,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Actualiza tus datos <b>Márcos Rubí</b></h4>
+                <h4 class="modal-title">Actualiza tus datos <b>Marcos Rubí</b></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -205,13 +205,33 @@
                             <input type="email" class="form-control" id="txtEmail" placeholder="Email" value="danielhernandez9980@gmail.com">
                         </div>
                         <div class="form-group">
-                            <label for="fileImageProfile">Foto de perfil</label>
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="fileImageProfile">
-                                    <label class="custom-file-label" for="fileImageProfile">fotomrubi_2023008161.jpg</label>
+                            <div id="actions" class="m-0 row align-items-center w-100">
+                                <div class="p-0 col-lg-12">
+                                    <div class="btn-group w-100">
+                                        <span class="btn btn-success col fileinput-button">
+                                            <i class="fas fa-plus"></i>
+                                            <span>Subir imagen</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="table table-striped files col-lg-12" id="previews">
+                                    <div id="template" class="flex mt-2 row align-items-center justify-content-around">
+                                        <div class="col-auto">
+                                            <span class="preview"><img class="rounded-circle" src="data:," alt="" data-dz-thumbnail /></span>
+                                        </div>
+                                        <div class="align-self-center btn-group">
+                                            <button data-dz-remove class="btn btn-danger delete">
+                                                <i class="fas fa-trash"></i>
+                                                <span>Eliminar</span>
+                                            </button>
+                                        </div>
+                                        <div class="col">
+                                            <strong class="error text-danger" data-dz-errormessage></strong>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
                         <div class="mb-0 shadow-none card collapsed-card">
                             <div class="p-0 card-header d-flex">

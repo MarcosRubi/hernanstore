@@ -37,7 +37,7 @@ require_once '../../func/LoginValidator.php';
             <div class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <form action="./insertar.php" method="POST" class="card card-info" id="frmNuevo">
+                        <form action="./insertar.php" method="POST" class="card card-info" id="frmNewClient">
                             <div class="card-header">
                                 <h3 class="text-center card-title w-100 font-weight-bold">Agregar nuevo cliente</h3>
                             </div>
@@ -45,12 +45,22 @@ require_once '../../func/LoginValidator.php';
                                 <!-- Nombre -->
                                 <div class="mx-1 form-group">
                                     <label>Nombre</label>
-                                    <input type="text" class="form-control" placeholder="Nombre ..." name="txtNombre">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Nombre ..." name="txtNombre">
+                                    </div>
                                 </div>
                                 <!-- Dirección -->
                                 <div class="mx-1 form-group">
                                     <label>Dirección</label>
-                                    <input type="text" class="form-control" placeholder="Dirección ..." name="txtDireccion">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-map-pin"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Dirección ..." name="txtDireccion">
+                                    </div>
                                 </div>
                                 <!-- Teléfono -->
                                 <div class="mx-1 form-group">
@@ -107,6 +117,8 @@ require_once '../../func/LoginValidator.php';
     <script src="../../plugins/toastr/toastr.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../../dist/js/adminlte.min.js"></script>
+    <!-- dropzonejs -->
+    <script src="../../plugins/dropzone/min/dropzone.min.js"></script>
     <!-- Page specific script -->
     <script src="../../dist/js/demo.js"></script>
 
@@ -115,7 +127,7 @@ require_once '../../func/LoginValidator.php';
             //Phone Number
             $('[data-mask]').inputmask()
 
-            $('#frmNuevo').validate({
+            $('#frmNewClient').validate({
                 rules: {
                     txtNombre: {
                         required: true

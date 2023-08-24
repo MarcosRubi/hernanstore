@@ -61,7 +61,7 @@ require_once '../func/LoginValidator.php';
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
-                                    <form action="" method="POST">
+                                    <form action="" method="POST" id="frmEditClient">
                                         <table id="logs" class="table table-bordered table-hover">
                                             <thead>
                                                 <tr>
@@ -74,13 +74,25 @@ require_once '../func/LoginValidator.php';
                                             <tbody>
                                                 <tr>
                                                     <td>
-                                                        <input type="text" class="form-control" placeholder="Primer nombre ..." name="txtPrimerNombre" value="Marcos Rubi">
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" placeholder="Nombre ..." name="txtNombre" value="Marcos Rubi">
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control" placeholder="Primer nombre ..." name="txtPrimerNombre" value="+503 7994-6035">
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" data-inputmask='"mask": "(999) 9999-9999"' placeholder="(XXX) XXXX-XXXX" data-mask name="txtTelefono" onkeypress="javascript:typeNumber();" value="(503) 7994-6035">
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control" placeholder="Primer nombre ..." name="txtPrimerNombre" value="Main Street 3874">
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" placeholder="Dirección ..." name="txtDireccion" value="Main Street 3874">
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                     <td>
                                                         <a href="#" class=" btn btn-danger" title="Eliminar">
@@ -152,6 +164,11 @@ require_once '../func/LoginValidator.php';
     <script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
     <script src="../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
     <script src="../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <!-- InputMask -->
+    <script src="../plugins/inputmask/jquery.inputmask.min.js"></script>
+    <!-- jquery-validation -->
+    <script src="../plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="../plugins/jquery-validation/additional-methods.min.js"></script>
     <!-- SweetAlert2 -->
     <script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Toastr -->
@@ -160,11 +177,54 @@ require_once '../func/LoginValidator.php';
     <script src="../plugins/summernote/summernote-bs4.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../dist/js/adminlte.min.js"></script>
+    <!-- dropzonejs -->
+    <script src="../plugins/dropzone/min/dropzone.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="../dist/js/demo.js"></script>
     <!-- Page specific script -->
     <script>
         $(function() {
+            //Phone Number
+            $('[data-mask]').inputmask()
+            // Summernote
+            $('#summernote').summernote()
+
+            $('#frmEditClient').validate({
+                rules: {
+                    txtNombre: {
+                        required: true
+                    },
+                    txtDireccion: {
+                        required: true
+                    },
+                    txtTelefono: {
+                        required: true
+                    },
+                },
+                messages: {
+                    txtNombre: {
+                        required: "El nombre es obligatorio",
+                    },
+                    txtDireccion: {
+                        required: "La dirección es obligatoria",
+                    },
+                    txtTelefono: {
+                        required: "El teléfono es obligatorio",
+                    }
+                },
+                errorElement: 'span',
+                errorPlacement: function(error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function(element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function(element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+
             $('#logs').DataTable({
                 "paging": true,
                 "lengthChange": false,
@@ -174,8 +234,6 @@ require_once '../func/LoginValidator.php';
                 "autoWidth": false,
                 "responsive": true,
             });
-        });
-        $(function() {
             $('#list-results').DataTable({
                 "paging": true,
                 "lengthChange": false,
@@ -186,8 +244,7 @@ require_once '../func/LoginValidator.php';
                 "responsive": true,
             });
 
-            // Summernote
-            $('#summernote').summernote()
+
         });
     </script>
 </body>

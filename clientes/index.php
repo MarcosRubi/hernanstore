@@ -317,6 +317,8 @@ require_once '../func/LoginValidator.php';
 
   <!-- AdminLTE App -->
   <script src="../dist/js/adminlte.min.js"></script>
+  <!-- dropzonejs -->
+  <script src="../plugins/dropzone/min/dropzone.min.js"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="../dist/js/demo.js"></script>
   <!-- Page specific script -->

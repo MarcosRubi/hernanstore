@@ -17,6 +17,8 @@ require_once './func/LoginValidator.php';
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
   <!-- IonIcons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- dropzonejs -->
+  <link rel="stylesheet" href="plugins/dropzone/min/dropzone.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
 </head>
@@ -365,12 +367,14 @@ require_once './func/LoginValidator.php';
   <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE -->
   <script src="dist/js/adminlte.js"></script>
-
   <!-- Charts Scripts -->
   <script src="plugins/chart.js/Chart.min.js"></script>
   <script src="dist/js/pages/dashboard3.js"></script>
+  <!-- dropzonejs -->
+  <script src="plugins/dropzone/min/dropzone.min.js"></script>
   <!-- required -->
   <script src="dist/js/demo.js"></script>
+
 </body>
 
 </html>
