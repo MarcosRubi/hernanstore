@@ -127,47 +127,23 @@ require_once '../../func/LoginValidator.php';
             //Phone Number
             $('[data-mask]').inputmask()
 
-            $('#frmNewClient').validate({
-                rules: {
-                    txtNombre: {
-                        required: true
-                    },
-                    txtDireccion: {
-                        required: true
-                    },
-                    txtTelefono: {
-                        required: true
-                    },
-                },
-                messages: {
-                    txtNombre: {
-                        required: "El nombre es obligatorio",
-                    },
-                    txtDireccion: {
-                        required: "La dirección es obligatoria",
-                    },
-                    txtTelefono: {
-                        required: "El teléfono es obligatorio",
-                    }
-                },
-                errorElement: 'span',
-                errorPlacement: function(error, element) {
-                    error.addClass('invalid-feedback');
-                    element.closest('.form-group').append(error);
-                },
-                highlight: function(element, errorClass, validClass) {
-                    $(element).addClass('is-invalid');
-                },
-                unhighlight: function(element, errorClass, validClass) {
-                    $(element).removeClass('is-invalid');
-                }
-            });
+            <?php include '../../utils/frmEditEmployeeValidate.php' ?>
+            <?php include '../../utils/frmNewClientValidate.php' ?>
         })
     </script>
     <script>
         function goBack() {
             history.back();
         }
+    </script>
+    <script>
+        <?php
+        if (isset($_SESSION['msg'])) {
+            include '../../func/Message.php';
+
+            echo showMessage($_SESSION['type'], $_SESSION['msg']);
+        }
+        ?>
     </script>
 </body>
 

@@ -19,6 +19,8 @@ require_once './func/LoginValidator.php';
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- dropzonejs -->
   <link rel="stylesheet" href="plugins/dropzone/min/dropzone.min.css">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
 </head>
@@ -372,8 +374,79 @@ require_once './func/LoginValidator.php';
   <script src="dist/js/pages/dashboard3.js"></script>
   <!-- dropzonejs -->
   <script src="plugins/dropzone/min/dropzone.min.js"></script>
+  <!-- Toastr -->
+  <script src="plugins/toastr/toastr.min.js"></script>
+  <!-- jquery-validation -->
+  <script src="plugins/jquery-validation/jquery.validate.min.js"></script>
+  <script src="plugins/jquery-validation/additional-methods.min.js"></script>
   <!-- required -->
   <script src="dist/js/demo.js"></script>
+
+  <!-- Validaciones -->
+  <script>
+    $(function() {
+      <?php include 'utils/frmEditEmployeeValidate.php' ?>
+    });
+
+    <?php
+    if (isset($_SESSION['msg'])) {
+      include './func/Message.php';
+
+      echo showMessage($_SESSION['type'], $_SESSION['msg']);
+    }
+    ?>
+  </script>
+
+  <script>
+    let img = null;
+    // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
+    var previewNode = document.querySelector("#template");
+    previewNode.id = "";
+    var previewTemplate = previewNode.parentNode.innerHTML;
+    previewNode.parentNode.removeChild(previewNode);
+
+    var myDropzone = new Dropzone(document.body, {
+      // Make the whole body a dropzone
+      url: "http://127.0.0.1/Proyectos/hernanstore.com/func/updateEmployee.php", // Set the url
+      thumbnailWidth: 80,
+      thumbnailHeight: 80,
+      parallelUploads: 1,
+      maxFiles: 1,
+      uploadMultiple: false,
+      acceptedFiles: "image/jpeg, image/jpg, image/png",
+      previewTemplate: previewTemplate,
+      autoQueue: false, // Make sure the files aren't queued until manually added
+      previewsContainer: "#previews", // Define the container to display the previews
+      clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
+      init: function() {
+        this.on("addedfile", function(file) {
+          if (this.files.length > 1) {
+            // Si hay más de un archivo en la cola, eliminamos el anterior
+            this.removeFile(this.files[0]);
+          }
+        });
+        img = this.files[0]
+      },
+    });
+
+    myDropzone.on("addedfile", (file) => {
+      img = file;
+    });
+    myDropzone.on("removedfile", (file) => {
+      img = null;
+    });
+
+    document.getElementById('updateEmployee').addEventListener('click', (e) => {
+      let imgData = new FormData();
+      imgData.append('file', img)
+
+      fetch('http://127.0.0.1/Proyectos/hernanstore.com/func/updateEmployee.php', {
+        method: 'POST',
+        body: imgData
+      })
+    })
+  </script>
+
 
 </body>
 

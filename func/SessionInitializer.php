@@ -2,30 +2,35 @@
 session_start();
 $BASE_URL = "http://127.0.0.1/Proyectos/hernanstore.com";
 
-// require_once '../bd/bd.php';
-// require_once '../class/Empleados.php';
-// require_once '../class/Recordatorios.php';
+require_once '../bd/bd.php';
+require_once '../class/Empleados.php';
 
-// $Obj_Empleados = new Empleados();
-// $Obj_Recordatorios = new Recordatorios();
+$Obj_Empleados = new Empleados();
 
-// $Obj_Empleados->Email = $_POST['email'];
-// $Obj_Empleados->Contrasenna = $_POST['password'];
+$Obj_Empleados->correo = $_POST['txtCorreo'];
+$Res_Empleado = $Obj_Empleados->buscarEmpleadoPorCorreo();
+$Datos_Empleado = $Res_Empleado->fetch_assoc();
 
-// $Res_Empleado = $Obj_Empleados->buscarEmpleado();
-// $Datos_Empleado = $Res_Empleado->fetch_assoc();
+if (isset($_POST['chkRemember'])) {
+    $_SESSION['remember'] = true;
+}
+$_SESSION['path'] = $BASE_URL;
 
 
-// if ($Res_Empleado->num_rows > 0 && password_verify($_POST['password'], $Datos_Empleado['Contrasenna'])) {
-$_SESSION['NombreEmpleado'] = "Marcos Rubí";
-// $_SESSION['IdEmpleado'] = $Datos_Empleado['IdEmpleado'];
-$_SESSION['UrlFoto'] = "/dist/img/user2-160x160.jpg";
-// $_SESSION['IdRole'] = intval($Datos_Empleado['IdRole']);
-// $_SESSION['Email'] = strtolower($_POST['email']);
-$_SESSION['Path'] = $BASE_URL;
-header("Location:" . $BASE_URL);
+if ($Res_Empleado->num_rows > 0 && password_verify($_POST['txtContrasenna'], $Datos_Empleado['contrasenna'])) {
+    $_SESSION['nombre_empleado'] = $Datos_Empleado['nombre_empleado'];
+    $_SESSION['id_empleado'] = $Datos_Empleado['id_empleado'];
+    $_SESSION['contrasenna'] = $_POST['txtContrasenna'];
+    $_SESSION['url_foto'] = $Datos_Empleado['url_foto'];
+    $_SESSION['id_rol'] = intval($Datos_Empleado['id_rol']);
+    $_SESSION['correo'] = $Datos_Empleado['correo'];
 
-    // return;
-// }
-// $_SESSION['Email'] = $_POST['email'];
-// header("Location:" . $_SESSION['Path'] . "/iniciar-sesion ");
+    header("Location:" . $BASE_URL);
+
+    return;
+}
+$_SESSION['msg'] = 'Usuario y/o contraseña incorrecto.';
+$_SESSION['type'] = 'error';
+
+$_SESSION['correo'] = $_POST['txtCorreo'];
+header("Location:" . $_SESSION['path'] . "/iniciar-sesion ");

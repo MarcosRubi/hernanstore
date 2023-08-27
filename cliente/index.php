@@ -21,8 +21,6 @@ require_once '../func/LoginValidator.php';
     <link rel="stylesheet" href="../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <!-- summernote -->
     <link rel="stylesheet" href="../plugins/summernote/summernote-bs4.min.css">
-    <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     <!-- Toastr -->
     <link rel="stylesheet" href="../plugins/toastr/toastr.min.css">
     <!-- iCheck for checkboxes and radio inputs -->
@@ -169,8 +167,6 @@ require_once '../func/LoginValidator.php';
     <!-- jquery-validation -->
     <script src="../plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="../plugins/jquery-validation/additional-methods.min.js"></script>
-    <!-- SweetAlert2 -->
-    <script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Toastr -->
     <script src="../plugins/toastr/toastr.min.js"></script>
     <!-- Summernote -->
@@ -189,41 +185,8 @@ require_once '../func/LoginValidator.php';
             // Summernote
             $('#summernote').summernote()
 
-            $('#frmEditClient').validate({
-                rules: {
-                    txtNombre: {
-                        required: true
-                    },
-                    txtDireccion: {
-                        required: true
-                    },
-                    txtTelefono: {
-                        required: true
-                    },
-                },
-                messages: {
-                    txtNombre: {
-                        required: "El nombre es obligatorio",
-                    },
-                    txtDireccion: {
-                        required: "La dirección es obligatoria",
-                    },
-                    txtTelefono: {
-                        required: "El teléfono es obligatorio",
-                    }
-                },
-                errorElement: 'span',
-                errorPlacement: function(error, element) {
-                    error.addClass('invalid-feedback');
-                    element.closest('.form-group').append(error);
-                },
-                highlight: function(element, errorClass, validClass) {
-                    $(element).addClass('is-invalid');
-                },
-                unhighlight: function(element, errorClass, validClass) {
-                    $(element).removeClass('is-invalid');
-                }
-            });
+            <?php include '../utils/frmEditEmployeeValidate.php' ?>
+            <?php include '../utils/frmEditClientValidate.php' ?>
 
             $('#logs').DataTable({
                 "paging": true,
@@ -243,9 +206,16 @@ require_once '../func/LoginValidator.php';
                 "autoWidth": false,
                 "responsive": true,
             });
-
-
         });
+    </script>
+    <script>
+        <?php
+        if (isset($_SESSION['msg'])) {
+            include '../func/Message.php';
+
+            echo showMessage($_SESSION['type'], $_SESSION['msg']);
+        }
+        ?>
     </script>
 </body>
 

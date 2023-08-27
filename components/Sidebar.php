@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="<?= $_SESSION['Path'] ?>" class="brand-link">
-        <img src="<?= $_SESSION['Path'] ?>/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <a href="<?= $_SESSION['path'] ?>" class="brand-link">
+        <img src="<?= $_SESSION['path'] ?>/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">Hernan Store</span>
     </a>
 
@@ -11,10 +11,10 @@
         <div class="pb-3 mt-3 mb-3 user-panel">
             <button type="button" class="btn d-flex" data-toggle="modal" data-target="#modal-data-username">
                 <div class="image">
-                    <img src="<?= $_SESSION['Path'] . $_SESSION['UrlFoto'] ?>" class="img-circle elevation-2" alt="User Image">
+                    <img src="<?= $_SESSION['path'] . "/" . $_SESSION['url_foto'] ?>" class="img-circle elevation-2" style="height:2.1rem;object-fit:cover;" alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block"><?= $_SESSION['NombreEmpleado'] ?></a>
+                    <a href="#" class="d-block"><?= $_SESSION['nombre_empleado'] ?></a>
                 </div>
             </button>
         </div>
@@ -32,7 +32,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="<?= $_SESSION['Path'] ?>/clientes/" class="nav-link">
+                            <a href="<?= $_SESSION['path'] ?>/clientes/" class="nav-link">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
                                     Listar Clientes
@@ -40,7 +40,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= $_SESSION['Path'] ?>/cliente/nuevo" class="nav-link">
+                            <a href="<?= $_SESSION['path'] ?>/cliente/nuevo" class="nav-link">
                                 <i class="nav-icon fas fa-user-plus"></i>
                                 <p>
                                     Nuevo Cliente
@@ -172,7 +172,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="<?= $_SESSION['Path'] ?>/func/SessionDestroy.php" class="nav-link">
+                    <a href="<?= $_SESSION['path'] ?>/func/SessionDestroy.php" class="nav-link">
                         <i class="nav-icon fas fa-sign-out-alt"></i>
                         <p>
                             Cerrar sesión
@@ -191,18 +191,22 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Actualiza tus datos <b>Marcos Rubí</b></h4>
+                <h4 class="modal-title">Actualiza tus datos <b><?= $_SESSION['nombre_empleado'] ?></b></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <!-- form start -->
-                <form>
+                <form method="post" id="frmEditEmployee" action="<?= $_SESSION['path'] ?>/func/updateEmployee.php" enctype="multipart/form-data">
                     <div class="pb-0 card-body">
                         <div class="form-group">
-                            <label for="txtEmail">Email</label>
-                            <input type="email" class="form-control" id="txtEmail" placeholder="Email" value="danielhernandez9980@gmail.com">
+                            <label for="txtNombre">Nombre</label>
+                            <input type="text" class="form-control" id="txtNombre" name="txtNombre" placeholder="Nombre" value="<?= $_SESSION['nombre_empleado'] ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="txtCorreo">Correo</label>
+                            <input type="email" class="form-control" name="txtCorreo" id="txtCorreo" placeholder="Email" value="<?= $_SESSION['correo'] ?>">
                         </div>
                         <div class="form-group">
                             <div id="actions" class="m-0 row align-items-center w-100">
@@ -247,11 +251,11 @@
                                 <div class="gap-1 d-flex">
                                     <div class="form-group">
                                         <label for="txtOldPassword">Contraseña actual</label>
-                                        <input type="password" class="form-control" id="txtOldPassword" placeholder="Contraseña actual">
+                                        <input type="password" class="form-control" name="txtOldPassword" id="txtOldPassword" placeholder="Contraseña actual">
                                     </div>
                                     <div class="form-group">
                                         <label for="txtNewPassword">Nueva contraseña</label>
-                                        <input type="password" class="form-control" id="txtNewPassword" placeholder="Nueva contraseña">
+                                        <input type="password" class="form-control" name="txtNewPassword" id="txtNewPassword" placeholder="Nueva contraseña">
                                     </div>
                                 </div>
                             </div>
@@ -261,7 +265,7 @@
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-block btn-primary">Actualizar datos</button>
+                        <button type="submit" class="btn btn-block btn-primary" id="updateEmployee">Actualizar datos</button>
                     </div>
                 </form>
             </div>

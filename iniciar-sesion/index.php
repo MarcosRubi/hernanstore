@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -12,6 +15,8 @@
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <!-- icheck bootstrap -->
   <link rel="stylesheet" href="../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="../plugins/toastr/toastr.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
 </head>
@@ -26,35 +31,40 @@
       <div class="card-body">
         <p class="login-box-msg">Inicia sesión para acceder al sistema</p>
 
-        <form action="../func/SessionInitializer.php" method="post">
-          <div class="mb-3 input-group">
-            <input type="email" class="py-4 form-control" placeholder="Email">
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-envelope"></span>
+        <form action="../func/SessionInitializer.php" method="post" id="frmLogin">
+          <div class="mb-3 form-group">
+            <div class="input-group">
+              <input type="email" class="py-4 form-control" placeholder="Email" name="txtCorreo" value="<?php echo isset($_SESSION['correo']) ? $_SESSION['correo'] : ''; ?>">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-envelope"></span>
+                </div>
               </div>
             </div>
           </div>
-          <div class="mb-3 input-group">
-            <input type="password" class="py-4 form-control" placeholder="Contraseña">
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-lock"></span>
+          <div class="mb-3 form-group">
+            <div class="input-group">
+              <input type="password" class="py-4 form-control" placeholder="Contraseña" name="txtContrasenna" value="<?php echo isset($_SESSION['contrasenna']) ? $_SESSION['contrasenna'] : ''; ?>">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-lock"></span>
+                </div>
               </div>
             </div>
           </div>
           <div class="py-2 row">
             <div class="col-8">
               <div class="icheck-primary">
-                <input type="checkbox" id="remember">
-                <label for="remember">
+                <input type="checkbox" id="chkRemember" name="chkRemember" <?php if (isset($_SESSION['contrasenna']) || isset($_SESSION['remember'])) {
+                                                                              echo 'checked';
+                                                                            } ?>>
+                <label for="chkRemember">
                   Recordar credenciales
                 </label>
               </div>
             </div>
             <!-- /.col -->
             <div class="col-4">
-              <!-- <button type="submit" class="btn btn-primary btn-block">Ingresar</button> -->
               <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
             </div>
             <!-- /.col -->
@@ -196,8 +206,27 @@
   <script src="../plugins/jquery/jquery.min.js"></script>
   <!-- Bootstrap 4 -->
   <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- jquery-validation -->
+  <script src="../plugins/jquery-validation/jquery.validate.min.js"></script>
+  <script src="../plugins/jquery-validation/additional-methods.min.js"></script>
+  <!-- Toastr -->
+  <script src="../plugins/toastr/toastr.min.js"></script>
   <!-- AdminLTE App -->
   <script src="../dist/js/adminlte.min.js"></script>
+  <script>
+    $(function() {
+      <?php include '../utils/frmLoginValidate.php' ?>
+    });
+  </script>
+  <script>
+    <?php
+    if (isset($_SESSION['msg'])) {
+      include '../func/Message.php';
+
+      echo showMessage($_SESSION['type'], $_SESSION['msg']);
+    }
+    ?>
+  </script>
 </body>
 
 </html>
