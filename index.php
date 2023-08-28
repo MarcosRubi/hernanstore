@@ -440,7 +440,7 @@ require_once './func/LoginValidator.php';
       let imgData = new FormData();
       imgData.append('file', img)
 
-      fetch('http://127.0.0.1/Proyectos/hernanstore.com/func/updateEmployee.php', {
+      fetch('<?= $_SESSION['path'] ?>/func/updateEmployee.php', {
         method: 'POST',
         body: imgData
       })

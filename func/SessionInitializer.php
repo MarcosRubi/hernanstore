@@ -1,5 +1,6 @@
 <?php
 session_start();
+// $BASE_URL = "https://hernanstore.com";
 $BASE_URL = "http://127.0.0.1/Proyectos/hernanstore.com";
 
 require_once '../bd/bd.php';
