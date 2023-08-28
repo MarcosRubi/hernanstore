@@ -18,6 +18,8 @@ require_once '../func/LoginValidator.php';
   <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="../plugins/toastr/toastr.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
 </head>
@@ -322,6 +324,8 @@ require_once '../func/LoginValidator.php';
   <!-- jquery-validation -->
   <script src="../plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="../plugins/jquery-validation/additional-methods.min.js"></script>
+  <!-- Toastr -->
+  <script src="../plugins/toastr/toastr.min.js"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="../dist/js/demo.js"></script>
   <!-- Page specific script -->
@@ -347,6 +351,8 @@ require_once '../func/LoginValidator.php';
     }
     ?>
   </script>
+  <?php include '../utils/initDropzoneConfiguration.php' ?>
+
 </body>
 
 </html>

@@ -145,6 +145,8 @@ require_once '../../func/LoginValidator.php';
         }
         ?>
     </script>
+    <?php include '../../utils/initDropzoneConfiguration.php' ?>
+
 </body>
 
 </html>

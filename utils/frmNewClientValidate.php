@@ -1,5 +1,5 @@
 <?php
-return "$('#frmNewClient').validate({
+echo "$('#frmNewClient').validate({
         rules: {
             txtNombre: {
                 required: true
