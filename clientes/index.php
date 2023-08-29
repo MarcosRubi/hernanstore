@@ -1,5 +1,10 @@
 <?php
 require_once '../func/LoginValidator.php';
+
+
+if (isset($_GET['s'])) {
+  // $Res_Empleados = $Obj_Empleados->buscarEmpleado($_GET['s']);
+}
 ?>
 
 <!DOCTYPE html>

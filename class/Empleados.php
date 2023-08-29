@@ -30,8 +30,6 @@ class Empleados extends DB
         return $this->EjecutarQuery($query);
     }
 
-
-
     public function Insertar()
     {
         $query = "INSERT INTO tbl_empleados(
@@ -57,6 +55,25 @@ class Empleados extends DB
         url_foto = '" . $this->url_foto . "',
         contrasenna = '" .  password_hash($this->contrasenna, PASSWORD_DEFAULT) . "',
         id_rol = '" . $this->id_rol . "' 
+        WHERE id_empleado='" . $id . "' ";
+
+        return $this->EjecutarQuery($query);
+    }
+    public function ActualizarPorAdministrador($id)
+    {
+        $query = "UPDATE tbl_empleados SET 
+        nombre_empleado = '" . $this->nombre_empleado . "',
+        correo = '" . $this->correo . "',
+        url_foto = '" . $this->url_foto . "',
+        id_rol = '" . $this->id_rol . "' 
+        WHERE id_empleado='" . $id . "' ";
+
+        return $this->EjecutarQuery($query);
+    }
+    public function RestablecerContrasenna($id)
+    {
+        $query = "UPDATE tbl_empleados SET 
+        contrasenna = '" .  password_hash($this->contrasenna, PASSWORD_DEFAULT) . "'
         WHERE id_empleado='" . $id . "' ";
 
         return $this->EjecutarQuery($query);

@@ -37,7 +37,7 @@ require_once '../../func/LoginValidator.php';
             <div class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <form action="./insertar.php" method="POST" class="card card-info" id="frmNewClient">
+                        <form action="./insertar.php" method="POST" class="card card-info" id="frmNewClient" style="min-width:30vw;">
                             <div class="card-header">
                                 <h3 class="text-center card-title w-100 font-weight-bold">Agregar nuevo cliente</h3>
                             </div>

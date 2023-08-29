@@ -24,7 +24,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item menu-open">
-                    <a href="#" class="nav-link active">
+                    <a href="#" class="nav-link ">
                         <p>
                             CLIENTES
                             <i class="right fas fa-angle-left"></i>
@@ -135,42 +135,54 @@
                         </li>
                     </ul>
                 </li>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link ">
-                        <p>
-                            ADMINISTRADOR
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-chart-bar"></i>
-                                <p>
-                                    Reporte
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-users-cog"></i>
-                                <p>
-                                    Empleados
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-th-list"></i>
-                                <p>
-                                    Estados
-                                </p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
+                <?php
+                if ($_SESSION['id_rol'] <= 3) {
+                ?>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link ">
+                            <p>
+                                ADMINISTRADOR
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-chart-bar"></i>
+                                    <p>
+                                        Reporte
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?= $_SESSION['path'] ?>/empleados/" class="nav-link">
+                                    <i class="nav-icon fas fa-users-cog"></i>
+                                    <p>
+                                        Empleados
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?= $_SESSION['path'] ?>/empleados/nuevo/" class="nav-link">
+                                    <i class="nav-icon fas fa-user-plus"></i>
+                                    <p>
+                                        Nuevo empleado
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-th-list"></i>
+                                    <p>
+                                        Estados
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                <?php
+                }
+                ?>
                 <li class="nav-item">
                     <a href="<?= $_SESSION['path'] ?>/func/SessionDestroy.php" class="nav-link">
                         <i class="nav-icon fas fa-sign-out-alt"></i>
