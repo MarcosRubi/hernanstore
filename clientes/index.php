@@ -1,10 +1,16 @@
 <?php
 require_once '../func/LoginValidator.php';
+require_once '../bd/bd.php';
+require_once '../class/Clientes.php';
 
+$Obj_Clientes = new Clientes();
+
+$Res_Clientes = $Obj_Clientes->listarTodo();
 
 if (isset($_GET['s'])) {
-  // $Res_Empleados = $Obj_Empleados->buscarEmpleado($_GET['s']);
+  $Res_Clientes = $Obj_Clientes->buscarCliente($_GET['s']);
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +53,16 @@ if (isset($_GET['s'])) {
             <div class="mt-5 col-12">
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Listado de clientes</h3>
+                  <?php
+                  if (isset($_GET['s']) && $_GET['s'] !== "") { ?>
+                    <div class="mt-3 mb-2 d-flex justify-content-between">
+                      <h3 class='card-title'>Clientes encontrados para: <strong><?= $_GET['s'] ?></strong></h3>
+                      <a href="./" class="btn btn-primary">Listar todo</a>
+                    </div>
+                  <?php } else if (!isset($_GET['id'])) {
+                    echo "<h3 class='card-title'>Últimos clientes creados</h3>";
+                  }
+                  ?>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -57,234 +72,30 @@ if (isset($_GET['s'])) {
                         <th>Nombre</th>
                         <th>Dirección</th>
                         <th>Teléfono</th>
+                        <th>Correo</th>
                         <th></th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td><a href="<?= $_SESSION['path'] ?>/cliente/?id=1">Serapio Cantú Valdivia</a></td>
-                        <td>91500 Piedras de Afilar</td>
-                        <td>9340 5126</td>
-                        <td>
-                          <div class="d-flex justify-content-around">
-                            <a class="mx-1 btn btn-primary" title="Nuevo Préstamo">
-                              <i class="fa fa-dollar-sign fa-lg"></i>
-                              <sup><i class="fa fa-plus"></i></sup>
-                            </a>
-                            <a href="#" class="px-3 mx-1 btn btn-success" title="Listar Préstamos">
-                              <i class="fa fa-list fa-lg"></i>
-                            </a>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td><a href="<?= $_SESSION['path'] ?>/cliente/?id=1">Elena Ramirez</a></td>
-                        <td>12345 Main Street</td>
-                        <td>555-123-4567</td>
-                        <td>
-                          <div class="d-flex justify-content-around">
-                            <a class="mx-1 btn btn-primary" title="Nuevo Préstamo">
-                              <i class="fa fa-dollar-sign fa-lg"></i>
-                              <sup><i class="fa fa-plus"></i></sup>
-                            </a>
-                            <a href="#" class="px-3 mx-1 btn btn-success" title="Listar Préstamos">
-                              <i class="fa fa-list fa-lg"></i>
-                            </a>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td><a href="<?= $_SESSION['path'] ?>/cliente/?id=1">Juan Perez</a></td>
-                        <td>9876 Elm Avenue</td>
-                        <td>555-987-6543</td>
-                        <td>
-                          <div class="d-flex justify-content-around">
-                            <a class="mx-1 btn btn-primary" title="Nuevo Préstamo">
-                              <i class="fa fa-dollar-sign fa-lg"></i>
-                              <sup><i class="fa fa-plus"></i></sup>
-                            </a>
-                            <a href="#" class="px-3 mx-1 btn btn-success" title="Listar Préstamos">
-                              <i class="fa fa-list fa-lg"></i>
-                            </a>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td><a href="<?= $_SESSION['path'] ?>/cliente/?id=1">María González</a></td>
-                        <td>4567 Oak Lane</td>
-                        <td>555-234-5678</td>
-                        <td>
-                          <div class="d-flex justify-content-around">
-                            <a class="mx-1 btn btn-primary" title="Nuevo Préstamo">
-                              <i class="fa fa-dollar-sign fa-lg"></i>
-                              <sup><i class="fa fa-plus"></i></sup>
-                            </a>
-                            <a href="#" class="px-3 mx-1 btn btn-success" title="Listar Préstamos">
-                              <i class="fa fa-list fa-lg"></i>
-                            </a>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td><a href="<?= $_SESSION['path'] ?>/cliente/?id=1">Ricardo Sánchez</a></td>
-                        <td>6543 Pine Road</td>
-                        <td>555-678-9012</td>
-                        <td>
-                          <div class="d-flex justify-content-around">
-                            <a class="mx-1 btn btn-primary" title="Nuevo Préstamo">
-                              <i class="fa fa-dollar-sign fa-lg"></i>
-                              <sup><i class="fa fa-plus"></i></sup>
-                            </a>
-                            <a href="#" class="px-3 mx-1 btn btn-success" title="Listar Préstamos">
-                              <i class="fa fa-list fa-lg"></i>
-                            </a>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td><a href="<?= $_SESSION['path'] ?>/cliente/?id=1">Laura Brown</a></td>
-                        <td>7890 Maple Avenue</td>
-                        <td>555-345-6789</td>
-                        <td>
-                          <div class="d-flex justify-content-around">
-                            <a class="mx-1 btn btn-primary" title="Nuevo Préstamo">
-                              <i class="fa fa-dollar-sign fa-lg"></i>
-                              <sup><i class="fa fa-plus"></i></sup>
-                            </a>
-                            <a href="#" class="px-3 mx-1 btn btn-success" title="Listar Préstamos">
-                              <i class="fa fa-list fa-lg"></i>
-                            </a>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td><a href="<?= $_SESSION['path'] ?>/cliente/?id=1">Alexander Smith</a></td>
-                        <td>5678 Birch Lane</td>
-                        <td>555-890-1234</td>
-                        <td>
-                          <div class="d-flex justify-content-around">
-                            <a class="mx-1 btn btn-primary" title="Nuevo Préstamo">
-                              <i class="fa fa-dollar-sign fa-lg"></i>
-                              <sup><i class="fa fa-plus"></i></sup>
-                            </a>
-                            <a href="#" class="px-3 mx-1 btn btn-success" title="Listar Préstamos">
-                              <i class="fa fa-list fa-lg"></i>
-                            </a>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td><a href="<?= $_SESSION['path'] ?>/cliente/?id=1">Sophia Johnson</a></td>
-                        <td>4321 Cedar Road</td>
-                        <td>555-567-8901</td>
-                        <td>
-                          <div class="d-flex justify-content-around">
-                            <a class="mx-1 btn btn-primary" title="Nuevo Préstamo">
-                              <i class="fa fa-dollar-sign fa-lg"></i>
-                              <sup><i class="fa fa-plus"></i></sup>
-                            </a>
-                            <a href="#" class="px-3 mx-1 btn btn-success" title="Listar Préstamos">
-                              <i class="fa fa-list fa-lg"></i>
-                            </a>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td><a href="<?= $_SESSION['path'] ?>/cliente/?id=1">William Anderson</a></td>
-                        <td>8765 Elm Street</td>
-                        <td>555-901-2345</td>
-                        <td>
-                          <div class="d-flex justify-content-around">
-                            <a class="mx-1 btn btn-primary" title="Nuevo Préstamo">
-                              <i class="fa fa-dollar-sign fa-lg"></i>
-                              <sup><i class="fa fa-plus"></i></sup>
-                            </a>
-                            <a href="#" class="px-3 mx-1 btn btn-success" title="Listar Préstamos">
-                              <i class="fa fa-list fa-lg"></i>
-                            </a>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td><a href="<?= $_SESSION['path'] ?>/cliente/?id=1">Isabella Martinez</a></td>
-                        <td>7890 Oak Avenue</td>
-                        <td>555-234-5678</td>
-                        <td>
-                          <div class="d-flex justify-content-around">
-                            <a class="mx-1 btn btn-primary" title="Nuevo Préstamo">
-                              <i class="fa fa-dollar-sign fa-lg"></i>
-                              <sup><i class="fa fa-plus"></i></sup>
-                            </a>
-                            <a href="#" class="px-3 mx-1 btn btn-success" title="Listar Préstamos">
-                              <i class="fa fa-list fa-lg"></i>
-                            </a>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td><a href="<?= $_SESSION['path'] ?>/cliente/?id=1">Sofia Brown</a></td>
-                        <td>6789 Pine Avenue</td>
-                        <td>555-123-4567</td>
-                        <td>
-                          <div class="d-flex justify-content-around">
-                            <a class="mx-1 btn btn-primary" title="Nuevo Préstamo">
-                              <i class="fa fa-dollar-sign fa-lg"></i>
-                              <sup><i class="fa fa-plus"></i></sup>
-                            </a>
-                            <a href="#" class="px-3 mx-1 btn btn-success" title="Listar Préstamos">
-                              <i class="fa fa-list fa-lg"></i>
-                            </a>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td><a href="<?= $_SESSION['path'] ?>/cliente/?id=1">Liam Davis</a></td>
-                        <td>9876 Elm Street</td>
-                        <td>555-234-5678</td>
-                        <td>
-                          <div class="d-flex justify-content-around">
-                            <a class="mx-1 btn btn-primary" title="Nuevo Préstamo">
-                              <i class="fa fa-dollar-sign fa-lg"></i>
-                              <sup><i class="fa fa-plus"></i></sup>
-                            </a>
-                            <a href="#" class="px-3 mx-1 btn btn-success" title="Listar Préstamos">
-                              <i class="fa fa-list fa-lg"></i>
-                            </a>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td><a href="<?= $_SESSION['path'] ?>/cliente/?id=1">Emma Martinez</a></td>
-                        <td>2345 Maple Avenue</td>
-                        <td>555-901-2345</td>
-                        <td>
-                          <div class="d-flex justify-content-around">
-                            <a class="mx-1 btn btn-primary" title="Nuevo Préstamo">
-                              <i class="fa fa-dollar-sign fa-lg"></i>
-                              <sup><i class="fa fa-plus"></i></sup>
-                            </a>
-                            <a href="#" class="px-3 mx-1 btn btn-success" title="Listar Préstamos">
-                              <i class="fa fa-list fa-lg"></i>
-                            </a>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td><a href="<?= $_SESSION['path'] ?>/cliente/?id=1">Oliver Johnson</a></td>
-                        <td>8765 Oak Lane</td>
-                        <td>555-567-8901</td>
-                        <td>
-                          <div class="d-flex justify-content-around">
-                            <a class="mx-1 btn btn-primary" title="Nuevo Préstamo">
-                              <i class="fa fa-dollar-sign fa-lg"></i>
-                              <sup><i class="fa fa-plus"></i></sup>
-                            </a>
-                            <a href="#" class="px-3 mx-1 btn btn-success" title="Listar Préstamos">
-                              <i class="fa fa-list fa-lg"></i>
-                            </a>
-                          </div>
-                        </td>
-                      </tr>
+                      <?php while ($DatosCliente = $Res_Clientes->fetch_assoc()) { ?>
+                        <tr>
+                          <td><a href="<?= $_SESSION['path'] ?>/cliente/?id=<?= $DatosCliente['id_cliente'] ?>"><?= $DatosCliente['nombre_cliente'] ?></a></td>
+                          <td><?= $DatosCliente['direccion'] ?></td>
+                          <td><?= $DatosCliente['telefono'] ?></td>
+                          <td><?= $DatosCliente['correo'] ?></td>
+                          <td>
+                            <div class="d-flex justify-content-around">
+                              <a class="mx-1 btn btn-primary" title="Nuevo Préstamo">
+                                <i class="fa fa-dollar-sign fa-lg"></i>
+                                <sup><i class="fa fa-plus"></i></sup>
+                              </a>
+                              <a href="#" class="px-3 mx-1 btn btn-success" title="Listar Préstamos">
+                                <i class="fa fa-list fa-lg"></i>
+                              </a>
+                            </div>
+                          </td>
+                        </tr>
+                      <?php } ?>
                     </tbody>
 
                   </table>

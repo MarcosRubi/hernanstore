@@ -62,6 +62,16 @@ require_once '../../func/LoginValidator.php';
                                         <input type="text" class="form-control" placeholder="Dirección ..." name="txtDireccion">
                                     </div>
                                 </div>
+                                <!-- Correo -->
+                                <div class="mx-1 form-group">
+                                    <label>Correo</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                        </div>
+                                        <input type="email" class="form-control" placeholder="Correo ..." name="txtCorreo">
+                                    </div>
+                                </div>
                                 <!-- Teléfono -->
                                 <div class="mx-1 form-group">
                                     <label>Teléfono:</label>

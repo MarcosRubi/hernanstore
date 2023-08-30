@@ -67,9 +67,13 @@ if (intval($_SESSION['id_rol']) > 3) {
                 <div class="container-fluid">
                     <div class="row">
                         <div class="mt-5 col-12">
-                            <div class="card">
-                                <div class="card-header">
+                            <div class="card ">
+                                <div class="flex-wrap px-4 py-2 d-flex align-items-center justify-content-between" >
                                     <h3 class="card-title">Listado de empleados</h3>
+                                    <a href="<?= $_SESSION['path'] ?>/empleados/nuevo/" class=" btn btn-primary d-flex align-items-center">
+                                    <i class="pr-1 nav-icon fas fa-user-plus"></i>
+                                        Nuevo empleado
+                                </a>
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">

@@ -32,6 +32,8 @@ if (intval($_SESSION['id_rol']) > 3) {
     <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
     <!-- iCheck for checkboxes and radio inputs -->
     <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- dropzonejs -->
+    <link rel="stylesheet" href="../../plugins/dropzone/min/dropzone.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 
@@ -123,6 +125,8 @@ if (intval($_SESSION['id_rol']) > 3) {
     <script src="../../plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Toastr -->
     <script src="../../plugins/toastr/toastr.min.js"></script>
+    <!-- dropzonejs -->
+    <script src="../../plugins/dropzone/min/dropzone.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../../dist/js/adminlte.min.js"></script>
     <!-- dropzonejs -->
@@ -176,6 +180,7 @@ if (intval($_SESSION['id_rol']) > 3) {
         }
         ?>
     </script>
+    <?php include '../../utils/initDropzoneConfiguration.php' ?>
 </body>
 
 

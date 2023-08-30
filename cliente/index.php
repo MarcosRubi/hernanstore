@@ -1,5 +1,16 @@
 <?php
 require_once '../func/LoginValidator.php';
+require_once '../bd/bd.php';
+require_once '../class/Clientes.php';
+
+$Obj_Clientes = new Clientes();
+
+if (!isset($_GET['id'])) {
+    header("Location:" . $_SESSION['path']);
+}
+
+$Res_Clientes = $Obj_Clientes->buscarPorId($_GET['id']);
+$DatosCliente = $Res_Clientes->fetch_assoc();
 ?>
 
 <!DOCTYPE html>
@@ -49,91 +60,110 @@ require_once '../func/LoginValidator.php';
         <div class="pt-3 content-wrapper">
             <!-- Main content -->
             <div class="content">
-                <div class="container-fluid">
-                    <h3 class='display-5'>Datos de: <strong>Marcos Rubí</strong></h3>
-                    <div class="mt-3 row">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class='display-5'>Información personal</h5>
+                <?php if ($Res_Clientes->num_rows <= 0) {
+                    echo '<div class="align-middle d-flex justify-content-center" style="height:calc(100vh - 130px)"><div class="d-flex justify-content-center flex-column">';
+                    echo '<h1 class=" font-weight-bold">Lo sentimos, este cliente no existe o ha sido eliminado</h1>';
+                    echo '<a href="' . $_SESSION['path'] . '/clientes/" class="btn btn-primary btn-lg">Listar clientes</a>';
+                    echo '</div></div>';
+                } else { ?>
+                    <div class="container-fluid">
+                        <h3 class='display-5'>Datos de: <strong><?= $DatosCliente['nombre_cliente'] ?></strong></h3>
+                        <div class="mt-3 row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="mt-3 mb-2 d-flex justify-content-between">
+                                            <h5 class='display-5'>Información personal</h5>
+                                            <a href="../clientes/" class="btn btn-primary">Listar todos los clientes</a>
+                                        </div>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <form action="./actualizar/" method="POST" id="frmEditClient">
+                                            <table id="logs" class="table table-bordered table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre</th>
+                                                        <th>Número De Teléfono</th>
+                                                        <th>Residencia</th>
+                                                        <th>Correo</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <div class="input-group">
+                                                                    <input type="text" class="form-control" placeholder="Nombre ..." name="txtNombre" value="<?= $DatosCliente['nombre_cliente'] ?>">
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <div class="input-group">
+                                                                    <input type="text" class="form-control" data-inputmask='"mask": "(999) 9999-9999"' placeholder="(XXX) XXXX-XXXX" data-mask name="txtTelefono" onkeypress="javascript:typeNumber();" value="<?= $DatosCliente['telefono'] ?>">
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <div class="input-group">
+                                                                    <input type="text" class="form-control" placeholder="Dirección ..." name="txtDireccion" value="<?= $DatosCliente['direccion'] ?>">
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <div class="input-group">
+                                                                    <input type="email" class="form-control" placeholder="Correo ..." name="txtCorreo" value="<?= $DatosCliente['correo'] ?>">
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <?php if (intval($_SESSION['id_rol']) <= 3) { ?>
+                                                                <a href="#" class=" btn btn-danger" title="Eliminar" onclick="javascript:eliminarCliente(<?= $DatosCliente['id_cliente'] ?>);">
+                                                                    <i class="fa fa-trash"></i>
+                                                                </a>
+                                                            <?php } ?>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                    </div>
+                                    <!-- /.card-body -->
                                 </div>
-                                <!-- /.card-header -->
-                                <div class="card-body">
-                                    <form action="" method="POST" id="frmEditClient">
-                                        <table id="logs" class="table table-bordered table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Cliente</th>
-                                                    <th>Número De Teléfono</th>
-                                                    <th>Dirección</th>
-                                                    <th>Acciones</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <div class="input-group">
-                                                                <input type="text" class="form-control" placeholder="Nombre ..." name="txtNombre" value="Marcos Rubi">
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <div class="input-group">
-                                                                <input type="text" class="form-control" data-inputmask='"mask": "(999) 9999-9999"' placeholder="(XXX) XXXX-XXXX" data-mask name="txtTelefono" onkeypress="javascript:typeNumber();" value="(503) 7994-6035">
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <div class="input-group">
-                                                                <input type="text" class="form-control" placeholder="Dirección ..." name="txtDireccion" value="Main Street 3874">
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <a href="#" class=" btn btn-danger" title="Eliminar">
-                                                            <i class="fa fa-trash"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                </div>
-                                <!-- /.card-body -->
+                                <!-- /.card -->
                             </div>
-                            <!-- /.card -->
+
+
+                            <!-- /.col -->
                         </div>
-
-
-                        <!-- /.col -->
                     </div>
-                </div>
 
-                <div class="container-fluid">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="display-5">Información adicional</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="col">
-                                <div class="form-group">
-                                    <textarea id="summernote" name="txtInformacion">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet, non recusandae. Cumque ex repellat consectetur magnam laborum eos, pariatur maxime voluptates dignissimos, veritatis eum quasi enim! Qui totam unde ipsa!
+                    <div class="container-fluid">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="display-5">Información adicional</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <textarea id="summernote" name="txtInformacion">
+                                    <?= $DatosCliente['descripcion'] ?>
                                         </textarea>
+                                    </div>
                                 </div>
+                                <input type="hidden" name="id" value="<?= $DatosCliente['id_cliente'] ?>">
+                                <div class="d-flex justify-content-center">
+                                    <button class="btn btn-primary btn-lg font-weight-bold">Actualizar información</button>
+                                </div>
+                                </form>
                             </div>
-                            <input type="hidden" name="IdCliente" value="1">
-                            <input type="hidden" name="NombreCliente" value="Marcos Rubi">
-                            <div class="d-flex justify-content-center">
-                                <button class="btn btn-primary btn-lg font-weight-bold">Actualizar información</button>
-                            </div>
-                            </form>
                         </div>
                     </div>
-                </div>
-                <!-- /.container-fluid -->
+                    <!-- /.container-fluid -->
+                <?php  } ?>
             </div>
             <!-- /.content -->
         </div>
@@ -207,6 +237,15 @@ require_once '../func/LoginValidator.php';
                 "responsive": true,
             });
         });
+    </script>
+    <script>
+        function eliminarCliente(id) {
+            let confirmacion = confirm("¿Está seguro que desea eliminar este cliente?");
+
+            if (confirmacion) {
+                window.location.href = '<?= $_SESSION['path'] ?>/cliente/eliminar/?id=' + id
+            }
+        }
     </script>
     <script>
         <?php

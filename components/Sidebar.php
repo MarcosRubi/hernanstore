@@ -163,14 +163,6 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="<?= $_SESSION['path'] ?>/empleados/nuevo/" class="nav-link">
-                                    <i class="nav-icon fas fa-user-plus"></i>
-                                    <p>
-                                        Nuevo empleado
-                                    </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon fas fa-th-list"></i>
                                     <p>
@@ -183,7 +175,7 @@
                 <?php
                 }
                 ?>
-                <li class="nav-item">
+                <li class="mt-2 nav-item">
                     <a href="<?= $_SESSION['path'] ?>/func/SessionDestroy.php" class="nav-link">
                         <i class="nav-icon fas fa-sign-out-alt"></i>
                         <p>

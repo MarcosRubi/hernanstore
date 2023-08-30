@@ -9,10 +9,12 @@ $Res_Empleados = $Obj_Empleados->buscarPorId($_GET['id']);
 
 $DatosEmpleado = $Res_Empleados->fetch_assoc();
 
-if (intval($_SESSION['id_rol']) > 3) {
+if (intval($_SESSION['id_rol']) > 3 || intval($DatosEmpleado['id_rol']) === 2 || (intval($_SESSION['id_rol']) === 3 && intval($DatosEmpleado['id_rol']) === 3)) {
     $_SESSION['msg'] = 'Acción no autorizada.';
     $_SESSION['type'] = 'error';
-    header("Location:" . $_SESSION['path']);
+    echo "<script>let URL = window.opener.location.pathname;
+    window.opener.location.reload()</script>";
+    header("Location:" . $_SESSION['path'] . "/empleados/");
     return;
 }
 ?>

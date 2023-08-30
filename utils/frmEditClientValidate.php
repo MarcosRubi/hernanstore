@@ -6,10 +6,13 @@ $('#frmEditClient').validate({
             required: true
         },
         txtDireccion: {
-            required: true
+            required: false
         },
         txtTelefono: {
-            required: true
+            required: false
+        },
+        txtCorreo: {
+            required: false
         },
     },
     messages: {
@@ -21,6 +24,9 @@ $('#frmEditClient').validate({
         },
         txtTelefono: {
             required: \"El teléfono es obligatorio\",
+        },
+        txtCorreo: {
+            required: \"El correo es obligatorio\",
         }
     },
     errorElement: 'span',
