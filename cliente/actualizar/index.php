@@ -11,7 +11,7 @@ $Obj_Clientes->nombre_cliente = preg_replace('/\s+/', ' ', trim(strip_tags(ucwor
 $Obj_Clientes->telefono = strip_tags(trim(str_replace("_", "", $_POST['txtTelefono'])));
 $Obj_Clientes->direccion = preg_replace('/\s+/', ' ', trim(strip_tags(ucwords(strtolower(trim($_POST['txtDireccion']))))));
 $Obj_Clientes->correo =  strip_tags(strtolower(trim($_POST['txtCorreo'])));
-$Obj_Clientes->descripcion =  trim($_POST['txtCorreo']);
+$Obj_Clientes->descripcion =  trim($_POST['txtInformacion']);
 
 if (trim($_POST['txtNombre']) === '') {
     $_SESSION['msg'] = 'Ingrese el nombre del cliente.';

@@ -6,7 +6,6 @@ require_once '../../class/Empleados.php';
 
 $Obj_Empleados = new Empleados();
 
-
 $Obj_Empleados->nombre_empleado = strip_tags(ucwords(strtolower(trim($_POST['txtNombreEmpleado']))));
 $Obj_Empleados->contrasenna = strip_tags($_POST['txtContrasenna']);
 $Obj_Empleados->correo =  strip_tags(strtolower(trim($_POST['txtCorreo'])));
@@ -39,6 +38,23 @@ if (strlen($_POST['txtContrasenna']) <= 8) {
     echo "<script>history.back();</script>";
     return;
 }
+if (intval($_POST['txtIdRole']) === 2 && $_SESSION['id_rol'] !== 2) {
+    $_SESSION['msg'] = 'Acción no autorizada.';
+    $_SESSION['type'] = 'error';
+    echo "<script>history.back();</script>";
+    return;
+}
+
+$Res_EmpleadoCorreo = $Obj_Empleados->buscarEmpleadoPorCorreo(strip_tags(strtolower(trim($_POST['txtCorreo']))));
+if ($Res_EmpleadoCorreo->num_rows > 0) {
+    $_SESSION['msg'] = 'El correo ya esta siendo utilizado por otra cuenta.';
+    $_SESSION['type'] = 'error';
+    echo "<script>history.back();</script>";
+    return;
+}
+
+
+
 $Res_Empleados = $Obj_Empleados->Insertar();
 
 if ($Res_Empleados) {

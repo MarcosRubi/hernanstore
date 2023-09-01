@@ -206,7 +206,7 @@
                     <div class="pb-0 card-body">
                         <div class="form-group">
                             <label for="txtNombre">Nombre</label>
-                            <input type="text" class="form-control" id="txtNombre" name="txtNombre" placeholder="Nombre" value="<?= $_SESSION['nombre_empleado'] ?>">
+                            <input type="text" class="form-control" id="txtNombre" name="txtNombre" placeholder="Nombre" value="<?= $_SESSION['nombre_completo'] ?>">
                         </div>
                         <div class="form-group">
                             <label for="txtCorreo">Correo</label>

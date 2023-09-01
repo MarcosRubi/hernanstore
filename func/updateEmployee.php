@@ -5,6 +5,8 @@ include './Message.php';
 require_once '../bd/bd.php';
 require_once '../class/Empleados.php';
 
+include './NameUser.php';
+
 
 $Obj_Empleados = new Empleados();
 
@@ -36,7 +38,8 @@ if (trim($_POST['txtOldPassword']) !== '' && trim($_POST['txtNewPassword']) === 
 //VALIDACIONES CAMPOS A CAMBIAR
 if (trim($_POST['txtNombre']) !== '') {
     $Obj_Empleados->nombre_empleado = ucwords(strtolower(trim($_POST['txtNombre'])));
-    $_SESSION['nombre_empleado'] = ucwords(strtolower(trim($_POST['txtNombre'])));
+    $_SESSION['nombre_empleado'] = procesarCadena(ucwords(strtolower(trim($_POST['txtNombre']))));
+    $_SESSION['nombre_completo'] =  ucwords(strtolower(trim($_POST['txtNombre'])));
 };
 if (trim($_POST['txtCorreo']) !== '') {
     $Obj_Empleados->correo = strtolower(trim($_POST['txtCorreo']));

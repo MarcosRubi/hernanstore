@@ -57,7 +57,7 @@ class Clientes extends DB
         direccion = '" . $this->direccion . "', 
         correo = '" . $this->correo . "', 
         telefono = '" . $this->telefono . "', 
-        descripcion = '" . $this->descripcion . "' 
+        descripcion = '" . $this->descripcion . "'  
         WHERE id_cliente='" . $id . "' ";
 
         return $this->EjecutarQuery($query);
