@@ -196,6 +196,10 @@ if (($_SESSION['id_rol'] === 2 && intval($DatosEmpleado['id_rol']) === 2) ||
         }
         ?>
 
+        function logout(path) {
+            window.location.href = path + '/func/SessionDestroy.php';
+        }
+
         function closeForm() {
             window.close()
         }

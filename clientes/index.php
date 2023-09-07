@@ -85,11 +85,11 @@ if (isset($_GET['s'])) {
                           <td><?= $DatosCliente['correo'] ?></td>
                           <td>
                             <div class="d-flex justify-content-around">
-                              <a class="mx-1 btn btn-primary" title="Nuevo Préstamo">
+                              <a class="mx-1 btn btn-primary" title="Nuevo Préstamo" onclick="nuevoPrestamo(<?= $DatosCliente['id_cliente'] ?>);">
                                 <i class="fa fa-dollar-sign fa-lg"></i>
                                 <sup><i class="fa fa-plus"></i></sup>
                               </a>
-                              <a href="#" class="px-3 mx-1 btn btn-success" title="Listar Préstamos">
+                              <a href="#" class="px-3 mx-1 btn btn-success" title="Listar Préstamos" onclick="listarPrestamos(<?= $DatosCliente['id_cliente'] ?>);">
                                 <i class="fa fa-list fa-lg"></i>
                               </a>
                             </div>
@@ -166,6 +166,18 @@ if (isset($_GET['s'])) {
       echo showMessage($_SESSION['type'], $_SESSION['msg']);
     }
     ?>
+
+    function logout(path) {
+      window.location.href = path + '/func/SessionDestroy.php';
+    }
+
+    function nuevoPrestamo(id) {
+      window.location.href = '<?= $_SESSION['path'] ?>/prestamos/nuevo/?id=' + id
+    }
+
+    function listarPrestamos(id) {
+      window.location.href = '<?= $_SESSION['path'] ?>/prestamos/listar/cliente/?id=' + id
+    }
   </script>
   <?php include '../utils/initDropzoneConfiguration.php' ?>
 

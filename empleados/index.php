@@ -211,6 +211,10 @@ if (intval($_SESSION['id_rol']) > 3) {
                 window.location.href = '<?= $_SESSION['path'] ?>/empleados/eliminar/?id=' + id
             }
         }
+
+        function logout(path) {
+            window.location.href = path + '/func/SessionDestroy.php';
+        }
     </script>
     <script>
         <?php

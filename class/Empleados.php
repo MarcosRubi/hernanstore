@@ -26,7 +26,7 @@ class Empleados extends DB
 
     public function buscarEmpleadoPorCorreo()
     {
-        $query = "SELECT correo FROM tbl_empleados WHERE correo='" . $this->correo . "' AND Eliminado='N' ";
+        $query = "SELECT * FROM tbl_empleados WHERE correo='" . $this->correo . "' AND Eliminado='N' ";
         return $this->EjecutarQuery($query);
     }
 

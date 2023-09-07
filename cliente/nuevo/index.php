@@ -145,6 +145,10 @@ require_once '../../func/LoginValidator.php';
         function goBack() {
             history.back();
         }
+
+        function logout(path) {
+            window.location.href = path + '/func/SessionDestroy.php';
+        }
     </script>
     <script>
         <?php

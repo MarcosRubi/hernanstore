@@ -176,7 +176,7 @@
                 }
                 ?>
                 <li class="mt-2 nav-item">
-                    <a href="<?= $_SESSION['path'] ?>/func/SessionDestroy.php" class="nav-link">
+                    <a href="#" onclick="javascript:logout('<?= $_SESSION['path'] ?>');" class="nav-link">
                         <i class="nav-icon fas fa-sign-out-alt"></i>
                         <p>
                             Cerrar sesión

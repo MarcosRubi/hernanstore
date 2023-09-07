@@ -246,6 +246,10 @@ $DatosCliente = $Res_Clientes->fetch_assoc();
                 window.location.href = '<?= $_SESSION['path'] ?>/cliente/eliminar/?id=' + id
             }
         }
+
+        function logout(path) {
+            window.location.href = path + '/func/SessionDestroy.php';
+        }
     </script>
     <script>
         <?php

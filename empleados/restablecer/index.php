@@ -126,6 +126,10 @@ if (intval($_SESSION['id_rol']) > 3 || intval($DatosEmpleado['id_rol']) === 2 ||
             echo showMessage($_SESSION['type'], $_SESSION['msg']);
         }
         ?>
+
+        function logout(path) {
+            window.location.href = path + '/func/SessionDestroy.php';
+        }
     </script>
 </body>
 
