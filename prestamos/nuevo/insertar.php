@@ -34,35 +34,8 @@ if (trim($_POST['txtFechaInicio']) === '') {
     return;
 };
 
-function calcularGananciasPrevistas($valorPrestamo, $numeroCuotas, $porcentajeInteres)
-{
-    $ganancias = [];
-
-    // Calcula el valor base para cada cuota (igualmente dividido)
-    $valorCuotaBase = $valorPrestamo / $numeroCuotas;
-
-    // Inicializa el saldo restante del préstamo
-    $saldoRestante = $valorPrestamo;
-
-    // Calcula el interés y almacénalo en un arreglo
-    for ($i = 1; $i <= $numeroCuotas; $i++) {
-        // Calcula el interés para esta cuota
-        $interesCuota = ($saldoRestante * $porcentajeInteres) / 100;
-
-        // Agrega el interés de la cuota al arreglo de ganancias
-        $ganancias[] = $interesCuota;
-
-        // Actualiza el saldo restante restando el valor de la cuota base
-        $saldoRestante -= $valorCuotaBase;
-    }
-
-    // Calcula la ganancia prevista total sumando todos los intereses
-    $gananciaPrevistaTotal = array_sum($ganancias);
-
-    return number_format($gananciaPrevistaTotal, 2);
-}
-
-$Obj_Prestamos->ganancias = calcularGananciasPrevistas(doubleval(trim(strip_tags($_POST['txtValor']))), intval(trim(strip_tags($_POST['txtNumCuotas']))), doubleval(trim(strip_tags($_POST['txtInteres']))));
+$Obj_Prestamos->recalcular_interes = 'N';
+$Obj_Prestamos->ganancias = (doubleval(trim($_POST['txtValor'])) * doubleval(trim($_POST['txtInteres']))) / 100;
 $Obj_Prestamos->capital_prestamo = doubleval(trim(strip_tags($_POST['txtValor'])));
 $Obj_Prestamos->num_cuotas = intval(trim(strip_tags($_POST['txtNumCuotas'])));
 $Obj_Prestamos->porcentaje_interes = doubleval(trim(strip_tags($_POST['txtInteres'])));
@@ -71,7 +44,9 @@ $Obj_Prestamos->id_estado = intval(trim(strip_tags($_POST['txtIdEstado'])));
 $Obj_Prestamos->id_cliente = intval(trim(strip_tags($_POST['txtIdCliente'])));
 $Obj_Prestamos->id_plazo_pago = intval(trim(strip_tags($_POST['txtIdPlazoPago'])));
 
-
+if (isset($_POST['chkRecalcular'])) {
+    $Obj_Prestamos->recalcular_interes = 'S';
+}
 
 $Res_Prestamos = $Obj_Prestamos->Insertar();
 

@@ -12,6 +12,8 @@ $Res_DatosPrestamos = $Obj_Prestamos->ListarDatosParaDocumento($_GET['id']);
 
 $DatosPrestamo = $Res_DatosPrestamos->fetch_assoc();
 
+$mediaTotal = $Obj_Reset->CalcularMontoCuotas($DatosPrestamo["capital_prestamo"], $DatosPrestamo["num_cuotas"], $DatosPrestamo["porcentaje_interes"]);
+
 $primerFormato = [
     "txtValor" => $DatosPrestamo["capital_prestamo"],
     "txtFecha" => $DatosPrestamo["fecha_primer_pago"],
@@ -114,7 +116,7 @@ $primerFormato = [
                                                     <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir(substr($DatosPrestamo['fecha_prestamo'], 0, -9))) ?></td>
                                                     <td><?= $Obj_Reset->FormatoDinero($DatosPrestamo['capital_prestamo']) ?></td>
                                                     <td><?= $DatosPrestamo['num_cuotas'] ?></td>
-                                                    <td>$45.00</td>
+                                                    <td><?= $Obj_Reset->FormatoDinero($mediaTotal) ?></td>
                                                     <td><?= $DatosPrestamo['plazo_pago'] ?></td>
                                                     <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamo['fecha_primer_pago'])) ?></td>
                                                     <td><?= $DatosPrestamo['nombre_estado'] ?></td>

@@ -42,6 +42,8 @@ if (!isset($_GET['id'])) {
     <link rel="stylesheet" href="../../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="../../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="../../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <!-- dropzonejs -->
+    <link rel="stylesheet" href="../../../plugins/dropzone/min/dropzone.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../../../dist/css/adminlte.min.css">
 </head>
@@ -173,23 +175,21 @@ if (!isset($_GET['id'])) {
 
     <!-- jQuery -->
     <script src="../../../plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- DataTables  & Plugins -->
     <script src="../../../plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="../../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="../../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
     <script src="../../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-    <script src="../../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="../../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-    <script src="../../../plugins/jszip/jszip.min.js"></script>
-    <script src="../../../plugins/pdfmake/pdfmake.min.js"></script>
-    <script src="../../../plugins/pdfmake/vfs_fonts.js"></script>
-    <script src="../../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-    <script src="../../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <!-- dropzonejs -->
+    <script src="../../../plugins/dropzone/min/dropzone.min.js"></script>
     <!-- Toastr -->
     <script src="../../../plugins/toastr/toastr.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../../../dist/js/adminlte.min.js"></script>
     <!-- Page specific script -->
+    <script src="../../../dist/js/demo.js"></script>
     <script>
         $(function() {
             $('#table-payments').DataTable({
@@ -200,10 +200,8 @@ if (!isset($_GET['id'])) {
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,
-                "buttons": ["copy", "csv", "excel", "pdf", "print"]
-            }).buttons().container().appendTo('#table_payments_wrapper .col-md-6:eq(0)');
-        });
-        $(function() {
+            });
+
             $('#data-personal').DataTable({
                 "paging": false,
                 "lengthChange": false,
@@ -224,6 +222,9 @@ if (!isset($_GET['id'])) {
         }
         ?>
     </script>
+
+    <?php include '../../../utils/initDropzoneConfiguration.php' ?>
+
 
 
 </body>

@@ -42,8 +42,12 @@ if (!isset($_GET['id'])) {
     <!-- DataTables -->
     <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet" href="../../plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- dropzonejs -->
+    <link rel="stylesheet" href="../../plugins/dropzone/min/dropzone.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
@@ -61,7 +65,7 @@ if (!isset($_GET['id'])) {
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="mt-5 col-10 col-md-8  mx-auto">
+                        <div class="mt-5 col-12 col-md-8  mx-auto">
                             <div class="card card-info">
                                 <div class="card-header">
                                     <h3 class="card-title w-100 font-weight-bold text-center">Agregar nuevo préstamo</h3>
@@ -80,84 +84,76 @@ if (!isset($_GET['id'])) {
                                                 <input type="number" class="form-control update-table" placeholder="0.0" name="txtValor">
                                             </div>
                                         </div>
-                                        <div class=" px-2 mb-3 p-3 rounded" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+                                        <div class=" mb-3 p-3  rounded" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
                                             <div class="card">
                                                 <!-- /.card-header -->
-                                                <div class="card-body p-0">
-                                                    <table class="table table-striped">
-                                                        <thead>
-                                                            <th colspan="2">Información del préstamo</th>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td class="text-right align-middle">Fecha del préstamo</td>
-                                                                <td>
-                                                                    <!-- Valor -->
-                                                                    <div class="form-group mx-1 container-fluid mb-0">
-                                                                        <input type="text" class="form-control" name="txtFecha" value="<?= date('d-m-Y') ?>" readonly>
+                                                <div class="card-body py-2 px-3">
+                                                    <h3 class=" text-center">Información del préstamo</h3>
+
+                                                    <div class="form-group container-fluid">
+                                                        <label for="txtFecha" class="">Fecha del préstamo</label>
+                                                        <div class="form-group ">
+                                                            <input type="text" class="form-control" name="txtFecha" value="<?= date('d-m-Y') ?>" readonly>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group container-fluid">
+                                                        <label for="txtNumCuotas" class=""># de cuotas</label>
+                                                        <div class="form-group ">
+                                                            <input type="number" class="form-control update-table" placeholder="0" name="txtNumCuotas">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group container-fluid">
+                                                        <label for="txtInteres" class="">% de interés</label>
+                                                        <div class="form-group ">
+                                                            <input type="number" class="form-control update-table" placeholder="0.0" name="txtInteres">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group container-fluid">
+                                                        <label for="txtIdPlazoPago" class="">Período de pagos</label>
+                                                        <div class="form-group">
+                                                            <select class="form-control select2" style="width: 100%;" name="txtIdPlazoPago" onchange="javascript:changeData();">
+                                                                <?php
+                                                                while ($PlazosPrestamos = $Res_PlazosPrestamos->fetch_assoc()) { ?>
+                                                                    <option value="<?= $PlazosPrestamos['id_plazo_pago'] ?>"><?= $PlazosPrestamos['plazo_pago'] ?></option>
+                                                                <?php } ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group container-fluid">
+                                                        <label for="txtFecha" class="">Fecha pago de primer cuota</label>
+                                                        <div class="form-group">
+                                                            <div class="input-group date" id="dateStart" data-target-input="nearest">
+                                                                <input type="text" class="form-control datetimepicker-input" data-target="#dateStart" data-inputmask-alias="datetime" placeholder="dd-mm-yyyy" name="txtFechaInicio" id="date-start">
+                                                                <div class="input-group-append" data-target="#dateStart" data-toggle="datetimepicker">
+                                                                    <div class="input-group-text"><i class="fa fa-calendar"></i>
                                                                     </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-right align-middle"># de cuotas</td>
-                                                                <td>
-                                                                    <!-- Valor -->
-                                                                    <div class="form-group mx-1 container-fluid mb-0">
-                                                                        <input type="number" class="form-control update-table" placeholder="0" name="txtNumCuotas">
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-right align-middle">% de interés</td>
-                                                                <td>
-                                                                    <!-- Valor -->
-                                                                    <div class="form-group mx-1 container-fluid mb-0">
-                                                                        <input type="number" class="form-control update-table" placeholder="0.0" name="txtInteres">
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-right align-middle">Período de pagos</td>
-                                                                <td>
-                                                                    <div class="form-group mx-1 container-fluid mb-0">
-                                                                        <select class="form-control select2" style="width: 100%;" name="txtIdPlazoPago" onchange="javascript:changeData();">
-                                                                            <?php
-                                                                            while ($PlazosPrestamos = $Res_PlazosPrestamos->fetch_assoc()) { ?>
-                                                                                <option value="<?= $PlazosPrestamos['id_plazo_pago'] ?>"><?= $PlazosPrestamos['plazo_pago'] ?></option>
-                                                                            <?php } ?>
-                                                                        </select>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-right align-middle">Fecha pago de primer cuota</td>
-                                                                <td>
-                                                                    <div class="form-group mx-1 container-fluid mb-0">
-                                                                        <div class="input-group date" id="dateStart" data-target-input="nearest">
-                                                                            <input type="text" class="form-control datetimepicker-input" data-target="#dateStart" data-inputmask-alias="datetime" placeholder="dd-mm-yyyy" name="txtFechaInicio" id="date-start">
-                                                                            <div class="input-group-append" data-target="#dateStart" data-toggle="datetimepicker">
-                                                                                <div class="input-group-text"><i class="fa fa-calendar"></i>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-right align-middle">Estado del préstamo</td>
-                                                                <td>
-                                                                    <div class="form-group mx-1 container-fluid mb-0">
-                                                                        <select class="form-control select2" style="width: 100%;" name="txtIdEstado">
-                                                                            <?php
-                                                                            while ($EstadosPrestamos = $Res_EstadosPrestamos->fetch_assoc()) { ?>
-                                                                                <option value="<?= $EstadosPrestamos['id_estado'] ?>"><?= $EstadosPrestamos['nombre_estado'] ?></option>
-                                                                            <?php } ?>
-                                                                        </select>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group container-fluid">
+                                                        <label for="txtFecha" class="">Estado del préstamo</label>
+                                                        <div class="form-group">
+                                                            <select class="form-control select2" style="width: 100%;" name="txtIdEstado">
+                                                                <?php
+                                                                while ($EstadosPrestamos = $Res_EstadosPrestamos->fetch_assoc()) { ?>
+                                                                    <option value="<?= $EstadosPrestamos['id_estado'] ?>"><?= $EstadosPrestamos['nombre_estado'] ?></option>
+                                                                <?php } ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group container-fluid icheck-primary">
+                                                        <input type="checkbox" id="chkRecalcular" name="chkRecalcular" onchange="javascript:changeData();">
+                                                        <label for="chkRecalcular" style="cursor: pointer;">
+                                                            Recalcular interés cada mes
+                                                        </label>
+                                                    </div>
                                                 </div>
                                                 <!-- /.card-body -->
                                             </div>
@@ -217,10 +213,14 @@ if (!isset($_GET['id'])) {
     <script src="../../plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
     <!-- Toastr -->
     <script src="../../plugins/toastr/toastr.min.js"></script>
+    <!-- dropzonejs -->
+    <script src="../../plugins/dropzone/min/dropzone.min.js"></script>
     <!-- Select2 -->
     <script src="../../plugins/select2/js/select2.full.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../../dist/js/adminlte.min.js"></script>
+    <!-- Page specific script -->
+    <script src="../../dist/js/demo.js"></script>
     <!-- Page specific script -->
     <script>
         $(function() {
@@ -279,6 +279,7 @@ if (!isset($_GET['id'])) {
             campo.addEventListener('input', changeData);
         });
     </script>
+    <?php include '../../utils/initDropzoneConfiguration.php' ?>
 </body>
 
 </html>

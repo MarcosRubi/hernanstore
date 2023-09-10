@@ -6,6 +6,7 @@ class Prestamos extends DB
     public $porcentaje_interes;
     public $fecha_primer_pago;
     public $ganancias;
+    public $recalcular_interes;
     public $id_estado;
     public $id_cliente;
     public $id_plazo_pago;
@@ -56,6 +57,7 @@ class Prestamos extends DB
             porcentaje_interes,
             fecha_primer_pago,
             ganancias,
+            recalcular_interes,
             id_estado,
             id_cliente,
             id_plazo_pago )
@@ -65,6 +67,7 @@ class Prestamos extends DB
             '" . $this->porcentaje_interes . "',
             '" . $this->fecha_primer_pago . "',
             '" . $this->ganancias . "',
+            '" . $this->recalcular_interes . "',
             '" . $this->id_estado . "',
             '" . $this->id_cliente . "',
             '" . $this->id_plazo_pago . "' ) ";
