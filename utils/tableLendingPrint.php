@@ -22,7 +22,7 @@ $porcentajeInteres = doubleval(trim($_POST['formData']['txtInteres']));
 $plazoEntrePagos = $Obj_Reset->PlazoEntrePagos(intval(trim($_POST['formData']['txtIdPlazoPago'])));
 $fechaPrimerPago = $Obj_Reset->FechaInvertirGuardar(trim($_POST['formData']['txtFechaInicio']));
 
-if (isset($_POST['formData']['chkRecalcular'])) {
+if (isset($_POST['formData']['chkRecalcular']) && $_POST['formData']['chkRecalcular'] === 'S') {
     $plazoPago = intval($_POST['formData']['txtIdPlazoPago']);
 
     $cuotasElegidas = [];

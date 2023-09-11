@@ -11,6 +11,11 @@ class Prestamos extends DB
     public $id_cliente;
     public $id_plazo_pago;
 
+    public function buscarPorId($id)
+    {
+        $query = "SELECT id_prestamo FROM tbl_prestamos WHERE id_prestamo = '" . $id . "'";
+        return $this->EjecutarQuery($query);
+    }
     public function listarPrestamosPorcliente($id)
     {
         $query = "SELECT * FROM vta_listar_prestamos WHERE id_cliente = '" . $id . "'";
@@ -108,9 +113,9 @@ class Prestamos extends DB
     //     return $this->EjecutarQuery($query);
     // }
 
-    // public function Eliminar($id)
-    // {
-    //     $query = "UPDATE tbl_empleados SET Eliminado='S' WHERE id_empleado='" . $id . "'";
-    //     return $this->EjecutarQuery($query);
-    // }
+    public function Eliminar($id)
+    {
+        $query = "UPDATE tbl_prestamos SET Eliminado='S' WHERE id_prestamo='" . $id . "'";
+        return $this->EjecutarQuery($query);
+    }
 }

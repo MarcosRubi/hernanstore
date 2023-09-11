@@ -106,6 +106,26 @@ class Reset extends DB
 
         return number_format($media, 2);
     }
+    function calcularInteresMensual($valorPrestamo, $numeroCuotas, $porcentajeInteres, $cuotasElegidas)
+    {
+        $interes = [];
+
+        // Calcula el valor base para cada cuota (igualmente dividido)
+        $valorBase = $valorPrestamo / $numeroCuotas;
+
+        // Inicializa el saldo restante
+        $saldoRestante = $valorPrestamo;
+
+        // Calcula el monto de cada cuota y almacénalo en un arreglo
+        for ($i = 1; $i <= $numeroCuotas; $i++) {
+            if (in_array($i, $cuotasElegidas)) {
+                $interes[] = ($saldoRestante * $porcentajeInteres) / 100;
+            }
+            $saldoRestante -= $valorBase;
+        }
+
+        return number_format(array_sum($interes), 2);
+    }
     function GenerarFechasCuotas($fechaPrimerPago, $numeroCuotas, $diasEntrePlazos)
     {
         $fechasCuotas = array();

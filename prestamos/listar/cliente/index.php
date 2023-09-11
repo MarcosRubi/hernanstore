@@ -96,6 +96,7 @@ if (!isset($_GET['id'])) {
                                                 <th>% de interés</th>
                                                 <th>Estado</th>
                                                 <th>Periodo de pagos</th>
+                                                <th>Interés mensual</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -123,8 +124,11 @@ if (!isset($_GET['id'])) {
                                                     <td>
                                                         <p><?= $DatosPrestamos['plazo_pago'] ?></p>
                                                     </td>
-
                                                     <td class="">
+                                                        <p><?= $DatosPrestamos['recalcular_interes'] === 'S' ? 'SI' : 'NO' ?></p>
+                                                    </td>
+
+                                                    <td>
                                                         <?php if (intval($DatosPrestamos['id_estado']) === 3) {
                                                         ?>
                                                             <a href="#" class=" btn bg-success mx-2 my-2" title="Pago cuota" onclick="javascript:PagoCuota();">
@@ -142,7 +146,7 @@ if (!isset($_GET['id'])) {
                                                             <a href="#" class=" btn bg-orange mx-2 my-2" title="Editar" onclick="javascript:editarPrestamo();">
                                                                 <i class="fa fa-edit "></i>
                                                             </a>
-                                                            <a href="#" class=" btn btn-danger mx-2 my-2" title="Eliminar" onclick="javascript:eliminarPrestamo();">
+                                                            <a href="#" class=" btn btn-danger mx-2 my-2" title="Eliminar" onclick="javascript:eliminarPrestamo(<?php echo $DatosPrestamos['id_prestamo'] . "," .  $DatosPrestamos['id_cliente'] ?>);">
                                                                 <i class="fa fa-trash"></i>
                                                             </a>
                                                         <?php }
@@ -221,6 +225,14 @@ if (!isset($_GET['id'])) {
             echo showMessage($_SESSION['type'], $_SESSION['msg']);
         }
         ?>
+
+        function eliminarPrestamo(id, id_cliente) {
+            let confirmacion = confirm("¿Está seguro que desea eliminar un préstamo?");
+
+            if (confirmacion) {
+                window.location.href = '<?= $_SESSION['path'] ?>/prestamos/eliminar/?id=' + id + '&id_cliente=' + id_cliente
+            }
+        }
     </script>
 
     <?php include '../../../utils/initDropzoneConfiguration.php' ?>

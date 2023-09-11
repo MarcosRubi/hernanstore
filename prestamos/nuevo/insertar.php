@@ -45,8 +45,29 @@ $Obj_Prestamos->id_cliente = intval(trim(strip_tags($_POST['txtIdCliente'])));
 $Obj_Prestamos->id_plazo_pago = intval(trim(strip_tags($_POST['txtIdPlazoPago'])));
 
 if (isset($_POST['chkRecalcular'])) {
+    $cuotasElegidas = [];
+
     $Obj_Prestamos->recalcular_interes = 'S';
+
+    switch (intval(trim(strip_tags($_POST['txtIdPlazoPago'])))) {
+        case 5: //mensual
+            $cuotasElegidas = range(1, 500);
+            break;
+        case 4: // quincenal
+            $cuotasElegidas = range(1, 501, 2);
+            break;
+        case 3: // semanal
+            $cuotasElegidas = range(1, 501, 4);
+            break;
+        case 2: // diario
+            $cuotasElegidas = range(1, 500, 24);
+            break;
+    }
+    $Obj_Prestamos->ganancias = $Obj_Reset->calcularInteresMensual(doubleval(trim(strip_tags($_POST['txtValor']))), intval(trim(strip_tags($_POST['txtNumCuotas']))), doubleval(trim(strip_tags($_POST['txtInteres']))), $cuotasElegidas);
 }
+
+
+
 
 $Res_Prestamos = $Obj_Prestamos->Insertar();
 
