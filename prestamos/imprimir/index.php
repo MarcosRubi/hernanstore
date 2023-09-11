@@ -12,7 +12,30 @@ $Res_DatosPrestamos = $Obj_Prestamos->ListarDatosParaDocumento($_GET['id']);
 
 $DatosPrestamo = $Res_DatosPrestamos->fetch_assoc();
 
-$mediaTotal = $Obj_Reset->CalcularMontoCuotas($DatosPrestamo["capital_prestamo"], $DatosPrestamo["num_cuotas"], $DatosPrestamo["porcentaje_interes"]);
+if ($DatosPrestamo['recalcular_interes'] === 'S') {
+    $plazoPago = intval($DatosPrestamo["id_plazo_pago"]);
+
+    $cuotasElegidas = [];
+
+    switch ($plazoPago) {
+        case 5: //mensual
+            $cuotasElegidas = range(1, 500);
+            break;
+        case 4: // quincenal
+            $cuotasElegidas = range(1, 501, 2);
+            break;
+        case 3: // semanal
+            $cuotasElegidas = range(1, 501, 4);
+            break;
+        case 2: // diario
+            $cuotasElegidas = range(1, 500, 24);
+            break;
+    }
+
+    $mediaTotal = $Obj_Reset->calcularMontoCuotasConInteresMensual($DatosPrestamo["capital_prestamo"], $DatosPrestamo["num_cuotas"], $DatosPrestamo["porcentaje_interes"], $cuotasElegidas);
+} else {
+    $mediaTotal = $Obj_Reset->CalcularMontoCuotas($DatosPrestamo["capital_prestamo"], $DatosPrestamo["num_cuotas"], $DatosPrestamo["porcentaje_interes"]);
+}
 
 $primerFormato = [
     "txtValor" => $DatosPrestamo["capital_prestamo"],
@@ -21,6 +44,7 @@ $primerFormato = [
     "txtInteres" => $DatosPrestamo["porcentaje_interes"],
     "txtIdPlazoPago" => $DatosPrestamo["id_plazo_pago"],
     "txtFechaInicio" => $DatosPrestamo["fecha_primer_pago"],
+    "chkRecalcular" => $DatosPrestamo["recalcular_interes"],
 ];
 
 ?>

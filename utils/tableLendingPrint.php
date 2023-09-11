@@ -22,7 +22,30 @@ $porcentajeInteres = doubleval(trim($_POST['formData']['txtInteres']));
 $plazoEntrePagos = $Obj_Reset->PlazoEntrePagos(intval(trim($_POST['formData']['txtIdPlazoPago'])));
 $fechaPrimerPago = $Obj_Reset->FechaInvertirGuardar(trim($_POST['formData']['txtFechaInicio']));
 
-$mediaTotal = $Obj_Reset->CalcularMontoCuotas($valorPrestamo, $numeroCuotas, $porcentajeInteres);
+if (isset($_POST['formData']['chkRecalcular'])) {
+    $plazoPago = intval($_POST['formData']['txtIdPlazoPago']);
+
+    $cuotasElegidas = [];
+
+    switch ($plazoPago) {
+        case 5: //mensual
+            $cuotasElegidas = range(1, 500);
+            break;
+        case 4: // quincenal
+            $cuotasElegidas = range(1, 501, 2);
+            break;
+        case 3: // semanal
+            $cuotasElegidas = range(1, 501, 4);
+            break;
+        case 2: // diario
+            $cuotasElegidas = range(1, 500, 24);
+            break;
+    }
+
+    $mediaTotal = $Obj_Reset->calcularMontoCuotasConInteresMensual($valorPrestamo, $numeroCuotas, $porcentajeInteres, $cuotasElegidas);
+} else {
+    $mediaTotal = $Obj_Reset->CalcularMontoCuotas($valorPrestamo, $numeroCuotas, $porcentajeInteres);
+}
 $fechasPagos = $Obj_Reset->GenerarFechasCuotas($fechaPrimerPago, $numeroCuotas, $plazoEntrePagos);
 
 ?>
