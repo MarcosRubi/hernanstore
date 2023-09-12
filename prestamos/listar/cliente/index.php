@@ -143,7 +143,7 @@ if (!isset($_GET['id'])) {
                                                         </a>
                                                         <?php if (intval($_SESSION['id_rol']) <= 3) {
                                                         ?>
-                                                            <a href="#" class=" btn bg-orange mx-2 my-2" title="Editar" onclick="javascript:editarPrestamo();">
+                                                            <a href="#" class=" btn bg-orange mx-2 my-2" title="Editar" onclick="javascript:editarPrestamo(<?= $DatosPrestamos['id_prestamo'] ?>);">
                                                                 <i class="fa fa-edit "></i>
                                                             </a>
                                                             <a href="#" class=" btn btn-danger mx-2 my-2" title="Eliminar" onclick="javascript:eliminarPrestamo(<?php echo $DatosPrestamos['id_prestamo'] . "," .  $DatosPrestamos['id_cliente'] ?>);">
@@ -232,6 +232,10 @@ if (!isset($_GET['id'])) {
             if (confirmacion) {
                 window.location.href = '<?= $_SESSION['path'] ?>/prestamos/eliminar/?id=' + id + '&id_cliente=' + id_cliente
             }
+        }
+
+        function editarPrestamo(id) {
+            window.location.href = '<?= $_SESSION['path'] ?>/prestamos/actualizar/?id=' + id
         }
     </script>
 

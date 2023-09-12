@@ -13,7 +13,7 @@ class Prestamos extends DB
 
     public function buscarPorId($id)
     {
-        $query = "SELECT id_prestamo FROM tbl_prestamos WHERE id_prestamo = '" . $id . "'";
+        $query = "SELECT * FROM vta_listar_prestamos WHERE id_prestamo = '" . $id . "'";
         return $this->EjecutarQuery($query);
     }
     public function listarPrestamosPorcliente($id)
@@ -100,18 +100,21 @@ class Prestamos extends DB
         return $this->EjecutarQuery($query);
     }
 
-    // public function Actualizar($id)
-    // {
-    //     $query = "UPDATE tbl_empleados SET 
-    //     nombre_estado = '" . $this->nombre_estado . "',
-    //     correo = '" . $this->correo . "',
-    //     url_foto = '" . $this->url_foto . "',
-    //     contrasenna = '" .  password_hash($this->contrasenna, PASSWORD_DEFAULT) . "',
-    //     id_rol = '" . $this->id_rol . "' 
-    //     WHERE id_empleado='" . $id . "' ";
+    public function Actualizar($id)
+    {
+        $query = "UPDATE tbl_prestamos SET 
+        capital_prestamo = '" . $this->capital_prestamo . "',
+        num_cuotas = '" . $this->num_cuotas . "',
+        porcentaje_interes = '" . $this->porcentaje_interes . "',
+        fecha_primer_pago = '" . $this->fecha_primer_pago . "',
+        ganancias = '" . $this->ganancias . "',
+        id_estado = '" . $this->id_estado . "',
+        id_plazo_pago = '" . $this->id_plazo_pago . "',
+        recalcular_interes = '" . $this->recalcular_interes . "' 
+        WHERE id_prestamo='" . $id . "' ";
 
-    //     return $this->EjecutarQuery($query);
-    // }
+        return $this->EjecutarQuery($query);
+    }
 
     public function Eliminar($id)
     {
