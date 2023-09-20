@@ -82,7 +82,14 @@ $ValorAgregadoSiguienteCuota = $CapitalRestante - ($DatosPrestamo['valor_cuota']
                                                             <input type="text" value="<?= $DatosCuota['estado_cuota']  ?>" class="form-control" readonly>
                                                         </div>
                                                     </td>
-                                                    <td>a</td>
+                                                    <td>
+                                                        <a href="#" class=" btn bg-orange mx-2 my-2" title="Editar" onclick="javascript:editarCuota(<?= $DatosCuota['id_cuota'] ?>);">
+                                                            <i class="fa fa-edit "></i>
+                                                        </a>
+                                                        <a href="#" class=" btn btn-danger mx-2 my-2" title="Eliminar" onclick="javascript:eliminarCuota(<?php echo $DatosCuota['id_cuota'] . "," .  $_GET['id'] ?>);">
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>
+                                                    </td>
                                                 </tr>
                                         <?php
                                             }
@@ -178,5 +185,26 @@ $ValorAgregadoSiguienteCuota = $CapitalRestante - ($DatosPrestamo['valor_cuota']
         "info": false,
         "autoWidth": true,
         "responsive": true,
-    });;
+    });
+
+    function eliminarCuota(id, id_prestamo) {
+        let confirmacion = confirm("¿Está seguro que desea eliminar una cuota?");
+
+        if (confirmacion) {
+            window.location.href = '<?= $_SESSION['path'] ?>/cuota/eliminar/?id=' + id + '&id_prestamo=' + id_prestamo
+        }
+    }
+
+    function editarCuota(id) {
+        // Dimensiones de la ventana
+        var ancho = 1000;
+        var alto = 600;
+
+        // Calcula la posición para centrar la ventana en el viewport
+        var left = (window.innerWidth - ancho) / 2;
+        var top = (window.innerHeight - alto) / 2;
+
+        // Abre la URL en una ventana flotante
+        window.open('<?= $_SESSION['path'] ?>/cuota/actualizar/?id=' + id, 'Actualizar cuota', 'width=' + ancho + ', height=' + alto + ', left=' + left + ', top=' + top);
+    }
 </script>

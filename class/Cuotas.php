@@ -13,6 +13,11 @@ class Cuotas extends DB
         $query = "SELECT * FROM vta_listar_cuotas_prestamos WHERE id_prestamo='" . $id . "'";
         return $this->EjecutarQuery($query);
     }
+    public function buscarPorIdCuota($id)
+    {
+        $query = "SELECT * FROM vta_listar_cuotas_prestamos WHERE id_cuota='" . $id . "'";
+        return $this->EjecutarQuery($query);
+    }
 
     public function ObtenerUltimoPagoCuota($id)
     {
@@ -55,8 +60,8 @@ class Cuotas extends DB
         $query = "UPDATE tbl_cuotas SET 
         pago_cuota = '" . $this->pago_cuota . "',
         fecha_pago = '" . $this->fecha_pago . "', 
-        id_estado_cuota = '" . $this->id_estado_cuota . "', 
-        WHERE id_prestamo='" . $id . "' ";
+        id_estado_cuota = '" . $this->id_estado_cuota . "' 
+        WHERE id_cuota='" . $id . "' ";
 
         return $this->EjecutarQuery($query);
     }
