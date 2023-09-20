@@ -21,7 +21,7 @@ $(function() {
                 required: \"El número de cuotas es obligatorio\",
             },
             txtInteres: {
-                required: \"El porcentaje de interés es obligatorio\",
+                required: \"El interés es obligatorio\",
             }
         },
         errorElement: 'span',

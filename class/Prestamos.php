@@ -3,10 +3,10 @@ class Prestamos extends DB
 {
     public $capital_prestamo;
     public $num_cuotas;
-    public $porcentaje_interes;
     public $fecha_primer_pago;
     public $ganancias;
-    public $recalcular_interes;
+    public $valor_cuota;
+    public $detalles;
     public $id_estado;
     public $id_cliente;
     public $id_plazo_pago;
@@ -16,22 +16,24 @@ class Prestamos extends DB
         $query = "SELECT * FROM vta_listar_prestamos WHERE id_prestamo = '" . $id . "'";
         return $this->EjecutarQuery($query);
     }
+
     public function listarPrestamosPorcliente($id)
     {
         $query = "SELECT * FROM vta_listar_prestamos WHERE id_cliente = '" . $id . "'";
         return $this->EjecutarQuery($query);
     }
+
     public function ListarDatosParaDocumento($id)
     {
         $query = "SELECT * FROM vta_datos_prestamos WHERE id_prestamo = '" . $id . "'";
         return $this->EjecutarQuery($query);
     }
+
     public function listarEstadosPrestamos()
     {
         $query = "SELECT * FROM vta_listar_estados_prestamos";
         return $this->EjecutarQuery($query);
     }
-
     public function listarPlazoPrestamos()
     {
         $query = "SELECT * FROM vta_listar_plazos_pagos";
@@ -42,37 +44,32 @@ class Prestamos extends DB
         $query = "SELECT * FROM vta_listar_estados_cuotas";
         return $this->EjecutarQuery($query);
     }
+
     public function buscarEstadoCuotaPorId($id)
     {
         $query = "SELECT estado_cuota FROM vta_listar_estados_cuotas WHERE id_estado_cuota = '" . $id . "'";
         return $this->EjecutarQuery($query);
     }
 
-    // public function buscarPorIdCliente($id)
-    // {
-    //     $query = "SELECT * FROM vta_listar_prestamos WHERE id_cliente='" . $id . "'";
-    //     return $this->EjecutarQuery($query);
-    // }
-
     public function Insertar()
     {
         $query = "INSERT INTO tbl_prestamos(
             capital_prestamo,
             num_cuotas,
-            porcentaje_interes,
             fecha_primer_pago,
             ganancias,
-            recalcular_interes,
+            valor_cuota,
+            detalles,
             id_estado,
             id_cliente,
             id_plazo_pago )
             VALUES (
             '" . $this->capital_prestamo . "',
             '" . $this->num_cuotas . "',
-            '" . $this->porcentaje_interes . "',
             '" . $this->fecha_primer_pago . "',
             '" . $this->ganancias . "',
-            '" . $this->recalcular_interes . "',
+            '" . $this->valor_cuota . "',
+            '" . $this->detalles . "',
             '" . $this->id_estado . "',
             '" . $this->id_cliente . "',
             '" . $this->id_plazo_pago . "' ) ";
@@ -105,12 +102,12 @@ class Prestamos extends DB
         $query = "UPDATE tbl_prestamos SET 
         capital_prestamo = '" . $this->capital_prestamo . "',
         num_cuotas = '" . $this->num_cuotas . "',
-        porcentaje_interes = '" . $this->porcentaje_interes . "',
+        detalles = '" . $this->detalles . "',
         fecha_primer_pago = '" . $this->fecha_primer_pago . "',
         ganancias = '" . $this->ganancias . "',
         id_estado = '" . $this->id_estado . "',
         id_plazo_pago = '" . $this->id_plazo_pago . "',
-        recalcular_interes = '" . $this->recalcular_interes . "' 
+        valor_cuota = '" . $this->valor_cuota . "' 
         WHERE id_prestamo='" . $id . "' ";
 
         return $this->EjecutarQuery($query);

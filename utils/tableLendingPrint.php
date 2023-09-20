@@ -3,51 +3,38 @@ session_start();
 require_once '../bd/bd.php';
 require_once '../class/Clientes.php';
 require_once '../class/Prestamos.php';
+require_once '../class/Cuotas.php';
 require_once '../class/Reset.php';
 
 
 $Obj_Clientes = new Clientes();
 $Obj_Prestamos = new Prestamos();
+$Obj_Cuotas = new Cuotas();
 $Obj_Reset = new Reset();
 
 $valorPrestamo = doubleval(trim($_POST['formData']['txtValor']));
 $numeroCuotas = intval(trim($_POST['formData']['txtNumCuotas']));
-
+$valorCuota = doubleval(trim($_POST['formData']['txtValorCuota']));
 
 if ($valorPrestamo === 0.0 || $numeroCuotas === 0 || trim($_POST['formData']['txtFechaInicio']) === '') {
     return;
 }
 
-$porcentajeInteres = doubleval(trim($_POST['formData']['txtInteres']));
 $plazoEntrePagos = $Obj_Reset->PlazoEntrePagos(intval(trim($_POST['formData']['txtIdPlazoPago'])));
 $fechaPrimerPago = $Obj_Reset->FechaInvertirGuardar(trim($_POST['formData']['txtFechaInicio']));
 
-if (isset($_POST['formData']['chkRecalcular']) && $_POST['formData']['chkRecalcular'] === 'S') {
-    $plazoPago = intval($_POST['formData']['txtIdPlazoPago']);
-
-    $cuotasElegidas = [];
-
-    switch ($plazoPago) {
-        case 5: //mensual
-            $cuotasElegidas = range(1, 500);
-            break;
-        case 4: // quincenal
-            $cuotasElegidas = range(1, 501, 2);
-            break;
-        case 3: // semanal
-            $cuotasElegidas = range(1, 501, 4);
-            break;
-        case 2: // diario
-            $cuotasElegidas = range(1, 500, 24);
-            break;
-    }
-
-    $mediaTotal = $Obj_Reset->calcularMontoCuotasConInteresMensual($valorPrestamo, $numeroCuotas, $porcentajeInteres, $cuotasElegidas);
-} else {
-    $mediaTotal = $Obj_Reset->CalcularMontoCuotas($valorPrestamo, $numeroCuotas, $porcentajeInteres);
-}
 $fechasPagos = $Obj_Reset->GenerarFechasCuotas($fechaPrimerPago, $numeroCuotas, $plazoEntrePagos);
 
+$Res_Cuotas = $Obj_Cuotas->buscarPorIdPrestamo($_POST['formData']['txtIdPrestamo']);
+$cuotasRealizadas = $Res_Cuotas->num_rows;
+
+$Res_CapitalPagado = $Obj_Cuotas->CapitalPagado($_POST['formData']['txtIdPrestamo']);
+
+$capitalPagado = $Res_CapitalPagado->fetch_assoc()['total'];
+$CapitalRestante = $valorPrestamo + $_POST['formData']['txtGanancia'] - $capitalPagado;
+$cuotasFaltantes = $numeroCuotas - $cuotasRealizadas;
+
+$ValorAgregadoSiguienteCuota = $CapitalRestante - ($valorCuota * $cuotasFaltantes);
 ?>
 <div class="">
     <!-- Main content -->
@@ -70,7 +57,23 @@ $fechasPagos = $Obj_Reset->GenerarFechasCuotas($fechaPrimerPago, $numeroCuotas, 
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php for ($i = 1; $i <= intval(trim($_POST['formData']['txtNumCuotas'])); $i++) { ?>
+                                    <?php while ($DatosCuotas = $Res_Cuotas->fetch_assoc()) { ?>
+                                        <tr>
+                                            <td>
+                                                <p><?= $DatosCuotas['num_cuota'] ?></p>
+                                            </td>
+                                            <td>
+                                                <p><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosCuotas['fecha_pago'])) ?></p>
+                                            </td>
+                                            <td>
+                                                <p><?= $Obj_Reset->FormatoDinero($DatosCuotas['pago_cuota']) ?></p>
+                                            </td>
+                                            <td>
+                                                <p><?= $DatosCuotas['estado_cuota'] ?></p>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                    <?php for ($i = $cuotasRealizadas + 1; $i <= intval(trim($_POST['formData']['txtNumCuotas'])); $i++) { ?>
                                         <tr>
                                             <td>
                                                 <p><?= $i ?></p>
@@ -79,7 +82,7 @@ $fechasPagos = $Obj_Reset->GenerarFechasCuotas($fechaPrimerPago, $numeroCuotas, 
                                                 <p><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($fechasPagos[$i - 1])) ?></p>
                                             </td>
                                             <td>
-                                                <p><?= $Obj_Reset->FormatoDinero($mediaTotal) ?></p>
+                                                <p><?= $i === $cuotasRealizadas + 1 ? $Obj_Reset->FormatoDinero($valorCuota + $ValorAgregadoSiguienteCuota) : $Obj_Reset->FormatoDinero($valorCuota) ?></p>
                                             </td>
                                             <td>
                                                 <p>Pendiente</p>

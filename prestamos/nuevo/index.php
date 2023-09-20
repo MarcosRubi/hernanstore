@@ -39,6 +39,8 @@ if (!isset($_GET['id'])) {
     <!-- Select2 -->
     <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="../../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="../../plugins/summernote/summernote-bs4.min.css">
     <!-- DataTables -->
     <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -105,13 +107,6 @@ if (!isset($_GET['id'])) {
                                                     </div>
 
                                                     <div class="form-group container-fluid">
-                                                        <label for="txtInteres" class="">% de interés</label>
-                                                        <div class="form-group ">
-                                                            <input type="number" class="form-control update-table" placeholder="0.0" name="txtInteres">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group container-fluid">
                                                         <label for="txtIdPlazoPago" class="">Período de pagos</label>
                                                         <div class="form-group">
                                                             <select class="form-control select2" style="width: 100%;" name="txtIdPlazoPago" onchange="javascript:changeData();">
@@ -148,12 +143,49 @@ if (!isset($_GET['id'])) {
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group container-fluid icheck-primary">
-                                                        <input type="checkbox" id="chkRecalcular" name="chkRecalcular" onchange="javascript:changeData();">
-                                                        <label for="chkRecalcular" style="cursor: pointer;">
-                                                            Recalcular interés cada mes
-                                                        </label>
+                                                    <div class="form-group container-fluid">
+                                                        <label for="txtInteres" class="">Interés (Ganancia)</label>
+                                                        <div class="form-group ">
+                                                            <input type="number" class="form-control update-table" placeholder="0.0" name="txtInteres">
+                                                        </div>
                                                     </div>
+
+                                                    <div class="card card-info collapsed-card">
+                                                        <div class="card-header">
+                                                            <h3 class="card-title">Asistencia para el cálculo de interés</h3>
+
+                                                            <div class="card-tools">
+                                                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                            <!-- /.card-tools -->
+                                                        </div>
+                                                        <!-- /.card-header -->
+                                                        <div class="card-body">
+                                                            <div class="form-group container-fluid">
+                                                                <label for="txtInteres" class="">% de interés</label>
+                                                                <div class="form-group ">
+                                                                    <input type="number" class="form-control update-table" placeholder="0.0" name="txtPorcentajeInteres">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group container-fluid icheck-primary">
+                                                                <input type="checkbox" id="chkRecalcular" name="chkRecalcular" onchange="javascript:changeData();">
+                                                                <label for="chkRecalcular" style="cursor: pointer;">
+                                                                    Recalcular interés cada mes
+                                                                </label>
+                                                            </div>
+                                                            <div id="tableInterestAssistant"></div>
+                                                        </div>
+                                                        <!-- /.card-body -->
+                                                    </div>
+
+                                                    <div class="form-group container-fluid">
+                                                        <label for="summernote" class="">Detalles sobre el préstamo</label>
+                                                        <textarea id="summernote" name="txtDetalles">
+                                                        </textarea>
+                                                    </div>
+
                                                 </div>
                                                 <!-- /.card-body -->
                                             </div>
@@ -169,20 +201,23 @@ if (!isset($_GET['id'])) {
                                                 <button class="btn btn-primary btn-lg btn-block" type="submit">Agregar préstamo</button>
                                             </div>
                                         </div>
-                                </form>
-                                <!-- /.form group -->
+                                        <!-- /.form group -->
+                                    </div>
+
+                                    <!-- /.card-body -->
                             </div>
 
-                            <!-- /.card-body -->
+                            </form>
+
+
+                            <!-- /.card -->
+                            <div class="mb-3 rounded">
+                                <div id="table-results"></div>
+                            </div>
                         </div>
-                        <!-- /.card -->
-                        <div class="mb-3 rounded">
-                            <div id="table-results"></div>
-                        </div>
+                        <!-- /.row -->
                     </div>
-                    <!-- /.row -->
-                </div>
-                <!-- /.container-fluid -->
+                    <!-- /.container-fluid -->
             </section>
             <!-- /.content -->
         </div>
@@ -217,6 +252,8 @@ if (!isset($_GET['id'])) {
     <script src="../../plugins/dropzone/min/dropzone.min.js"></script>
     <!-- Select2 -->
     <script src="../../plugins/select2/js/select2.full.min.js"></script>
+    <!-- Summernote -->
+    <script src="../../plugins/summernote/summernote-bs4.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../../dist/js/adminlte.min.js"></script>
     <!-- Page specific script -->
@@ -226,6 +263,7 @@ if (!isset($_GET['id'])) {
         $(function() {
             // Summernote
             $('.select2').select2()
+            $('#summernote').summernote()
 
             $('#dateStart').datetimepicker({
                 format: 'DD-MM-YYYY'
@@ -269,7 +307,19 @@ if (!isset($_GET['id'])) {
                     $('#table-results').html(response);
                 }
             });
+
+            $.ajax({
+                url: '../../utils/tableInterestAssistan.php',
+                method: 'POST',
+                data: {
+                    formData
+                },
+                success: function(response) {
+                    $('#tableInterestAssistant').html(response);
+                }
+            });
         }
+
 
         // Obtén todos los elementos con la clase "input-cambio"
         const camposCambio = document.querySelectorAll('.update-table');

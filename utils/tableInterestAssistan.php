@@ -49,7 +49,8 @@ if (isset($_POST['formData']['chkRecalcular'])) {
 } else {
     $total = $Obj_Reset->CalcularMontoCuotas($valorPrestamo, $numeroCuotas, $gananciaPorcentajeInteres);
 }
-$mediaTotal = ($valorPrestamo + $gananciaInteres) /  $numeroCuotas;
+$interes = $total['interes'];
+$valor = $total['valor'];
 ?>
 <div class="pt-3 ">
     <!-- Main content -->
@@ -58,17 +59,15 @@ $mediaTotal = ($valorPrestamo + $gananciaInteres) /  $numeroCuotas;
             <div class="row">
                 <div class="col-12">
                     <div class="card card-secondary">
-                        <div class="card-header">
-                            <h3 class="card-title w-100 font-weight-bold text-center">Tabla de cuotas</h3>
-                        </div>
                         <div class="card-body">
-                            <table id="table-payments" class="table table-bordered table-hover">
+                            <span>Capital prestado / número de cuotas</span>
+                            <p><?= $Obj_Reset->FormatoDinero($valorPrestamo) ?> / <?= $numeroCuotas ?> = <b> <?= $Obj_Reset->FormatoDinero($valorPrestamo / $numeroCuotas) ?></b>, este es el valor que se resta en cada cuota </p>
+                            <table id="table-assistan" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th># Cuota</th>
-                                        <th>Fecha de pago</th>
-                                        <th>Valor cuota</th>
-                                        <th>Estado</th>
+                                        <th>Saldo restante</th>
+                                        <th>Interés</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -78,16 +77,43 @@ $mediaTotal = ($valorPrestamo + $gananciaInteres) /  $numeroCuotas;
                                                 <p><?= $i ?></p>
                                             </td>
                                             <td>
-                                                <p><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($fechasPagos[$i - 1])) ?></p>
+                                                <p><?= $Obj_Reset->FormatoDinero($valor[$i - 1]) ?></p>
                                             </td>
                                             <td>
-                                                <p><?= $Obj_Reset->FormatoDinero($mediaTotal) ?></p>
-                                            </td>
-                                            <td>
-                                                <p>Pendiente</p>
+                                                <?php
+                                                if (isset($_POST['formData']['chkRecalcular'])) {
+                                                ?>
+                                                    <p><?= $Obj_Reset->FormatoDinero($interes[$i - 1]) ?></p>
+                                                    <?php
+                                                } else {
+                                                    if ($i === 1) {
+                                                    ?>
+                                                        <p><?= $Obj_Reset->FormatoDinero($interes) ?></p>
+                                                <?php
+                                                    }
+                                                }
+                                                ?>
                                             </td>
                                         </tr>
                                     <?php  } ?>
+                                    <tr>
+
+                                        <?php
+                                        if (isset($_POST['formData']['chkRecalcular'])) {
+                                        ?>
+                                            <td colspan="3">
+                                                <p class="text-lg text-center">Ganancia en interés: <b>$<?= array_sum($interes) ?> </b></p>
+                                            </td>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <td colspan="3">
+                                                <p class="text-lg text-center">Ganancia en interés: <b>$<?= $interes ?> </b></p>
+                                            </td>
+                                        <?php
+                                        }
+                                        ?>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -104,7 +130,7 @@ $mediaTotal = ($valorPrestamo + $gananciaInteres) /  $numeroCuotas;
         // Summernote
         $('.select2').select2()
     })
-    $('#table-payments').DataTable({
+    $('#table-assistan').DataTable({
         "paging": false,
         "lengthChange": false,
         "searching": false,

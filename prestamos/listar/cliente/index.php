@@ -93,10 +93,8 @@ if (!isset($_GET['id'])) {
                                                 <th>Capital prestado</th>
                                                 <th>Ganancias previstas</th>
                                                 <th># de cuotas</th>
-                                                <th>% de interés</th>
                                                 <th>Estado</th>
                                                 <th>Periodo de pagos</th>
-                                                <th>Interés mensual</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -116,29 +114,23 @@ if (!isset($_GET['id'])) {
                                                         <p><?= $DatosPrestamos['num_cuotas'] ?></p>
                                                     </td>
                                                     <td>
-                                                        <p><?= $DatosPrestamos['porcentaje_interes'] ?>%</p>
-                                                    </td>
-                                                    <td>
                                                         <p><?= $DatosPrestamos['nombre_estado'] ?></p>
                                                     </td>
                                                     <td>
                                                         <p><?= $DatosPrestamos['plazo_pago'] ?></p>
                                                     </td>
-                                                    <td class="">
-                                                        <p><?= $DatosPrestamos['recalcular_interes'] === 'S' ? 'SI' : 'NO' ?></p>
-                                                    </td>
 
                                                     <td>
                                                         <?php if (intval($DatosPrestamos['id_estado']) === 3) {
                                                         ?>
-                                                            <a href="#" class=" btn bg-success mx-2 my-2" title="Pago cuota" onclick="javascript:PagoCuota();">
+                                                            <a href="#" class=" btn bg-success mx-2 my-2" title="Pago cuota" onclick="javascript:pagoCuota(<?= $DatosPrestamos['id_prestamo'] ?>);">
                                                                 <i class="fa fa-hand-holding-usd"></i>
                                                             </a>
                                                         <?php } else { ?>
                                                             <div style="min-width:60px;display:inline-block;"></div>
                                                         <?php }
                                                         ?>
-                                                        <a href="<?= $_SESSION['path'] . '/prestamos/imprimir/?id=' . $DatosPrestamos['id_prestamo'] ?>" target="_blank" class=" btn btn-info mx-2 my-2" title="Imprimir" onclick="javascript:imprimirPrestamo();">
+                                                        <a href="#" class=" btn btn-info mx-2 my-2" title="Imprimir" onclick="javascript:imprimirPrestamo(<?= $DatosPrestamos['id_prestamo'] ?>);">
                                                             <i class="fa fa-print"></i>
                                                         </a>
                                                         <?php if (intval($_SESSION['id_rol']) <= 3) {
@@ -236,6 +228,16 @@ if (!isset($_GET['id'])) {
 
         function editarPrestamo(id) {
             window.location.href = '<?= $_SESSION['path'] ?>/prestamos/actualizar/?id=' + id
+        }
+
+        function imprimirPrestamo(id) {
+            var nuevaVentana = window.open('<?= $_SESSION['path'] ?>/prestamos/imprimir/?id=' + id, '_blank');
+            nuevaVentana.focus();
+        }
+
+
+        function pagoCuota(id) {
+            window.location.href = '<?= $_SESSION['path'] ?>/prestamos/pago-cuota/?id=' + id
         }
     </script>
 

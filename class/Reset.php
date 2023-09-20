@@ -78,33 +78,43 @@ class Reset extends DB
     {
 
         $ganancia = ($valorPrestamo * $porcentajeInteres) / 100;
-        $media = ($valorPrestamo + $ganancia) / $numeroCuotas;
+        $valorCuotaRestante[] = $valorPrestamo;
+        $valorBase = $valorPrestamo / $numeroCuotas;
+
+        $saldoRestante = $valorPrestamo;
 
 
-        return number_format($media, 2);
+        // Calcula el monto de cada cuota y almacénalo en arreglos numéricos
+        for ($i = 1; $i <= $numeroCuotas; $i++) {
+            $saldoRestante -= $valorBase;
+            $valorCuotaRestante[] = number_format($saldoRestante, 2);
+        }
+
+        return array('valor' => $valorCuotaRestante, 'interes' => $ganancia);
     }
-    function calcularMontoCuotasConInteresMensual($valorPrestamo, $numeroCuotas, $porcentajeInteres, $cuotasElegidas)
+    function calcularMontoCuotasConInteresMensual($valorPrestamo, $numeroCuotas, $porcentajeInteres, $cuotasElegidas, $valorCuotasRestantes = 0)
     {
         $interes = [];
+        $saldo = [$valorPrestamo];
 
         // Calcula el valor base para cada cuota (igualmente dividido)
         $valorBase = $valorPrestamo / $numeroCuotas;
 
         // Inicializa el saldo restante
-        $saldoRestante = $valorPrestamo;
+        $saldoRestante = $valorPrestamo + $valorCuotasRestantes;
 
-        // Calcula el monto de cada cuota y almacénalo en un arreglo
+        // Calcula el monto de cada cuota y almacénalo en arreglos numéricos
         for ($i = 1; $i <= $numeroCuotas; $i++) {
             if (in_array($i, $cuotasElegidas)) {
-                $interes[] = ($saldoRestante * $porcentajeInteres) / 100;
+                $interes[] = number_format(($saldoRestante * $porcentajeInteres) / 100, 2);
+            } else {
+                $interes[] = number_format(0, 2);
             }
             $saldoRestante -= $valorBase;
+            $saldo[] = number_format($saldoRestante, 2);
         }
 
-        // Calcula la media de las cuotas
-        $media = ($valorPrestamo + array_sum($interes)) / $numeroCuotas;
-
-        return number_format($media, 2);
+        return array('interes' => $interes, 'valor' => $saldo);
     }
     function calcularInteresMensual($valorPrestamo, $numeroCuotas, $porcentajeInteres, $cuotasElegidas)
     {
