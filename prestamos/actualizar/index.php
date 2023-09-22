@@ -99,9 +99,15 @@ if (!isset($_GET['id'])) {
                                                     <h3 class=" text-center">Información del préstamo</h3>
 
                                                     <div class="form-group container-fluid">
-                                                        <label for="txtFecha" class="">Fecha del préstamo</label>
-                                                        <div class="form-group ">
-                                                            <input type="text" class="form-control" name="txtFecha" value="<?= $Obj_Reset->FechaInvertir(substr($DatosPrestamo['fecha_prestamo'], 0, -9)) ?>" readonly>
+                                                        <label for="txtFecha" class="">Fecha préstamo</label>
+                                                        <div class="form-group">
+                                                            <div class="input-group date" id="dateStart" data-target-input="nearest">
+                                                                <input type="text" class="form-control datetimepicker-input" data-target="#dateStart" data-inputmask-alias="datetime" placeholder="dd-mm-yyyy" name="txtFechaInicio" id="date-start" value="<?= $Obj_Reset->FechaInvertir($DatosPrestamo['fecha_prestamo']) ?>">
+                                                                <div class="input-group-append" data-target="#dateStart" data-toggle="datetimepicker">
+                                                                    <div class="input-group-text"><i class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
 
@@ -128,9 +134,9 @@ if (!isset($_GET['id'])) {
                                                     <div class="form-group container-fluid">
                                                         <label for="txtFecha" class="">Fecha pago de primer cuota</label>
                                                         <div class="form-group">
-                                                            <div class="input-group date" id="dateStart" data-target-input="nearest">
-                                                                <input type="text" class="form-control datetimepicker-input" data-target="#dateStart" data-inputmask-alias="datetime" placeholder="dd-mm-yyyy" name="txtFechaInicio" id="date-start" value="<?= $Obj_Reset->FechaInvertir($DatosPrestamo['fecha_primer_pago']) ?>">
-                                                                <div class="input-group-append" data-target="#dateStart" data-toggle="datetimepicker">
+                                                            <div class="input-group date" id="dateStartPay" data-target-input="nearest">
+                                                                <input type="text" class="form-control datetimepicker-input" data-target="#dateStartPay" data-inputmask-alias="datetime" placeholder="dd-mm-yyyy" name="txtFechaPrimerPago" id="date-start-pay" value="<?= $Obj_Reset->FechaInvertir($DatosPrestamo['fecha_primer_pago']) ?>">
+                                                                <div class="input-group-append" data-target="#dateStartPay" data-toggle="datetimepicker">
                                                                     <div class="input-group-text"><i class="fa fa-calendar"></i>
                                                                     </div>
                                                                 </div>
@@ -271,7 +277,10 @@ if (!isset($_GET['id'])) {
             $('#dateStart').datetimepicker({
                 format: 'DD-MM-YYYY'
             });
-            $('#date-start').on('input', function() {
+            $('#dateStartPay').datetimepicker({
+                format: 'DD-MM-YYYY'
+            });
+            $('#date-start-pay').on('input', function() {
                 changeData();
             });
         })

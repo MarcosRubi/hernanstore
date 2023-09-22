@@ -16,6 +16,11 @@ $id_prestamo = $_GET['id'];
 $Res_DatosPrestamos = $Obj_Prestamos->ListarDatosParaDocumento($id_prestamo);
 $DatosPrestamo = $Res_DatosPrestamos->fetch_assoc();
 
+$Res_CapitalPagado = $Obj_Cuotas->CapitalPagado($id_prestamo);
+
+$capitalPagado = $Res_CapitalPagado->fetch_assoc()['total'];
+$CapitalRestante = $DatosPrestamo['capital_prestamo'] + $DatosPrestamo['ganancias'] - $capitalPagado;
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -70,7 +75,8 @@ $DatosPrestamo = $Res_DatosPrestamos->fetch_assoc();
                                                 <tr>
                                                     <th>Cliente</th>
                                                     <th>Fecha Solicitud</th>
-                                                    <th>Capital</th>
+                                                    <th>Monto a pagar</th>
+                                                    <th>Monto restante</th>
                                                     <th>Cuotas</th>
                                                     <th>Período Pagos</th>
                                                     <th>Estado</th>
@@ -78,9 +84,10 @@ $DatosPrestamo = $Res_DatosPrestamos->fetch_assoc();
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td><?= $DatosPrestamo['nombre_cliente'] ?></td>
-                                                    <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir(substr($DatosPrestamo['fecha_prestamo'], 0, -9))) ?></td>
-                                                    <td><?= $Obj_Reset->FormatoDinero($DatosPrestamo['capital_prestamo']) ?></td>
+                                                    <td><a href="<?= $_SESSION['path'] ?>/prestamos/listar/cliente/?id=<?= $DatosPrestamo['id_cliente'] ?>"><?= $DatosPrestamo['nombre_cliente'] ?></a></td>
+                                                    <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamo['fecha_prestamo'])) ?></td>
+                                                    <td><?= $Obj_Reset->FormatoDinero($DatosPrestamo['capital_prestamo'] + $DatosPrestamo['ganancias']) ?></td>
+                                                    <td><?= $Obj_Reset->FormatoDinero($CapitalRestante) ?></td>
                                                     <td><?= $DatosPrestamo['num_cuotas'] ?></td>
                                                     <td><?= $DatosPrestamo['plazo_pago'] ?></td>
                                                     <td><?= $DatosPrestamo['nombre_estado'] ?></td>

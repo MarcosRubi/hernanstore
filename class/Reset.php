@@ -22,7 +22,9 @@ class Reset extends DB
         if ($content === '') {
             return "$0.0";
         }
-        return "$" . number_format($content, 2);
+
+        $valor = floatval(str_replace(',', '', $content));
+        return "$" . number_format($valor, 2);
     }
 
     public function ReemplazarMes($fecha)

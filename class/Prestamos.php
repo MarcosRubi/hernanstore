@@ -4,6 +4,8 @@ class Prestamos extends DB
     public $capital_prestamo;
     public $num_cuotas;
     public $fecha_primer_pago;
+    public $fecha_siguiente_pago;
+    public $fecha_prestamo;
     public $ganancias;
     public $valor_cuota;
     public $detalles;
@@ -41,7 +43,7 @@ class Prestamos extends DB
     }
     public function listarEstadosCuotas()
     {
-        $query = "SELECT * FROM vta_listar_estados_cuotas";
+        $query = "SELECT * FROM vta_listar_estados_cuotas ORDER BY estado_cuota DESC";
         return $this->EjecutarQuery($query);
     }
 
@@ -57,6 +59,8 @@ class Prestamos extends DB
             capital_prestamo,
             num_cuotas,
             fecha_primer_pago,
+            fecha_siguiente_pago,
+            fecha_prestamo,
             ganancias,
             valor_cuota,
             detalles,
@@ -67,6 +71,8 @@ class Prestamos extends DB
             '" . $this->capital_prestamo . "',
             '" . $this->num_cuotas . "',
             '" . $this->fecha_primer_pago . "',
+            '" . $this->fecha_primer_pago . "',
+            '" . $this->fecha_prestamo . "',
             '" . $this->ganancias . "',
             '" . $this->valor_cuota . "',
             '" . $this->detalles . "',
@@ -104,10 +110,29 @@ class Prestamos extends DB
         num_cuotas = '" . $this->num_cuotas . "',
         detalles = '" . $this->detalles . "',
         fecha_primer_pago = '" . $this->fecha_primer_pago . "',
+        fecha_prestamo = '" . $this->fecha_prestamo . "',
         ganancias = '" . $this->ganancias . "',
         id_estado = '" . $this->id_estado . "',
         id_plazo_pago = '" . $this->id_plazo_pago . "',
         valor_cuota = '" . $this->valor_cuota . "' 
+        WHERE id_prestamo='" . $id . "' ";
+
+        return $this->EjecutarQuery($query);
+    }
+    public function ActualizarNumCuotas($id)
+    {
+        $query = "UPDATE tbl_prestamos SET 
+        num_cuotas = '" . $this->num_cuotas . "',
+        id_estado = '4'
+        WHERE id_prestamo='" . $id . "' ";
+
+        return $this->EjecutarQuery($query);
+    }
+
+    public function ActualizarFechaSiguentePago($fecha, $id)
+    {
+        $query = "UPDATE tbl_prestamos SET 
+        fecha_siguiente_pago = '" . $fecha . "'
         WHERE id_prestamo='" . $id . "' ";
 
         return $this->EjecutarQuery($query);

@@ -51,6 +51,7 @@ if (isset($_POST['formData']['chkRecalcular'])) {
 }
 $interes = $total['interes'];
 $valor = $total['valor'];
+
 ?>
 <div class="pt-3 ">
     <!-- Main content -->
@@ -58,10 +59,21 @@ $valor = $total['valor'];
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <div class="card card-secondary">
+                    <div class="card card-secondary" style="box-shadow: none;">
                         <div class="card-body">
                             <span>Capital prestado / número de cuotas</span>
                             <p><?= $Obj_Reset->FormatoDinero($valorPrestamo) ?> / <?= $numeroCuotas ?> = <b> <?= $Obj_Reset->FormatoDinero($valorPrestamo / $numeroCuotas) ?></b>, este es el valor que se resta en cada cuota </p>
+                            <?php
+                            if (isset($_POST['formData']['chkRecalcular'])) {
+                            ?>
+                                <p class="text-lg text-center">Ganancia en interés: <b>$<?= array_sum($interes) ?> </b></p>
+                            <?php
+                            } else {
+                            ?>
+                                <p class="text-lg text-center">Ganancia en interés: <b>$<?= $interes ?> </b></p>
+                            <?php
+                            }
+                            ?>
                             <table id="table-assistan" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
@@ -96,24 +108,6 @@ $valor = $total['valor'];
                                             </td>
                                         </tr>
                                     <?php  } ?>
-                                    <tr>
-
-                                        <?php
-                                        if (isset($_POST['formData']['chkRecalcular'])) {
-                                        ?>
-                                            <td colspan="3">
-                                                <p class="text-lg text-center">Ganancia en interés: <b>$<?= array_sum($interes) ?> </b></p>
-                                            </td>
-                                        <?php
-                                        } else {
-                                        ?>
-                                            <td colspan="3">
-                                                <p class="text-lg text-center">Ganancia en interés: <b>$<?= $interes ?> </b></p>
-                                            </td>
-                                        <?php
-                                        }
-                                        ?>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>

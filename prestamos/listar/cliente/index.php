@@ -63,9 +63,13 @@ if (!isset($_GET['id'])) {
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
-                                <div class="card-header">
+                                <div class="card-header d-flex align-items-center justify-content-between">
                                     <?php if ($Res_Prestamos->num_rows === 0) { ?>
-                                        <h3 class="card-title">No hay préstamos realizados para este cliente</h3>
+                                        <h3 class="card-title flex-grow-1">No hay préstamos realizados para este cliente</h3>
+                                        <button class="btn btn-primary" onclick="javascript:nuevoPrestamo(<?= $DatosCliente['id_cliente'] ?>)">Crear nuevo préstamo</button>
+                                    <?php } else { ?>
+                                        <div class="flex-grow-1"></div>
+                                        <button class="btn btn-primary" onclick="javascript:nuevoPrestamo(<?= $DatosCliente['id_cliente'] ?>)">Crear nuevo préstamo</button>
                                     <?php } ?>
                                 </div>
                                 <!-- /.card-header -->
@@ -102,7 +106,7 @@ if (!isset($_GET['id'])) {
                                             <?php while ($DatosPrestamos = $Res_Prestamos->fetch_assoc()) { ?>
                                                 <tr>
                                                     <td>
-                                                        <p><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir(substr($DatosPrestamos['fecha_prestamo'], 0, -9))) ?></p>
+                                                        <p><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamos['fecha_prestamo'])) ?></p>
                                                     </td>
                                                     <td>
                                                         <p><?= $Obj_Reset->FormatoDinero($DatosPrestamos['capital_prestamo']) ?></p>
@@ -233,6 +237,10 @@ if (!isset($_GET['id'])) {
         function imprimirPrestamo(id) {
             var nuevaVentana = window.open('<?= $_SESSION['path'] ?>/prestamos/imprimir/?id=' + id, '_blank');
             nuevaVentana.focus();
+        }
+
+        function nuevoPrestamo(id) {
+            window.location.href = '<?= $_SESSION['path'] ?>/prestamos/nuevo/?id=' + id
         }
 
 

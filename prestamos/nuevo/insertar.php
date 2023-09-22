@@ -8,7 +8,6 @@ require_once '../../class/Reset.php';
 $Obj_Prestamos = new Prestamos();
 $Obj_Reset = new Reset();
 
-var_dump($_POST);
 //VALIDANDO CAMPOS NO VACIOS
 if (trim($_POST['txtValor']) === '') {
     $_SESSION['msg'] = 'Ingrese el monto del préstamo.';
@@ -39,7 +38,8 @@ $Obj_Prestamos->ganancias = doubleval(trim($_POST['txtInteres']));
 $Obj_Prestamos->capital_prestamo = doubleval(trim(strip_tags($_POST['txtValor'])));
 $Obj_Prestamos->num_cuotas = intval(trim(strip_tags($_POST['txtNumCuotas'])));
 $Obj_Prestamos->detalles = trim($_POST['txtDetalles']);
-$Obj_Prestamos->fecha_primer_pago = $Obj_Reset->FechaInvertirGuardar(trim(strip_tags($_POST['txtFechaInicio'])));
+$Obj_Prestamos->fecha_primer_pago = $Obj_Reset->FechaInvertirGuardar(trim(strip_tags($_POST['txtFechaPrimerPago'])));
+$Obj_Prestamos->fecha_prestamo = $Obj_Reset->FechaInvertirGuardar(trim(strip_tags($_POST['txtFechaInicio'])));
 $Obj_Prestamos->id_estado = intval(trim(strip_tags($_POST['txtIdEstado'])));
 $Obj_Prestamos->id_cliente = intval(trim(strip_tags($_POST['txtIdCliente'])));
 $Obj_Prestamos->id_plazo_pago = intval(trim(strip_tags($_POST['txtIdPlazoPago'])));

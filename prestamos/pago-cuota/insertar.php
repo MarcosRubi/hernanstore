@@ -2,9 +2,11 @@
 require_once '../../func/LoginValidator.php';
 require_once '../../bd/bd.php';
 require_once '../../class/Cuotas.php';
+require_once '../../class/Prestamos.php';
 require_once '../../class/Reset.php';
 
 
+$Obj_Prestamos = new Prestamos();
 $Obj_Cuotas = new Cuotas();
 $Obj_Reset = new Reset();
 
@@ -39,6 +41,9 @@ $Obj_Cuotas->num_cuota = intval(trim(strip_tags($_POST['txtNumCuota'])));
 $Obj_Cuotas->fecha_pago = $Obj_Reset->FechaInvertirGuardar(trim(strip_tags($_POST['txtFechaPago'])));
 $Obj_Cuotas->id_estado_cuota = intval(trim(strip_tags($_POST['txtIdEstadoCuota'])));
 $Obj_Cuotas->id_prestamo = intval(trim(strip_tags($_POST['txtIdPrestamo'])));
+
+$fechaSiguientePago = $Obj_Reset->FechaInvertirGuardar(trim(strip_tags($_POST['txtFechaSiguientePago'])));
+$Obj_Prestamos->ActualizarFechaSiguentePago($fechaSiguientePago, intval(trim(strip_tags($_POST['txtIdPrestamo']))));
 
 $Res_Cuotas = $Obj_Cuotas->Insertar();
 

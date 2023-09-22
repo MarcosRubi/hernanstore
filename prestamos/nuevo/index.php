@@ -73,7 +73,7 @@ if (!isset($_GET['id'])) {
                                     <h3 class="card-title w-100 font-weight-bold text-center">Agregar nuevo préstamo</h3>
                                 </div>
                                 <form action="./insertar.php" method="post" class="card-body" id="frmNuevoPrestamo">
-                                    <div class="px-2 mb-3 rounded" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+                                    <div class="px-2 mb-3 rounded">
                                         <div class="d-flex flex-wrap flex-md-nowrap pt-3">
                                             <!-- Cliente -->
                                             <div class="form-group mx-1 container-fluid">
@@ -86,7 +86,7 @@ if (!isset($_GET['id'])) {
                                                 <input type="number" class="form-control update-table" placeholder="0.0" name="txtValor">
                                             </div>
                                         </div>
-                                        <div class=" mb-3 p-3  rounded" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+                                        <div class=" mb-3 p-3  rounded">
                                             <div class="card">
                                                 <!-- /.card-header -->
                                                 <div class="card-body py-2 px-3">
@@ -94,8 +94,14 @@ if (!isset($_GET['id'])) {
 
                                                     <div class="form-group container-fluid">
                                                         <label for="txtFecha" class="">Fecha del préstamo</label>
-                                                        <div class="form-group ">
-                                                            <input type="text" class="form-control" name="txtFecha" value="<?= date('d-m-Y') ?>" readonly>
+                                                        <div class="form-group">
+                                                            <div class="input-group date" id="dateStart" data-target-input="nearest">
+                                                                <input type="text" class="form-control datetimepicker-input" data-target="#dateStart" data-inputmask-alias="datetime" placeholder="dd-mm-yyyy" name="txtFechaInicio" id="date-start" value="<?= date('d-m-Y') ?>">
+                                                                <div class=" input-group-append" data-target="#dateStart" data-toggle="datetimepicker">
+                                                                    <div class="input-group-text"><i class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
 
@@ -121,9 +127,9 @@ if (!isset($_GET['id'])) {
                                                     <div class="form-group container-fluid">
                                                         <label for="txtFecha" class="">Fecha pago de primer cuota</label>
                                                         <div class="form-group">
-                                                            <div class="input-group date" id="dateStart" data-target-input="nearest">
-                                                                <input type="text" class="form-control datetimepicker-input" data-target="#dateStart" data-inputmask-alias="datetime" placeholder="dd-mm-yyyy" name="txtFechaInicio" id="date-start">
-                                                                <div class="input-group-append" data-target="#dateStart" data-toggle="datetimepicker">
+                                                            <div class="input-group date" id="dateStartPay" data-target-input="nearest">
+                                                                <input type="text" class="form-control datetimepicker-input" data-target="#dateStartPay" data-inputmask-alias="datetime" placeholder="dd-mm-yyyy" name="txtFechaPrimerPago" id="date-start-pay">
+                                                                <div class="input-group-append" data-target="#dateStartPay" data-toggle="datetimepicker">
                                                                     <div class="input-group-text"><i class="fa fa-calendar"></i>
                                                                     </div>
                                                                 </div>
@@ -265,10 +271,13 @@ if (!isset($_GET['id'])) {
             $('.select2').select2()
             $('#summernote').summernote()
 
+            $('#dateStartPay').datetimepicker({
+                format: 'DD-MM-YYYY'
+            });
             $('#dateStart').datetimepicker({
                 format: 'DD-MM-YYYY'
             });
-            $('#date-start').on('input', function() {
+            $('#date-start-pay').on('input', function() {
                 changeData();
             });
         })
