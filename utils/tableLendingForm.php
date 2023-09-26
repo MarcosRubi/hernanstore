@@ -36,14 +36,17 @@ $ValorAgregadoSiguienteCuota = $CapitalRestante - ($DatosPrestamo['valor_cuota']
 
 if ($ValorAgregadoSiguienteCuota <= 0) {
     if ($CapitalRestante > $DatosPrestamo['valor_cuota']) {
-        $ValorAgregadoSiguienteCuota =  $DatosPrestamo['valor_cuota'];
+        if ($DatosPrestamo['valor_cuota'] + $ValorAgregadoSiguienteCuota <= 0) {
+            $ValorAgregadoSiguienteCuota = 0;
+        } else {
+            $ValorAgregadoSiguienteCuota =  $DatosPrestamo['valor_cuota'] + $ValorAgregadoSiguienteCuota;
+        }
     } else {
         $ValorAgregadoSiguienteCuota =  $CapitalRestante;
     }
 } else {
     $ValorAgregadoSiguienteCuota = $ValorAgregadoSiguienteCuota + $DatosPrestamo['valor_cuota'];
 }
-
 
 
 
@@ -82,7 +85,24 @@ if ($ValorAgregadoSiguienteCuota <= 0) {
                                             </div>
                                             <!-- /.card-header -->
                                             <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="form-group container-fluid">
+                                                        <span class="font-weight-bold text-lg"># cuota</span>
+                                                    </div>
+                                                    <div class="form-group container-fluid">
+                                                        <span class="font-weight-bold text-lg">Fecha de pago</span>
+                                                    </div>
+                                                    <div class="form-group container-fluid">
+                                                        <span class="font-weight-bold text-lg">Valor cuota</span>
+                                                    </div>
+                                                    <div class="form-group container-fluid">
+                                                        <span class="font-weight-bold text-lg">Estado</span>
+                                                    </div>
+                                                    <div class="d-flex align-items-center form-group">
+                                                        <span class="font-weight-bold text-lg mx-4">Acciones</span>
 
+                                                    </div>
+                                                </div>
                                                 <?php
                                                 if ($Res_DatosCuotas->num_rows > 0) {
                                                     while ($DatosCuota = $Res_DatosCuotas->fetch_assoc()) {

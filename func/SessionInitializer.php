@@ -19,7 +19,6 @@ if (isset($_POST['chkRemember'])) {
 }
 $_SESSION['path'] = $BASE_URL;
 
-var_dump($Datos_Empleado);
 if ($Res_Empleado->num_rows > 0 && password_verify($_POST['txtContrasenna'], $Datos_Empleado['contrasenna'])) {
     $_SESSION['nombre_empleado'] = procesarCadena($Datos_Empleado['nombre_empleado']);
     $_SESSION['nombre_completo'] = $Datos_Empleado['nombre_empleado'];

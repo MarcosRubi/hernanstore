@@ -115,7 +115,7 @@ $primerFormato = [
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir(substr($DatosPrestamo['fecha_prestamo'], 0, -9))) ?></td>
+                                                    <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamo['fecha_prestamo'])) ?></td>
                                                     <td><?= $Obj_Reset->FormatoDinero($DatosPrestamo['capital_prestamo']) ?></td>
                                                     <td><?= $DatosPrestamo['num_cuotas'] ?></td>
                                                     <td><?= $Obj_Reset->FormatoDinero($DatosPrestamo['valor_cuota']) ?></td>

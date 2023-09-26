@@ -21,7 +21,7 @@ class Prestamos extends DB
 
     public function listarPrestamosPorcliente($id)
     {
-        $query = "SELECT * FROM vta_listar_prestamos WHERE id_cliente = '" . $id . "'";
+        $query = "SELECT * FROM vta_listar_prestamos WHERE id_cliente = '" . $id . "' ORDER BY fecha_prestamo DESC";
         return $this->EjecutarQuery($query);
     }
 

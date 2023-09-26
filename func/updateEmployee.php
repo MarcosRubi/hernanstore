@@ -1,6 +1,5 @@
 <?php
 require_once './LoginValidator.php';
-include './Message.php';
 
 require_once '../bd/bd.php';
 require_once '../class/Empleados.php';

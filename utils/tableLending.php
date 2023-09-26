@@ -14,14 +14,14 @@ $valorPrestamo = doubleval(trim($_POST['formData']['txtValor']));
 $numeroCuotas = intval(trim($_POST['formData']['txtNumCuotas']));
 
 
-if ($valorPrestamo === 0.0 || $numeroCuotas === 0 || trim($_POST['formData']['txtFechaInicio']) === '') {
+if ($valorPrestamo === 0.0 || $numeroCuotas === 0 || trim($_POST['formData']['txtFechaPrimerPago']) === '') {
     return;
 }
 
 $gananciaInteres = doubleval(trim($_POST['formData']['txtInteres']));
 $gananciaPorcentajeInteres = doubleval(trim($_POST['formData']['txtPorcentajeInteres']));
 $plazoEntrePagos = $Obj_Reset->PlazoEntrePagos(intval(trim($_POST['formData']['txtIdPlazoPago'])));
-$fechaPrimerPago = $Obj_Reset->FechaInvertirGuardar(trim($_POST['formData']['txtFechaInicio']));
+$fechaPrimerPago = $Obj_Reset->FechaInvertirGuardar(trim($_POST['formData']['txtFechaPrimerPago']));
 
 $fechasPagos = $Obj_Reset->GenerarFechasCuotas($fechaPrimerPago, $numeroCuotas, $plazoEntrePagos);
 

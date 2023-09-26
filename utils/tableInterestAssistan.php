@@ -66,10 +66,12 @@ $valor = $total['valor'];
                             <?php
                             if (isset($_POST['formData']['chkRecalcular'])) {
                             ?>
+                                <p class="text-lg text-center">Interés: <b><?= $gananciaPorcentajeInteres ?>% </b></p>
                                 <p class="text-lg text-center">Ganancia en interés: <b>$<?= array_sum($interes) ?> </b></p>
                             <?php
                             } else {
                             ?>
+                                <p class="text-lg text-center">Interés: <b><?= $gananciaPorcentajeInteres ?>% </b></p>
                                 <p class="text-lg text-center">Ganancia en interés: <b>$<?= $interes ?> </b></p>
                             <?php
                             }
