@@ -71,4 +71,30 @@ class Cuotas extends DB
         $query = "UPDATE tbl_cuotas SET Eliminado='S' WHERE id_cuota='" . $id . "'";
         return $this->EjecutarQuery($query);
     }
+
+    public function ObtenerIngresosPorMes()
+    {
+        $query = "SELECT
+                calendar.mes,
+                COALESCE(SUM(vta_listar_pagos.pago_cuota), 0) AS suma_cuotas
+            FROM (
+                SELECT CONCAT(YEAR(CURDATE()), '-01') AS mes
+                UNION SELECT CONCAT(YEAR(CURDATE()), '-02')
+                UNION SELECT CONCAT(YEAR(CURDATE()), '-03')
+                UNION SELECT CONCAT(YEAR(CURDATE()), '-04')
+                UNION SELECT CONCAT(YEAR(CURDATE()), '-05')
+                UNION SELECT CONCAT(YEAR(CURDATE()), '-06')
+                UNION SELECT CONCAT(YEAR(CURDATE()), '-07')
+                UNION SELECT CONCAT(YEAR(CURDATE()), '-08')
+                UNION SELECT CONCAT(YEAR(CURDATE()), '-09')
+                UNION SELECT CONCAT(YEAR(CURDATE()), '-10')
+                UNION SELECT CONCAT(YEAR(CURDATE()), '-11')
+                UNION SELECT CONCAT(YEAR(CURDATE()), '-12')
+            ) AS calendar
+            LEFT JOIN vta_listar_pagos
+            ON DATE_FORMAT(vta_listar_pagos.fecha_pago, '%Y-%m') = calendar.mes
+            GROUP BY calendar.mes
+            ORDER BY calendar.mes;";
+        return $this->EjecutarQuery($query);
+    }
 }

@@ -19,7 +19,6 @@ class Clientes extends DB
         $query = "SELECT * FROM vta_listar_clientes WHERE id_cliente='" . $id . "'";
         return $this->EjecutarQuery($query);
     }
-
     public function buscarCliente($content)
     {
         $query = "SELECT * FROM vta_listar_clientes WHERE 
@@ -66,6 +65,15 @@ class Clientes extends DB
     public function Eliminar($id)
     {
         $query = "UPDATE tbl_clientes SET Eliminado='S' WHERE id_cliente='" . $id . "'";
+        return $this->EjecutarQuery($query);
+    }
+
+    public function ObtenerClientesCreados($fechaInicio, $fechaFin)
+    {
+        $query = "SELECT
+        COALESCE(COUNT(tbl_clientes.id_cliente), 0) AS clientes_creados
+        FROM tbl_clientes
+        WHERE tbl_clientes.fecha_creado BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "';";
         return $this->EjecutarQuery($query);
     }
 }

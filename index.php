@@ -1,5 +1,16 @@
 <?php
 require_once './func/LoginValidator.php';
+require_once './bd/bd.php';
+require_once './class/prestamos.php';
+require_once './class/reset.php';
+
+$Obj_prestamos =  new Prestamos();
+$Obj_Reset =  new Reset();
+
+$Res_Prestamos = $Obj_prestamos->listarUltimosPrestamos();
+
+
+
 ?>
 
 
@@ -23,6 +34,9 @@ require_once './func/LoginValidator.php';
   <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <!-- JQuery -->
+  <script src="plugins/jquery/jquery.min.js"></script>
+
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -40,67 +54,29 @@ require_once './func/LoginValidator.php';
       <div class="content-header">
         <div class="container-fluid">
           <!-- Small boxes (Stat box) -->
+
           <div class="row">
-            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box bg-info">
-                <div class="inner">
-                  <h3>$1,380.00</h3>
-
-                  <p>Ganancias obtenidas</p>
+            <div class="card container-fluid">
+              <div class="card-header">
+                <h5 class="card-title">Estadísticas</h5>
+                <div class="card-tools">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                      <i class="fas fa-wrench"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" role="menu">
+                      <a href="#" onclick="javascript:updateDataCards(event,'day')" class="dropdown-item ">Datos de hoy</a>
+                      <a href="#" onclick="javascript:updateDataCards(event,'week')" class="dropdown-item">Datos de la semana</a>
+                      <a href="#" onclick="javascript:updateDataCards(event,'month')" class="dropdown-item">Datos del mes</a>
+                      <a href="#" onclick="javascript:updateDataCards(event,'year')" class="dropdown-item active">Datos del año</a>
+                    </div>
+                  </div>
                 </div>
-                <div class="icon">
-                  <i class="ion ion-cash"></i>
-                </div>
-                <a href="#" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
               </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box bg-olive">
-                <div class="inner">
-                  <h3>13</h3>
 
-                  <p>Préstamos completados</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-pie-graph"></i>
-                </div>
-                <a href="#" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
-              </div>
+              <div id="DataCards"></div>
+              <!-- ./col -->
             </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box bg-warning">
-                <div class="inner">
-                  <h3>14</h3>
-
-                  <p>Nuevos clientes</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-person-add"></i>
-                </div>
-                <a href="#" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
-              </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box bg-success">
-                <div class="inner">
-                  <h3>06</h3>
-
-                  <p>Nuevos préstamos</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-stats-bars"></i>
-                </div>
-                <a href="#" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
-              </div>
-            </div>
-            <!-- ./col -->
           </div>
           <!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -112,43 +88,8 @@ require_once './func/LoginValidator.php';
         <div class="container-fluid">
           <div class="row">
             <div class="py-3 col-lg-6">
-              <div class="card">
-                <div class="border-0 card-header">
-                  <div class="d-flex justify-content-between">
-                    <h3 class="card-title">Ingresos e inversión</h3>
-                    <a href="javascript:void(0);">Imprimir reporte</a>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <div class="d-flex">
-                    <p class="d-flex flex-column">
-                      <span class="text-lg text-bold">$9,230.00</span>
-                      <span>Ingresos e inversión del 2023</span>
-                    </p>
-                    <p class="ml-auto text-right d-flex flex-column">
-                      <span class="text-success">
-                        <i class="fas fa-arrow-up"></i> 33.1%
-                      </span>
-                      <span class="text-muted">Desde el mes pasado</span>
-                    </p>
-                  </div>
-                  <!-- /.d-flex -->
+              <?php require_once './components/Chart_investments_vs_expenses.php' ?>
 
-                  <div class="position-relative">
-                    <canvas id="sales-chart" height="198"></canvas>
-                  </div>
-
-                  <div class="flex-row d-flex justify-content-end">
-                    <span class="mr-2">
-                      <i class="fas fa-square text-primary"></i> Ingresos
-                    </span>
-
-                    <span>
-                      <i class="fas fa-square text-gray"></i> Inversión
-                    </span>
-                  </div>
-                </div>
-              </div>
               <!-- /.card -->
             </div>
             <!-- /.col-md-6 -->
@@ -168,111 +109,22 @@ require_once './func/LoginValidator.php';
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>
-                          <a href="#">
-                            <img src="dist/img/default-150x150.png" alt="Product 1" class="mr-2 img-circle img-size-32">
-                            Evelia Ruelas Sánchez
-                          </a>
-                        </td>
-                        <td>$130 USD</td>
-                        <td>
-                          <small class="mr-1 text-success">
-                            <i class="fas fa-arrow-up"></i>
-                            12%
-                          </small>
-                          $24.00
-                        </td>
-                        <td>
-                          <a href="#" class="text-muted">
-                            <i class="fas fa-search-dollar fa-lg"></i>
-                          </a>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <a href="#">
-                            <img src="dist/img/default-150x150.png" alt="Product 1" class="mr-2 img-circle img-size-32">
-                            Almendra Godoy Tamayo
-                          </a>
-                        </td>
-                        <td>$29 USD</td>
-                        <td>
-                          <small class="mr-1 text-warning">
-                            <i class="fas fa-arrow-down"></i>
-                            0.5%
-                          </small>
-                          123,234
-                        </td>
-                        <td>
-                          <a href="#" class="text-muted">
-                            <i class="fas fa-search-dollar fa-lg"></i>
-                          </a>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <a href="#">
-                            <img src="dist/img/default-150x150.png" alt="Product 1" class="mr-2 img-circle img-size-32">
-                            Alvin Valle Montez
-                          </a>
-                        </td>
-                        <td>$1,230 USD</td>
-                        <td>
-                          <small class="mr-1 text-danger">
-                            <i class="fas fa-arrow-down"></i>
-                            3%
-                          </small>
-                          198
-                        </td>
-                        <td>
-                          <a href="#" class="text-muted">
-                            <i class="fas fa-search-dollar fa-lg"></i>
-                          </a>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <a href="#">
-                            <img src="dist/img/default-150x150.png" alt="Product 1" class="mr-2 img-circle img-size-32">
-                            Jairo Linares Santiago
-                          </a>
-                        </td>
-                        <td>$199 USD</td>
-                        <td>
-                          <small class="mr-1 text-success">
-                            <i class="fas fa-arrow-up"></i>
-                            63%
-                          </small>
-                          87
-                        </td>
-                        <td>
-                          <a href="#" class="text-muted">
-                            <i class="fas fa-search-dollar fa-lg"></i>
-                          </a>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <a href="#">
-                            <img src="dist/img/default-150x150.png" alt="Product 1" class="mr-2 img-circle img-size-32">
-                            Troilo Viera Comejo
-                          </a>
-                        </td>
-                        <td>$199 USD</td>
-                        <td>
-                          <small class="mr-1 text-success">
-                            <i class="fas fa-arrow-up"></i>
-                            63%
-                          </small>
-                          87
-                        </td>
-                        <td>
-                          <a href="#" class="text-muted">
-                            <i class="fas fa-search-dollar fa-lg"></i>
-                          </a>
-                        </td>
-                      </tr>
+                      <?php while ($DatosPrestamos = $Res_Prestamos->fetch_assoc()) { ?>
+                        <tr>
+                          <td>
+                            <a href="<?= $_SESSION['path'] ?>/cliente/?id=<?= $DatosPrestamos['id_cliente'] ?>">
+                              <?= $DatosPrestamos['nombre_cliente'] ?>
+                            </a>
+                          </td>
+                          <td><?= $Obj_Reset->FormatoDinero($DatosPrestamos['capital_prestamo']) ?></td>
+                          <td><?= $Obj_Reset->FormatoDinero($DatosPrestamos['ganancias']) ?></td>
+                          <td>
+                            <a href="<?= $_SESSION['path'] ?>/prestamos/pago-cuota/?id=<?= $DatosPrestamos['id_prestamo'] ?>" class="text-muted">
+                              <i class="fas fa-search-dollar fa-lg"></i>
+                            </a>
+                          </td>
+                        </tr>
+                      <?php  } ?>
                     </tbody>
                   </table>
                 </div>
@@ -282,69 +134,8 @@ require_once './func/LoginValidator.php';
             <!-- /.col-md-6 -->
             <div class="col-md-12">
               <!-- The time line -->
-              <div class="timeline">
-                <!-- timeline time label -->
-                <div class="time-label">
-                  <span class="bg-red">14 Ago. 2023</span>
-                </div>
-                <!-- /.timeline-label -->
-                <!-- timeline item -->
-                <div>
-                  <i class="fas fa-hand-holding-usd bg-olive"></i>
-                  <div class="timeline-item">
-                    <span class="time"><i class="fas fa-clock"></i> 12:42 PM</span>
-                    <h3 class="timeline-header"><a href="#">Evelia Ruelas Sánchez</a> ha realizado un abono</h3>
-                  </div>
-                </div>
-                <!-- END timeline item -->
-                <!-- timeline item -->
-                <div>
-                  <i class="fas fa-check bg-orange"></i>
-                  <div class="timeline-item">
-                    <span class="time"><i class="fas fa-clock"></i> 12:28 PM</span>
-                    <h3 class="timeline-header no-border"><a href="#">Jairo Linares Santiago</a> préstamo aprobado
-                      ($350)</h3>
-                  </div>
-                </div>
-                <!-- END timeline item -->
-                <!-- timeline item -->
-                <div>
-                  <i class="fas fa-receipt bg-info"></i>
-                  <div class="timeline-item">
-                    <span class="time"><i class="fas fa-clock"></i> 12:05 PM</span>
-                    <h3 class="timeline-header"><a href="#">Alvin Valle Montez</a> ha solventado su deuda</h3>
-                  </div>
-                </div>
-                <!-- END timeline item -->
-                <!-- timeline time label -->
-                <div class="time-label">
-                  <span class="bg-green">Anteriormente</span>
-                </div>
-                <!-- /.timeline-label -->
-                <!-- timeline item -->
-                <div>
-                  <i class="fa fa-receipt bg-info"></i>
-                  <div class="timeline-item">
-                    <span class="time"><i class="fas fa-clock"></i> Hace 2 días</span>
-                    <h3 class="timeline-header"><a href="#"> Almendra Godoy Tamayo</a> ha solventado su deuda</h3>
-                  </div>
-                </div>
-                <!-- END timeline item -->
-                <!-- timeline item -->
-                <div>
-                  <i class="fas fa-handshake-slash bg-maroon"></i>
-
-                  <div class="timeline-item">
-                    <span class="time"><i class="fas fa-clock"></i> Hace 3 días</span>
-
-                    <h3 class="timeline-header"><a href="#">Troilo Viera Comejo</a> solicitud de préstamo denegada</h3>
-                  </div>
-                </div>
-                <!-- END timeline item -->
-                <div>
-                  <i class="fas fa-clock bg-gray"></i>
-                </div>
-              </div>
+              <?php #require_once './components/Timeline.php' 
+              ?>
             </div>
           </div>
           <!-- /.row -->
@@ -363,15 +154,12 @@ require_once './func/LoginValidator.php';
 
   <!-- REQUIRED SCRIPTS -->
 
-  <!-- jQuery -->
-  <script src="plugins/jquery/jquery.min.js"></script>
   <!-- Bootstrap -->
   <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- AdminLTE -->
   <script src="dist/js/adminlte.js"></script>
   <!-- Charts Scripts -->
   <script src="plugins/chart.js/Chart.min.js"></script>
-  <script src="dist/js/pages/dashboard3.js"></script>
   <!-- dropzonejs -->
   <script src="plugins/dropzone/min/dropzone.min.js"></script>
   <!-- Toastr -->
@@ -386,6 +174,8 @@ require_once './func/LoginValidator.php';
   <script>
     $(function() {
       <?php include 'utils/frmEditEmployeeValidate.php' ?>
+
+      updateDataCards(null, 'year');
     });
 
     <?php
@@ -398,6 +188,24 @@ require_once './func/LoginValidator.php';
 
     function logout(path) {
       window.location.href = path + '/func/SessionDestroy.php';
+    }
+
+    function updateDataCards(e, filterData) {
+      if (e) {
+        document.querySelector('a.active').classList.remove('active')
+        e.target.classList.add('active')
+      }
+
+      $.ajax({
+        type: 'POST',
+        url: '<?= $_SESSION['path'] ?>' + '/components/DataCards.php',
+        data: {
+          filter: filterData
+        },
+        success: function(response) {
+          $('#DataCards').html(response);
+        },
+      });
     }
   </script>
 

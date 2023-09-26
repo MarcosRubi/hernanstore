@@ -12,7 +12,7 @@ $Obj_Reset = new Reset();
 
 $Res_Clientes = $Obj_Clientes->buscarPorId($_GET['id']);
 $Res_Prestamos = $Obj_Prestamos->listarPrestamosPorcliente($_GET['id']);
-$Res_GananciasTotales = $Obj_Prestamos->ObtenerGananciasPorCliete($_GET['id']);
+$Res_GananciasTotales = $Obj_Prestamos->ObtenerGananciasPorCliente($_GET['id']);
 $Res_TotalMontoPrestamos = $Obj_Prestamos->ObtenerTotalCapitalPrestadoPorCliente($_GET['id']);
 
 $DatosCliente = $Res_Clientes->fetch_assoc();

@@ -18,19 +18,27 @@ class Prestamos extends DB
         $query = "SELECT * FROM vta_listar_prestamos WHERE id_prestamo = '" . $id . "'";
         return $this->EjecutarQuery($query);
     }
+    public function buscarEstadoCuotaPorId($id)
+    {
+        $query = "SELECT estado_cuota FROM vta_listar_estados_cuotas WHERE id_estado_cuota = '" . $id . "'";
+        return $this->EjecutarQuery($query);
+    }
 
     public function listarPrestamosPorcliente($id)
     {
         $query = "SELECT * FROM vta_listar_prestamos WHERE id_cliente = '" . $id . "' ORDER BY fecha_prestamo DESC";
         return $this->EjecutarQuery($query);
     }
-
+    public function listarUltimosprestamos()
+    {
+        $query = "SELECT * FROM vta_listar_ultimos_prestamos";
+        return $this->EjecutarQuery($query);
+    }
     public function ListarDatosParaDocumento($id)
     {
         $query = "SELECT * FROM vta_datos_prestamos WHERE id_prestamo = '" . $id . "'";
         return $this->EjecutarQuery($query);
     }
-
     public function listarEstadosPrestamos()
     {
         $query = "SELECT * FROM vta_listar_estados_prestamos";
@@ -44,12 +52,6 @@ class Prestamos extends DB
     public function listarEstadosCuotas()
     {
         $query = "SELECT * FROM vta_listar_estados_cuotas ORDER BY estado_cuota DESC";
-        return $this->EjecutarQuery($query);
-    }
-
-    public function buscarEstadoCuotaPorId($id)
-    {
-        $query = "SELECT estado_cuota FROM vta_listar_estados_cuotas WHERE id_estado_cuota = '" . $id . "'";
         return $this->EjecutarQuery($query);
     }
 
@@ -82,27 +84,6 @@ class Prestamos extends DB
         return $this->EjecutarQuery($query);
     }
 
-    public function ObtenerGananciasPorCliete($id)
-    {
-        $query = "SELECT
-        COALESCE(SUM(ganancias), 0) AS total_ganancias
-        FROM
-            vta_listar_prestamos
-        WHERE
-            id_cliente = '" . $id . "'";
-        return $this->EjecutarQuery($query);
-    }
-    public function ObtenerTotalCapitalPrestadoPorCliente($id)
-    {
-        $query = "SELECT
-        COALESCE(SUM(capital_prestamo), 0) AS total_monto_prestamos
-        FROM
-            vta_listar_prestamos
-        WHERE
-            id_cliente = '" . $id . "'";
-        return $this->EjecutarQuery($query);
-    }
-
     public function Actualizar($id)
     {
         $query = "UPDATE tbl_prestamos SET 
@@ -128,7 +109,6 @@ class Prestamos extends DB
 
         return $this->EjecutarQuery($query);
     }
-
     public function ActualizarFechaSiguentePago($fecha, $id)
     {
         $query = "UPDATE tbl_prestamos SET 
@@ -141,6 +121,82 @@ class Prestamos extends DB
     public function Eliminar($id)
     {
         $query = "UPDATE tbl_prestamos SET Eliminado='S' WHERE id_prestamo='" . $id . "'";
+        return $this->EjecutarQuery($query);
+    }
+
+    public function ObtenerTotalCapitalPrestadoPorCliente($id)
+    {
+        $query = "SELECT
+        COALESCE(SUM(capital_prestamo), 0) AS total_monto_prestamos
+        FROM
+            vta_listar_prestamos
+        WHERE
+            id_cliente = '" . $id . "'";
+        return $this->EjecutarQuery($query);
+    }
+    public function ObtenerGananciasPorCliente($id)
+    {
+        $query = "SELECT
+        COALESCE(SUM(ganancias), 0) AS total_ganancias
+        FROM
+            vta_listar_prestamos
+        WHERE
+            id_cliente = '" . $id . "'";
+        return $this->EjecutarQuery($query);
+    }
+    public function ObtenerGanancias($fechaInicio, $fechaFin)
+    {
+        $query = "SELECT
+        COALESCE(SUM(tbl_prestamos.ganancias), 0) AS suma_ganancias
+            FROM tbl_prestamos
+            WHERE tbl_prestamos.eliminado = 'N'
+            AND tbl_prestamos.fecha_prestamo BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "';";
+        return $this->EjecutarQuery($query);
+    }
+    public function ObtenerPrestamosCreados($fechaInicio, $fechaFin)
+    {
+        $query = "SELECT
+        COALESCE(COUNT(tbl_prestamos.id_prestamo), 0) AS prestamos_activos
+            FROM tbl_prestamos
+            WHERE tbl_prestamos.eliminado = 'N'
+            AND tbl_prestamos.id_estado IN ('3', '4')
+            AND tbl_prestamos.fecha_prestamo BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "';";
+        return $this->EjecutarQuery($query);
+    }
+    public function ObtenerCapitalPrestado($fechaInicio, $fechaFin)
+    {
+        $query = "SELECT
+        COALESCE(SUM(tbl_prestamos.capital_prestamo), 0) AS suma_prestamos
+            FROM tbl_prestamos
+            WHERE tbl_prestamos.eliminado = 'N'
+            AND tbl_prestamos.fecha_prestamo BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "';";
+        return $this->EjecutarQuery($query);
+    }
+
+    public function ObtenerEgresosPorMes()
+    {
+        $query = "SELECT
+        calendar.mes,
+        COALESCE(SUM(tbl_prestamos.capital_prestamo), 0) AS suma_prestamos
+            FROM (
+                SELECT CONCAT(YEAR(CURDATE()), '-01') AS mes
+                UNION SELECT CONCAT(YEAR(CURDATE()), '-02')
+                UNION SELECT CONCAT(YEAR(CURDATE()), '-03')
+                UNION SELECT CONCAT(YEAR(CURDATE()), '-04')
+                UNION SELECT CONCAT(YEAR(CURDATE()), '-05')
+                UNION SELECT CONCAT(YEAR(CURDATE()), '-06')
+                UNION SELECT CONCAT(YEAR(CURDATE()), '-07')
+                UNION SELECT CONCAT(YEAR(CURDATE()), '-08')
+                UNION SELECT CONCAT(YEAR(CURDATE()), '-09')
+                UNION SELECT CONCAT(YEAR(CURDATE()), '-10')
+                UNION SELECT CONCAT(YEAR(CURDATE()), '-11')
+                UNION SELECT CONCAT(YEAR(CURDATE()), '-12')
+            ) AS calendar
+            LEFT JOIN tbl_prestamos
+            ON DATE_FORMAT(tbl_prestamos.fecha_prestamo, '%Y-%m') = calendar.mes
+            AND tbl_prestamos.eliminado = 'N'
+            GROUP BY calendar.mes
+            ORDER BY calendar.mes;";
         return $this->EjecutarQuery($query);
     }
 }
