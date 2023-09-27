@@ -1,15 +1,13 @@
 <?php
 require_once './func/LoginValidator.php';
 require_once './bd/bd.php';
-require_once './class/prestamos.php';
-require_once './class/reset.php';
+require_once './class/Prestamos.php';
+require_once './class/Reset.php';
 
 $Obj_prestamos =  new Prestamos();
 $Obj_Reset =  new Reset();
 
 $Res_Prestamos = $Obj_prestamos->listarUltimosPrestamos();
-
-
 
 ?>
 

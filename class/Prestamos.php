@@ -29,6 +29,11 @@ class Prestamos extends DB
         $query = "SELECT * FROM vta_listar_prestamos WHERE id_cliente = '" . $id . "' ORDER BY fecha_prestamo DESC";
         return $this->EjecutarQuery($query);
     }
+    public function listarPrestamosPorEstado($id_estado)
+    {
+        $query = "SELECT * FROM vta_prestamos WHERE id_estado = '" . $id_estado . "'";
+        return $this->EjecutarQuery($query);
+    }
     public function listarUltimosprestamos()
     {
         $query = "SELECT * FROM vta_listar_ultimos_prestamos";
@@ -170,6 +175,15 @@ class Prestamos extends DB
             FROM tbl_prestamos
             WHERE tbl_prestamos.eliminado = 'N'
             AND tbl_prestamos.fecha_prestamo BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "';";
+        return $this->EjecutarQuery($query);
+    }
+    public function ObtenerTotalPrestamosPorEstado($id_estado)
+    {
+        $query = "SELECT
+        COALESCE(COUNT(tbl_prestamos.id_prestamo), 0) AS total_prestamos
+            FROM tbl_prestamos
+            WHERE tbl_prestamos.eliminado = 'N'
+            AND tbl_prestamos.id_estado = '" . $id_estado . "';";
         return $this->EjecutarQuery($query);
     }
 

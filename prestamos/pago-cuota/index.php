@@ -173,6 +173,10 @@ $CapitalRestante = $DatosPrestamo['capital_prestamo'] + $DatosPrestamo['ganancia
             echo showMessage($_SESSION['type'], $_SESSION['msg']);
         }
         ?>
+
+        function logout(path) {
+            window.location.href = path + '/func/SessionDestroy.php';
+        }
     </script>
 
     <?php include '../../utils/initDropzoneConfiguration.php' ?>

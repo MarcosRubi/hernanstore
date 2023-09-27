@@ -308,9 +308,11 @@ if (!isset($_GET['id'])) {
             return datosFormulario;
         }
 
+        function logout(path) {
+            window.location.href = path + '/func/SessionDestroy.php';
+        }
+
         function getTable(formData) {
-
-
             $.ajax({
                 url: '../../utils/tableInterestAssistan.php',
                 method: 'POST',

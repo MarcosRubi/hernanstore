@@ -5,12 +5,20 @@ $BASE_URL = "http://127.0.0.1/Proyectos/hernanstore.com";
 
 require_once '../bd/bd.php';
 require_once '../class/Empleados.php';
+require_once '../class/Prestamos.php';
 
 $Obj_Empleados = new Empleados();
+$Obj_Prestamos = new Prestamos();
 
 $Obj_Empleados->correo = $_POST['txtCorreo'];
 $Res_Empleado = $Obj_Empleados->buscarEmpleadoPorCorreo();
 $Datos_Empleado = $Res_Empleado->fetch_assoc();
+
+$Res_PrestamosEnProceso = $Obj_Prestamos->ObtenerTotalPrestamosPorEstado('3');
+$Res_PrestamosPendientes = $Obj_Prestamos->ObtenerTotalPrestamosPorEstado('2');
+$PrestamosEnProceso = $Res_PrestamosEnProceso->fetch_assoc()['total_prestamos'];
+$PrestamosPendientes = $Res_PrestamosPendientes->fetch_assoc()['total_prestamos'];
+
 
 include './NameUser.php';
 
@@ -27,6 +35,8 @@ if ($Res_Empleado->num_rows > 0 && password_verify($_POST['txtContrasenna'], $Da
     $_SESSION['url_foto'] = $Datos_Empleado['url_foto'];
     $_SESSION['id_rol'] = intval($Datos_Empleado['id_rol']);
     $_SESSION['correo'] = $Datos_Empleado['correo'];
+    $_SESSION['prestamos_pendientes'] = $PrestamosPendientes;
+    $_SESSION['prestamos_en_proceso'] = $PrestamosEnProceso;
 
     header("Location:" . $BASE_URL);
 

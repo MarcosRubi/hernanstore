@@ -329,11 +329,12 @@ if (!isset($_GET['id'])) {
             });
         }
 
+        function logout(path) {
+            window.location.href = path + '/func/SessionDestroy.php';
+        }
 
-        // Obtén todos los elementos con la clase "input-cambio"
+
         const camposCambio = document.querySelectorAll('.update-table');
-
-        // Agrega un escuchador de eventos a cada campo
         camposCambio.forEach(function(campo) {
             campo.addEventListener('input', changeData);
         });

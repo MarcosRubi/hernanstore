@@ -194,6 +194,9 @@ $DatosCuota = $Res_DatosCuotas->fetch_assoc();
     });
 </script>
 <script>
+    function logout(path) {
+        window.location.href = path + '/func/SessionDestroy.php';
+    }
     <?php
     if (isset($_SESSION['msg'])) {
         include '../../func/Message.php';

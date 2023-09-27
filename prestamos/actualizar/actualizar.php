@@ -54,6 +54,14 @@ $Res_Prestamos = $Obj_Prestamos->Actualizar($_POST['txtIdPrestamo']);
 
 if ($Res_Prestamos) {
 
+    $Res_PrestamosEnProceso = $Obj_Prestamos->ObtenerTotalPrestamosPorEstado('3');
+    $Res_PrestamosPendientes = $Obj_Prestamos->ObtenerTotalPrestamosPorEstado('2');
+    $PrestamosEnProceso = $Res_PrestamosEnProceso->fetch_assoc()['total_prestamos'];
+    $PrestamosPendientes = $Res_PrestamosPendientes->fetch_assoc()['total_prestamos'];
+
+    $_SESSION['prestamos_pendientes'] = $PrestamosPendientes;
+    $_SESSION['prestamos_en_proceso'] = $PrestamosEnProceso;
+
     $_SESSION['msg'] = 'Préstamo actualizado correctamente.';
     $_SESSION['type'] = 'success';
     header("Location:" . $_SESSION['path'] . "/prestamos/listar/cliente/?id=" . $_POST['txtIdCliente']);

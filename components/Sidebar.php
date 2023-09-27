@@ -23,159 +23,119 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-item menu-open">
-                    <a href="#" class="nav-link ">
+                <li class="nav-header">CLIENTES</li>
+                <li class="nav-item">
+                    <a href="<?= $_SESSION['path'] ?>/clientes/" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
                         <p>
-                            CLIENTES
-                            <i class="right fas fa-angle-left"></i>
+                            Listar Clientes
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?= $_SESSION['path'] ?>/clientes/" class="nav-link">
-                                <i class="nav-icon fas fa-users"></i>
-                                <p>
-                                    Listar Clientes
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= $_SESSION['path'] ?>/cliente/nuevo" class="nav-link">
-                                <i class="nav-icon fas fa-user-plus"></i>
-                                <p>
-                                    Nuevo Cliente
-                                </p>
-                            </a>
-                        </li>
-                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= $_SESSION['path'] ?>/cliente/nuevo" class="nav-link">
+                        <i class="nav-icon fas fa-user-plus"></i>
+                        <p>
+                            Nuevo Cliente
+                        </p>
+                    </a>
                 </li>
 
+                <li class="nav-header">PRÉSTAMOS</li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link ">
+                    <a href="<?= $_SESSION['path'] ?>/prestamos/listar/completados/" class="nav-link">
+                        <i class="nav-icon fas fa-file-invoice-dollar"></i>
                         <p>
-                            PRESTAMOS
-                            <i class="right fas fa-angle-left"></i>
+                            Completados
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-file-invoice-dollar"></i>
-                                <p>
-                                    Completados
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-dollar-sign"></i>
-                                <p>
-                                    En Proceso
-                                </p>
-                                <span class="badge badge-success right">6</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-comments-dollar"></i>
-                                <p>
-                                    Pendientes
-                                </p>
-                                <span class="badge badge-primary right">6</span>
-                            </a>
-                        </li>
-                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= $_SESSION['path'] ?>/prestamos/listar/en-proceso/" class="nav-link">
+                        <i class="nav-icon fas fa-dollar-sign"></i>
+                        <p>
+                            En Proceso
+                        </p>
+                        <span class="badge badge-success right"><?= $_SESSION['prestamos_en_proceso'] ?></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= $_SESSION['path'] ?>/prestamos/listar/pendientes-de-aprobacion/" class="nav-link">
+                        <i class="nav-icon fas fa-comments-dollar"></i>
+                        <p>
+                            Pendientes
+                        </p>
+                        <span class="badge badge-primary right"><?= $_SESSION['prestamos_pendientes'] ?></span>
+                    </a>
                 </li>
 
+
+                <li class="nav-header">PAGOS</li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link ">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-calendar-times"></i>
                         <p>
-                            PAGOS
-                            <i class="right fas fa-angle-left"></i>
+                            Atrasados
                         </p>
+                        <span class="badge badge-danger right">2</span>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-calendar-times"></i>
-                                <p>
-                                    Atrasados
-                                </p>
-                                <span class="badge badge-danger right">2</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-hourglass-half"></i>
-                                <p>
-                                    Próximos
-                                </p>
-                                <span class="badge badge-warning right">6</span>
-                            </a>
-                        </li>
-                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-hourglass-half"></i>
+                        <p>
+                            Próximos
+                        </p>
+                        <span class="badge badge-warning right">6</span>
+                    </a>
                 </li>
 
+
+                <li class="nav-header">AVISOS</li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link ">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-clock"></i>
                         <p>
-                            AVISOS
-                            <i class="right fas fa-angle-left"></i>
+                            Recordatorios
                         </p>
+                        <span class="badge badge-primary right">2</span>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-clock"></i>
-                                <p>
-                                    Recordatorios
-                                </p>
-                                <span class="badge badge-primary right">2</span>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
+
+
                 <?php
                 if ($_SESSION['id_rol'] <= 3) {
                 ?>
+                    <li class="nav-header">ADMINISTRADOR</li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link ">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-chart-bar"></i>
                             <p>
-                                ADMINISTRADOR
-                                <i class="right fas fa-angle-left"></i>
+                                Reporte
                             </p>
                         </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-chart-bar"></i>
-                                    <p>
-                                        Reporte
-                                    </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="<?= $_SESSION['path'] ?>/empleados/" class="nav-link">
-                                    <i class="nav-icon fas fa-users-cog"></i>
-                                    <p>
-                                        Empleados
-                                    </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-th-list"></i>
-                                    <p>
-                                        Estados
-                                    </p>
-                                </a>
-                            </li>
-                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= $_SESSION['path'] ?>/empleados/" class="nav-link">
+                            <i class="nav-icon fas fa-users-cog"></i>
+                            <p>
+                                Empleados
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-th-list"></i>
+                            <p>
+                                Inversores
+                            </p>
+                        </a>
+                    </li>
                     </li>
                 <?php
                 }
                 ?>
-                <li class="mt-2 nav-item">
+                <li class="mt-4 nav-item">
                     <a href="#" onclick="javascript:logout('<?= $_SESSION['path'] ?>');" class="nav-link">
                         <i class="nav-icon fas fa-sign-out-alt"></i>
                         <p>

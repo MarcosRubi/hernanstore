@@ -1,27 +1,14 @@
 <?php
 require_once '../../../func/LoginValidator.php';
 require_once '../../../bd/bd.php';
-require_once '../../../class/Clientes.php';
 require_once '../../../class/Prestamos.php';
 require_once '../../../class/Reset.php';
 
 
-$Obj_Clientes = new Clientes();
 $Obj_Prestamos = new Prestamos();
 $Obj_Reset = new Reset();
 
-$Res_Clientes = $Obj_Clientes->buscarPorId($_GET['id']);
-$Res_Prestamos = $Obj_Prestamos->listarPrestamosPorcliente($_GET['id']);
-$Res_GananciasTotales = $Obj_Prestamos->ObtenerGananciasPorCliente($_GET['id']);
-$Res_TotalMontoPrestamos = $Obj_Prestamos->ObtenerTotalCapitalPrestadoPorCliente($_GET['id']);
-
-$DatosCliente = $Res_Clientes->fetch_assoc();
-
-
-if (!isset($_GET['id'])) {
-    echo "<script>window.location.replace('" . $_SESSION['path'] . "/clientes/');</script>";
-    return;
-}
+$Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('4');
 
 ?>
 <!DOCTYPE html>
@@ -30,7 +17,7 @@ if (!isset($_GET['id'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Listado de préstamos | Hernan Store</title>
+    <title>Listado de préstamos completados | Hernan Store</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -63,48 +50,27 @@ if (!isset($_GET['id'])) {
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
-                                <div class="card-header d-flex align-items-center justify-content-between">
-                                    <?php if ($Res_Prestamos->num_rows === 0) { ?>
-                                        <h3 class="card-title flex-grow-1">No hay préstamos realizados para este cliente</h3>
-                                        <button class="btn btn-primary" onclick="javascript:nuevoPrestamo(<?= $DatosCliente['id_cliente'] ?>)">Crear nuevo préstamo</button>
-                                    <?php } else { ?>
-                                        <div class="flex-grow-1"></div>
-                                        <button class="btn btn-primary" onclick="javascript:nuevoPrestamo(<?= $DatosCliente['id_cliente'] ?>)">Crear nuevo préstamo</button>
-                                    <?php } ?>
-                                </div>
-                                <!-- /.card-header -->
-                                <div class="card-body">
-                                    <table id="data-personal" class="table table-bordered table-hover table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Cliente</th>
-                                                <th>Monto total de los préstamos</th>
-                                                <th>Ganancias de los préstamos</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td><?= $DatosCliente['nombre_cliente'] ?></td>
-                                                <td><?= $Obj_Reset->FormatoDinero($Res_TotalMontoPrestamos->fetch_assoc()['total_monto_prestamos']) ?></td>
-                                                <td><?= $Obj_Reset->FormatoDinero($Res_GananciasTotales->fetch_assoc()['total_ganancias']) ?></td>
-                                    </table>
+                                <div class="card-header">
+                                    <h3 class="card-title">Préstamos completados</h3>
                                 </div>
                                 <div class="card-body">
                                     <table id="table-payments" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
+                                                <th>Cliente</th>
                                                 <th>Fecha del préstamo</th>
                                                 <th>Capital prestado</th>
                                                 <th>Ganancias previstas</th>
                                                 <th># de cuotas</th>
-                                                <th>Estado</th>
-                                                <th>Periodo de pagos</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php while ($DatosPrestamos = $Res_Prestamos->fetch_assoc()) { ?>
                                                 <tr>
+                                                    <td>
+                                                        <p><a href="<?= $_SESSION['path'] . '/prestamos/listar/cliente/?id=' . $DatosPrestamos['id_cliente'] ?>"><?= $DatosPrestamos['nombre_cliente'] ?></a></p>
+                                                    </td>
                                                     <td>
                                                         <p><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamos['fecha_prestamo'])) ?></p>
                                                     </td>
@@ -118,22 +84,6 @@ if (!isset($_GET['id'])) {
                                                         <p><?= $DatosPrestamos['num_cuotas'] ?></p>
                                                     </td>
                                                     <td>
-                                                        <p><?= $DatosPrestamos['nombre_estado'] ?></p>
-                                                    </td>
-                                                    <td>
-                                                        <p><?= $DatosPrestamos['plazo_pago'] ?></p>
-                                                    </td>
-
-                                                    <td>
-                                                        <?php if (intval($DatosPrestamos['id_estado']) === 3) {
-                                                        ?>
-                                                            <a href="#" class=" btn bg-success mx-2 my-2" title="Pago cuota" onclick="javascript:pagoCuota(<?= $DatosPrestamos['id_prestamo'] ?>);">
-                                                                <i class="fa fa-hand-holding-usd"></i>
-                                                            </a>
-                                                        <?php } else { ?>
-                                                            <div style="min-width:60px;display:inline-block;"></div>
-                                                        <?php }
-                                                        ?>
                                                         <a href="#" class=" btn btn-info mx-2 my-2" title="Imprimir" onclick="javascript:imprimirPrestamo(<?= $DatosPrestamos['id_prestamo'] ?>);">
                                                             <i class="fa fa-print"></i>
                                                         </a>
@@ -182,12 +132,19 @@ if (!isset($_GET['id'])) {
     <script src="../../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="../../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
     <script src="../../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="../../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="../../../plugins/jszip/jszip.min.js"></script>
+    <script src="../../../plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="../../../plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="../../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="../../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../../../dist/js/adminlte.min.js"></script>
     <!-- dropzonejs -->
     <script src="../../../plugins/dropzone/min/dropzone.min.js"></script>
     <!-- Toastr -->
     <script src="../../../plugins/toastr/toastr.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="../../../dist/js/adminlte.min.js"></script>
     <!-- Page specific script -->
     <script src="../../../dist/js/demo.js"></script>
     <script>
@@ -196,21 +153,12 @@ if (!isset($_GET['id'])) {
                 "paging": true,
                 "lengthChange": false,
                 "searching": true,
-                "ordering": false,
+                "ordering": true,
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,
-            });
-
-            $('#data-personal').DataTable({
-                "paging": false,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": false,
-                "info": false,
-                "autoWidth": false,
-                "responsive": true,
-            });
+                "buttons": ["copy", "csv", "excel", "pdf", "print"]
+            }).buttons().container().appendTo('#table-payments_wrapper .col-md-6:eq(0)');
         });
     </script>
     <script>
