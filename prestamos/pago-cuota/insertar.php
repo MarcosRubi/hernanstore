@@ -49,6 +49,11 @@ $Res_Cuotas = $Obj_Cuotas->Insertar();
 
 if ($Res_Cuotas) {
 
+    $PrestamosAtrasados = $Res_PrestamosAtrasados->fetch_assoc()['total_prestamos'];
+    $PrestatosProximoPago = $Res_PrestamosProximosPago->fetch_assoc()['total_prestamos'];
+    $_SESSION['prestamos_atrasados'] = $PrestamosAtrasados;
+    $_SESSION['prestamos_proximo_pago'] = $PrestatosProximoPago;
+
     $_SESSION['msg'] = 'Cuota realizada correctamente.';
     $_SESSION['type'] = 'success';
     header("Location:" . $_SESSION['path'] . "/prestamos/pago-cuota/?id=" . $_POST['txtIdPrestamo']);

@@ -16,7 +16,7 @@ switch ($filter) {
         $Res_Ganancias = $Obj_Prestamos->ObtenerGanancias(date("Y-m-d"), date("Y-m-d"));
         $Res_PrestamosAcivos = $Obj_Prestamos->ObtenerPrestamosCreados(date("Y-m-d"), date("Y-m-d"));
         $Res_ClientesCreados = $Obj_Clientes->ObtenerClientesCreados(date("Y-m-d"), date("Y-m-d"));
-        $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado(date("Y-m-d"), date("Y-m-d"));
+        $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado(date("Y-m-d"), date("Y-m-d"), true);
         break;
     case 'week':
         $fechaActual = new DateTime(); // Obtener la fecha actual
@@ -28,7 +28,7 @@ switch ($filter) {
         $Res_Ganancias = $Obj_Prestamos->ObtenerGanancias($inicioSemana, $finSemana);
         $Res_PrestamosAcivos = $Obj_Prestamos->ObtenerPrestamosCreados($inicioSemana, $finSemana);
         $Res_ClientesCreados = $Obj_Clientes->ObtenerClientesCreados($inicioSemana, $finSemana);
-        $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado($inicioSemana, $finSemana);
+        $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado($inicioSemana, $finSemana, true);
         break;
     case 'month':
         $fechaActual = new DateTime(); // Obtener la fecha actual
@@ -42,14 +42,14 @@ switch ($filter) {
         $Res_Ganancias = $Obj_Prestamos->ObtenerGanancias($inicioMes, $finMes);
         $Res_PrestamosAcivos = $Obj_Prestamos->ObtenerPrestamosCreados($inicioMes, $finMes);
         $Res_ClientesCreados = $Obj_Clientes->ObtenerClientesCreados($inicioMes, $finMes);
-        $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado($inicioMes, $finMes);
+        $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado($inicioMes, $finMes, true);
         break;
 
     default:
         $Res_Ganancias = $Obj_Prestamos->ObtenerGanancias(date("Y-01-01"), date("Y-m-d"));
         $Res_PrestamosAcivos = $Obj_Prestamos->ObtenerPrestamosCreados(date("Y-01-01"), date("Y-m-d"));
         $Res_ClientesCreados = $Obj_Clientes->ObtenerClientesCreados(date("Y-01-01"), date("Y-m-d"));
-        $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado(date("Y-01-01"), date("Y-m-d"));
+        $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado(date("Y-01-01"), date("Y-m-d"), true);
         break;
 }
 

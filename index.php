@@ -132,7 +132,7 @@ $Res_Prestamos = $Obj_prestamos->listarUltimosPrestamos();
             <!-- /.col-md-6 -->
             <div class="col-md-12">
               <!-- The time line -->
-              <?php #require_once './components/Timeline.php' 
+              <?php #require_once './components/Timeline.php'
               ?>
             </div>
           </div>

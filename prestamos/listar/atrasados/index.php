@@ -8,7 +8,7 @@ require_once '../../../class/Reset.php';
 $Obj_Prestamos = new Prestamos();
 $Obj_Reset = new Reset();
 
-$Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('4', 'fecha_prestamo DESC');
+$Res_Prestamos = $Obj_Prestamos->listarPrestamosAtrasados();
 
 ?>
 <!DOCTYPE html>
@@ -17,7 +17,7 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('4', 'fecha_prestamo D
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Listado de préstamos completados | Hernan Store</title>
+    <title>Listado de préstamos atrasados | Hernan Store</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -51,17 +51,17 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('4', 'fecha_prestamo D
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">Préstamos completados</h3>
+                                    <h3 class="card-title">Préstamos con cuotas atrasadas</h3>
                                 </div>
                                 <div class="card-body">
                                     <table id="table-payments" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
                                                 <th>Cliente</th>
-                                                <th>Fecha del préstamo</th>
                                                 <th>Capital prestado</th>
                                                 <th>Ganancias previstas</th>
                                                 <th># de cuotas</th>
+                                                <th>Próximo pago</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -70,9 +70,6 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('4', 'fecha_prestamo D
                                                 <tr>
                                                     <td>
                                                         <p><a href="<?= $_SESSION['path'] . '/prestamos/listar/cliente/?id=' . $DatosPrestamos['id_cliente'] ?>"><?= $DatosPrestamos['nombre_cliente'] ?></a></p>
-                                                    </td>
-                                                    <td>
-                                                        <p><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamos['fecha_prestamo'])) ?></p>
                                                     </td>
                                                     <td>
                                                         <p><?= $Obj_Reset->FormatoDinero($DatosPrestamos['capital_prestamo']) ?></p>
@@ -84,6 +81,12 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('4', 'fecha_prestamo D
                                                         <p><?= $DatosPrestamos['num_cuotas'] ?></p>
                                                     </td>
                                                     <td>
+                                                        <p><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamos['fecha_siguiente_pago'])) ?></p>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#" class=" btn bg-success mx-2 my-2" title="Pago cuota" onclick="javascript:pagoCuota(<?= $DatosPrestamos['id_prestamo'] ?>);">
+                                                            <i class="fa fa-hand-holding-usd"></i>
+                                                        </a>
                                                         <a href="#" class=" btn btn-info mx-2 my-2" title="Imprimir" onclick="javascript:imprimirPrestamo(<?= $DatosPrestamos['id_prestamo'] ?>);">
                                                             <i class="fa fa-print"></i>
                                                         </a>
@@ -139,12 +142,12 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('4', 'fecha_prestamo D
     <script src="../../../plugins/pdfmake/vfs_fonts.js"></script>
     <script src="../../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="../../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="../../../dist/js/adminlte.min.js"></script>
     <!-- dropzonejs -->
     <script src="../../../plugins/dropzone/min/dropzone.min.js"></script>
     <!-- Toastr -->
     <script src="../../../plugins/toastr/toastr.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../../../dist/js/adminlte.min.js"></script>
     <!-- Page specific script -->
     <script src="../../../dist/js/demo.js"></script>
     <script>
@@ -159,6 +162,7 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('4', 'fecha_prestamo D
                 "responsive": true,
                 "buttons": ["copy", "csv", "excel", "pdf", "print"]
             }).buttons().container().appendTo('#table-payments_wrapper .col-md-6:eq(0)');
+
         });
     </script>
     <script>

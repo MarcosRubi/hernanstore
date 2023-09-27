@@ -16,8 +16,13 @@ $Datos_Empleado = $Res_Empleado->fetch_assoc();
 
 $Res_PrestamosEnProceso = $Obj_Prestamos->ObtenerTotalPrestamosPorEstado('3');
 $Res_PrestamosPendientes = $Obj_Prestamos->ObtenerTotalPrestamosPorEstado('2');
+$Res_PrestamosAtrasados = $Obj_Prestamos->ObtenerTotalPrestamosAtrasados();
+$Res_PrestamosProximosPago = $Obj_Prestamos->ObtenerTotalProximosPagos();
+
 $PrestamosEnProceso = $Res_PrestamosEnProceso->fetch_assoc()['total_prestamos'];
 $PrestamosPendientes = $Res_PrestamosPendientes->fetch_assoc()['total_prestamos'];
+$PrestamosAtrasados = $Res_PrestamosAtrasados->fetch_assoc()['total_prestamos'];
+$PrestatosProximoPago = $Res_PrestamosProximosPago->fetch_assoc()['total_prestamos'];
 
 
 include './NameUser.php';
@@ -37,6 +42,8 @@ if ($Res_Empleado->num_rows > 0 && password_verify($_POST['txtContrasenna'], $Da
     $_SESSION['correo'] = $Datos_Empleado['correo'];
     $_SESSION['prestamos_pendientes'] = $PrestamosPendientes;
     $_SESSION['prestamos_en_proceso'] = $PrestamosEnProceso;
+    $_SESSION['prestamos_atrasados'] = $PrestamosAtrasados;
+    $_SESSION['prestamos_proximo_pago'] = $PrestatosProximoPago;
 
     header("Location:" . $BASE_URL);
 

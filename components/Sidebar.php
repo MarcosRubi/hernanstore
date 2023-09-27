@@ -72,26 +72,26 @@
 
                 <li class="nav-header">PAGOS</li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="<?= $_SESSION['path'] ?>/prestamos/listar/atrasados/" class="nav-link">
                         <i class="nav-icon fas fa-calendar-times"></i>
                         <p>
                             Atrasados
                         </p>
-                        <span class="badge badge-danger right">2</span>
+                        <span class="badge badge-danger right"><?= $_SESSION['prestamos_atrasados'] ?></span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="<?= $_SESSION['path'] ?>/prestamos/listar/proximos/" class="nav-link">
                         <i class="nav-icon fas fa-hourglass-half"></i>
                         <p>
                             Próximos
                         </p>
-                        <span class="badge badge-warning right">6</span>
+                        <span class="badge badge-warning right"><?= $_SESSION['prestamos_proximo_pago'] ?></span>
                     </a>
                 </li>
 
 
-                <li class="nav-header">AVISOS</li>
+                <!-- <li class="nav-header">AVISOS</li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-clock"></i>
@@ -100,7 +100,7 @@
                         </p>
                         <span class="badge badge-primary right">2</span>
                     </a>
-                </li>
+                </li> -->
 
 
                 <?php
