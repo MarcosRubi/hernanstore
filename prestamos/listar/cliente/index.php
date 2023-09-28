@@ -84,7 +84,7 @@ if (!isset($_GET['id'])) {
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td><?= $DatosCliente['nombre_cliente'] ?></td>
+                                                <td><a href="<?= $_SESSION['path'] . '/cliente/?id=' . $DatosCliente['id_cliente'] ?>"><?= $DatosCliente['nombre_cliente'] ?></a></td>
                                                 <td><?= $Obj_Reset->FormatoDinero($Res_TotalMontoPrestamos->fetch_assoc()['total_monto_prestamos']) ?></td>
                                                 <td><?= $Obj_Reset->FormatoDinero($Res_GananciasTotales->fetch_assoc()['total_ganancias']) ?></td>
                                     </table>

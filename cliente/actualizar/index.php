@@ -22,8 +22,15 @@ if (trim($_POST['txtNombre']) === '') {
 
 $Res_Clientes = $Obj_Clientes->Actualizar($_POST['id']);
 
+$response = array();
+
 if ($Res_Clientes) {
-    $_SESSION['msg'] = 'Datos actualizados correctamente.';
-    $_SESSION['type'] = 'success';
-    header("Location:" . $_SESSION['path'] . "/cliente/?id=" . $_POST['id']);
+    $response['success'] = true;
+    $response['message'] = 'Datos actualizados correctamente.';
+} else {
+    $response['success'] = false;
+    $response['message'] = 'Hubo un error al actualizar los datos del cliente.';
 }
+
+header('Content-Type: application/json');
+echo json_encode($response);

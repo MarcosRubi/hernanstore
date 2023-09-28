@@ -128,6 +128,14 @@ class Prestamos extends DB
 
         return $this->EjecutarQuery($query);
     }
+    public function ActualizarDetalles($id)
+    {
+        $query = "UPDATE tbl_prestamos SET 
+        detalles = '" . $this->detalles . "'
+        WHERE id_prestamo='" . $id . "' ";
+
+        return $this->EjecutarQuery($query);
+    }
     public function ActualizarFechaSiguentePago($fecha, $id)
     {
         $query = "UPDATE tbl_prestamos SET 

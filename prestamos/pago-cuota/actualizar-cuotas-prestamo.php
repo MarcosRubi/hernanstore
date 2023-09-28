@@ -6,8 +6,6 @@ require_once '../../class/Prestamos.php';
 
 $Obj_Prestamos = new Prestamos();
 
-var_dump($_POST);
-
 $Obj_Prestamos->num_cuotas = intval(trim(strip_tags($_POST['numCuotas'])));
 
 $Res_Prestamo = $Obj_Prestamos->ActualizarNumCuotas($_POST['id_prestamo']);

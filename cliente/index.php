@@ -156,7 +156,7 @@ $DatosCliente = $Res_Clientes->fetch_assoc();
                                 </div>
                                 <input type="hidden" name="id" value="<?= $DatosCliente['id_cliente'] ?>">
                                 <div class="d-flex justify-content-center">
-                                    <button class="btn btn-primary btn-lg font-weight-bold">Actualizar información</button>
+                                    <button class="btn btn-primary btn-lg font-weight-bold" id="btn-actualizar">Actualizar información</button>
                                 </div>
                                 </form>
                             </div>
@@ -252,13 +252,31 @@ $DatosCliente = $Res_Clientes->fetch_assoc();
         }
     </script>
     <script>
-        <?php
-        if (isset($_SESSION['msg'])) {
-            include '../func/Message.php';
+        $(document).ready(function() {
+            $("#btn-actualizar").click(function(e) {
+                e.preventDefault(); // Evita que se envíe el formulario de manera tradicional
 
-            echo showMessage($_SESSION['type'], $_SESSION['msg']);
-        }
-        ?>
+                // Obtén los datos del formulario
+                var formData = $("#frmEditClient").serialize();
+
+                // Realiza una solicitud AJAX para actualizar los detalles del préstamo
+                $.ajax({
+                    type: "POST",
+                    url: "./actualizar/index.php",
+                    data: formData,
+                    success: function(response) {
+                        // Verifica si la respuesta indica éxito
+                        if (response.success) {
+                            // Muestra el mensaje de éxito
+                            toastr.success(response.message);
+                        } else {
+                            // Muestra el mensaje de error
+                            toastr.error(response.message);
+                        }
+                    },
+                });
+            });
+        });
     </script>
     <?php include '../utils/initDropzoneConfiguration.php' ?>
 

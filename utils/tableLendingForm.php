@@ -73,12 +73,12 @@ if ($ValorAgregadoSiguienteCuota <= 0) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <div class="card card-primary <?= $CapitalRestante === 0 ? '' : 'collapsed-card' ?>">
-                                            <div class="card-header">
+                                        <div class="card  <?= $CapitalRestante === 0 ? '' : 'collapsed-card' ?>">
+                                            <div class="card-header bg-olive">
                                                 <h3 class="card-title">Ver historial de pagos</h3>
 
                                                 <div class="card-tools">
-                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas <?= $CapitalRestante === 0 ? 'fa-minus' : 'fa-plus' ?> "></i>
+                                                    <button type="button" class="btn btn-tool text-white" data-card-widget="collapse"><i class="fas <?= $CapitalRestante === 0 ? 'fa-minus' : 'fa-plus' ?> "></i>
                                                     </button>
                                                 </div>
                                                 <!-- /.card-tools -->

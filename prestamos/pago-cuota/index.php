@@ -44,6 +44,8 @@ $CapitalRestante = $DatosPrestamo['capital_prestamo'] + $DatosPrestamo['ganancia
     <!-- DataTables -->
     <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="../../plugins/summernote/summernote-bs4.min.css">
     <!-- dropzonejs -->
     <link rel="stylesheet" href="../../plugins/dropzone/min/dropzone.min.css">
     <!-- Theme style -->
@@ -70,7 +72,7 @@ $CapitalRestante = $DatosPrestamo['capital_prestamo'] + $DatosPrestamo['ganancia
                                 <div class="row">
                                     <div class="col-12">
                                         <h5 class="text-center py-2">DETALLES DEL PRÉSTAMO</h5>
-                                        <table class="table table-striped">
+                                        <table class="table table-bordered table-hover">
                                             <thead>
                                                 <tr>
                                                     <th>Cliente</th>
@@ -83,7 +85,7 @@ $CapitalRestante = $DatosPrestamo['capital_prestamo'] + $DatosPrestamo['ganancia
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
+                                                <tr data-widget="expandable-table" aria-expanded="false">
                                                     <td><a href="<?= $_SESSION['path'] ?>/prestamos/listar/cliente/?id=<?= $DatosPrestamo['id_cliente'] ?>"><?= $DatosPrestamo['nombre_cliente'] ?></a></td>
                                                     <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamo['fecha_prestamo'])) ?></td>
                                                     <td><?= $Obj_Reset->FormatoDinero($DatosPrestamo['capital_prestamo'] + $DatosPrestamo['ganancias']) ?></td>
@@ -91,6 +93,23 @@ $CapitalRestante = $DatosPrestamo['capital_prestamo'] + $DatosPrestamo['ganancia
                                                     <td><?= $DatosPrestamo['num_cuotas'] ?></td>
                                                     <td><?= $DatosPrestamo['plazo_pago'] ?></td>
                                                     <td><?= $DatosPrestamo['nombre_estado'] ?></td>
+                                                </tr>
+                                                <tr class="expandable-body">
+                                                    <td colspan="7">
+                                                        <form action="./actualizar-detalles.php" method="post" id="formulario-actualizacion">
+                                                            <p>
+                                                            <div class="form-group px-3 pt-3">
+                                                                <textarea id="summernote" name="txtInformacion">
+                                                                    <?= $DatosPrestamo['detalles'] ?>
+                                                                    </textarea>
+                                                            </div>
+                                                            <input type="hidden" name="id_prestamo" value="<?= $DatosPrestamo['id_prestamo'] ?>">
+                                                            <div class="d-flex justify-content-center">
+                                                                <button class="btn btn-primary btn-lg font-weight-bold" id="btn-actualizar">Actualizar detalles del préstamo</button>
+                                                            </div>
+                                                            </p>
+                                                        </form>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -146,11 +165,15 @@ $CapitalRestante = $DatosPrestamo['capital_prestamo'] + $DatosPrestamo['ganancia
     <script src="../../plugins/dropzone/min/dropzone.min.js"></script>
     <!-- Select2 -->
     <script src="../../plugins/select2/js/select2.full.min.js"></script>
+    <!-- Summernote -->
+    <script src="../../plugins/summernote/summernote-bs4.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../../dist/js/adminlte.min.js"></script>
     <!-- Page specific script -->
     <script src="../../dist/js/demo.js"></script>
     <script>
+        $('#summernote').summernote()
+
         function getTable() {
             $.ajax({
                 url: '../../utils/tableLendingForm.php?id=' + <?= $id_prestamo ?>,
@@ -166,14 +189,33 @@ $CapitalRestante = $DatosPrestamo['capital_prestamo'] + $DatosPrestamo['ganancia
         });
     </script>
     <script>
-        <?php
-        if (isset($_SESSION['msg'])) {
-            include '../../func/Message.php';
+        $(document).ready(function() {
+            $("#btn-actualizar").click(function(e) {
+                e.preventDefault(); // Evita que se envíe el formulario de manera tradicional
 
-            echo showMessage($_SESSION['type'], $_SESSION['msg']);
-        }
-        ?>
+                // Obtén los datos del formulario
+                var formData = $("#formulario-actualizacion").serialize();
 
+                // Realiza una solicitud AJAX para actualizar los detalles del préstamo
+                $.ajax({
+                    type: "POST",
+                    url: "./actualizar-detalles.php",
+                    data: formData,
+                    success: function(response) {
+                        // Verifica si la respuesta indica éxito
+                        if (response.success) {
+                            // Muestra el mensaje de éxito
+                            toastr.success(response.message);
+                        } else {
+                            // Muestra el mensaje de error
+                            toastr.error(response.message);
+                        }
+                    },
+                });
+            });
+        });
+    </script>
+    <script>
         function logout(path) {
             window.location.href = path + '/func/SessionDestroy.php';
         }
