@@ -177,6 +177,7 @@ class Prestamos extends DB
         COALESCE(SUM(tbl_prestamos.ganancias), 0) AS suma_ganancias
             FROM tbl_prestamos
             WHERE tbl_prestamos.eliminado = 'N'
+            AND tbl_prestamos.id_estado IN ('3','4')
             AND tbl_prestamos.fecha_prestamo BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "';";
         return $this->EjecutarQuery($query);
     }

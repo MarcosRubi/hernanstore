@@ -6,7 +6,7 @@ class Inversores extends DB
 
     public function listarTodo()
     {
-        $query = "SELECT id_inversor, nombre_inversor, detalles FROM tbl_inversores WHERE eliminado='N'";
+        $query = "SELECT * FROM vta_inversores ";
         return $this->EjecutarQuery($query);
     }
     public function listarTiposMovimientos()

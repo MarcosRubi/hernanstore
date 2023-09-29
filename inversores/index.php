@@ -2,8 +2,10 @@
 require_once '../func/LoginValidator.php';
 require_once '../bd/bd.php';
 require_once '../class/Inversores.php';
+require_once '../class/Reset.php';
 
 $Obj_Inversores = new Inversores();
+$Obj_Reset = new Reset();
 
 $Res_Inversores = $Obj_Inversores->listarTodo();
 
@@ -68,6 +70,7 @@ if (intval($_SESSION['id_rol']) > 3) {
                                             <tr>
                                                 <th>Nombre</th>
                                                 <th>Capital invertido</th>
+                                                <th>Ganancias</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -75,7 +78,8 @@ if (intval($_SESSION['id_rol']) > 3) {
                                             <?php while ($DatosInversor = $Res_Inversores->fetch_assoc()) { ?>
                                                 <tr data-widget="expandable-table" aria-expanded="false">
                                                     <td><a href="<?= $_SESSION['path'] . '/inversor/?id=' . $DatosInversor['id_inversor'] ?>"><?= $DatosInversor['nombre_inversor'] ?></a></td>
-                                                    <td>$4,500.00</td>
+                                                    <td><?= $Obj_Reset->FormatoDinero($DatosInversor['total_ingresos']) ?></td>
+                                                    <td><?= $Obj_Reset->FormatoDinero($DatosInversor['total_ganancias']) ?></td>
                                                     <td style="width:25%">
                                                         <div class="d-flex justify-content-around">
                                                             <?php if ($_SESSION['id_rol'] <= 3) { ?>
@@ -93,7 +97,7 @@ if (intval($_SESSION['id_rol']) > 3) {
                                                     </td>
                                                 </tr>
                                                 <tr class="expandable-body">
-                                                    <td colspan="3">
+                                                    <td colspan="4">
                                                         <p>
                                                             <?= $DatosInversor['detalles'] ?>
                                                         </p>
