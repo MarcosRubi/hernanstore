@@ -9,7 +9,7 @@ $Obj_Cuotas = new Cuotas();
 
 $Res_Egresos = $Obj_Prestamos->ObtenerEgresosPorMes();
 $Res_Ingresos = $Obj_Cuotas->ObtenerIngresosPorMes();
-$Res_GananciasPrevistas = $Obj_Prestamos->ObtenerGanancias(date('Y-01-01'), date('Y-12-31'));
+$Res_GananciasPrevistas = $Obj_Prestamos->ObtenerGananciasPrevistas(date('Y-01-01'), date('Y-12-31'));
 $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado(date('Y-01-01'), date('Y-12-31'));
 
 $egresos = array();

@@ -13,7 +13,7 @@ $filter = $_POST['filter'];
 
 switch ($filter) {
     case 'day':
-        $Res_Ganancias = $Obj_Prestamos->ObtenerGanancias(date("Y-m-d"), date("Y-m-d"));
+        $Res_Ganancias = $Obj_Prestamos->ObtenerGananciasPrevistas(date("Y-m-d"), date("Y-m-d"));
         $Res_PrestamosAcivos = $Obj_Prestamos->ObtenerPrestamosCreados(date("Y-m-d"), date("Y-m-d"));
         $Res_ClientesCreados = $Obj_Clientes->ObtenerClientesCreados(date("Y-m-d"), date("Y-m-d"));
         $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado(date("Y-m-d"), date("Y-m-d"), true);
@@ -25,7 +25,7 @@ switch ($filter) {
         $inicioSemana = $fechaActual->format('Y-m-d'); // Fecha de inicio de la semana (lunes)
         $finSemana = $fechaActual->modify('+6 days')->format('Y-m-d'); // Fecha de fin de la semana (domingo)
 
-        $Res_Ganancias = $Obj_Prestamos->ObtenerGanancias($inicioSemana, $finSemana);
+        $Res_Ganancias = $Obj_Prestamos->ObtenerGananciasPrevistas($inicioSemana, $finSemana);
         $Res_PrestamosAcivos = $Obj_Prestamos->ObtenerPrestamosCreados($inicioSemana, $finSemana);
         $Res_ClientesCreados = $Obj_Clientes->ObtenerClientesCreados($inicioSemana, $finSemana);
         $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado($inicioSemana, $finSemana, true);
@@ -39,14 +39,14 @@ switch ($filter) {
         // Obtener el último día del mes actual
         $finMes = $fechaActual->format('Y-m-t');
 
-        $Res_Ganancias = $Obj_Prestamos->ObtenerGanancias($inicioMes, $finMes);
+        $Res_Ganancias = $Obj_Prestamos->ObtenerGananciasPrevistas($inicioMes, $finMes);
         $Res_PrestamosAcivos = $Obj_Prestamos->ObtenerPrestamosCreados($inicioMes, $finMes);
         $Res_ClientesCreados = $Obj_Clientes->ObtenerClientesCreados($inicioMes, $finMes);
         $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado($inicioMes, $finMes, true);
         break;
 
     default:
-        $Res_Ganancias = $Obj_Prestamos->ObtenerGanancias(date("Y-01-01"), date("Y-m-d"));
+        $Res_Ganancias = $Obj_Prestamos->ObtenerGananciasPrevistas(date("Y-01-01"), date("Y-m-d"));
         $Res_PrestamosAcivos = $Obj_Prestamos->ObtenerPrestamosCreados(date("Y-01-01"), date("Y-m-d"));
         $Res_ClientesCreados = $Obj_Clientes->ObtenerClientesCreados(date("Y-01-01"), date("Y-m-d"));
         $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado(date("Y-01-01"), date("Y-m-d"), true);

@@ -48,6 +48,8 @@ $Obj_Prestamos->ActualizarFechaSiguentePago($fechaSiguientePago, intval(trim(str
 $Res_Cuotas = $Obj_Cuotas->Insertar();
 
 if ($Res_Cuotas) {
+    $Res_PrestamosAtrasados = $Obj_Prestamos->ObtenerTotalPrestamosAtrasados();
+    $Res_PrestamosProximosPago = $Obj_Prestamos->ObtenerTotalProximosPagos();
 
     $PrestamosAtrasados = $Res_PrestamosAtrasados->fetch_assoc()['total_prestamos'];
     $PrestatosProximoPago = $Res_PrestamosProximosPago->fetch_assoc()['total_prestamos'];

@@ -97,4 +97,12 @@ class Cuotas extends DB
             ORDER BY calendar.mes;";
         return $this->EjecutarQuery($query);
     }
+
+    public function RecuperarFechaUltimoPago($id)
+    {
+        $query = "SELECT fecha_pago
+        FROM tbl_cuotas
+        WHERE id_cuota = '" . $id . "'";
+        return $this->EjecutarQuery($query);
+    }
 }

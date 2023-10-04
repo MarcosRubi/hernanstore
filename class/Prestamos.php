@@ -171,7 +171,7 @@ class Prestamos extends DB
             id_cliente = '" . $id . "'";
         return $this->EjecutarQuery($query);
     }
-    public function ObtenerGanancias($fechaInicio, $fechaFin)
+    public function ObtenerGananciasPrevistas($fechaInicio, $fechaFin)
     {
         $query = "SELECT
         COALESCE(SUM(tbl_prestamos.ganancias), 0) AS suma_ganancias
@@ -181,6 +181,15 @@ class Prestamos extends DB
             AND tbl_prestamos.fecha_prestamo BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "';";
         return $this->EjecutarQuery($query);
     }
+    public function ObtenerGananciasActuales($fechaInicio, $fechaFin)
+    {
+        $query = "SELECT COALESCE(SUM(vta_estadisticas_prestamos.monto_ganancias), 0) AS suma_ganancias from vta_estadisticas_prestamos 
+        WHERE  vta_estadisticas_prestamos.id_estado IN (3, 4) 
+        AND vta_estadisticas_prestamos.fecha_pago BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "' ";
+
+        return $this->EjecutarQuery($query);
+    }
+
     public function ObtenerPrestamosCreados($fechaInicio, $fechaFin)
     {
         $query = "SELECT
@@ -204,6 +213,14 @@ class Prestamos extends DB
             WHERE tbl_prestamos.eliminado = 'N'
             $condition
             AND tbl_prestamos.fecha_prestamo BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "';";
+        return $this->EjecutarQuery($query);
+    }
+    public function ObtenerCapitalPagado($fechaInicio, $fechaFin)
+    {
+        $query = "SELECT COALESCE(SUM(vta_estadisticas_prestamos.monto_prestamo_pagado), 0) AS capital_pagado from vta_estadisticas_prestamos 
+        WHERE  vta_estadisticas_prestamos.id_estado = 3
+        AND vta_estadisticas_prestamos.fecha_pago BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "' ";
+
         return $this->EjecutarQuery($query);
     }
     public function ObtenerTotalPrestamosPorEstado($id_estado)

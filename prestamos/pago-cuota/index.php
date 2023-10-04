@@ -187,6 +187,14 @@ $CapitalRestante = $DatosPrestamo['capital_prestamo'] + $DatosPrestamo['ganancia
         window.addEventListener("load", () => {
             getTable()
         });
+
+        <?php
+        if (isset($_SESSION['msg'])) {
+            include '../../func/Message.php';
+
+            echo showMessage($_SESSION['type'], $_SESSION['msg']);
+        }
+        ?>
     </script>
     <script>
         $(document).ready(function() {

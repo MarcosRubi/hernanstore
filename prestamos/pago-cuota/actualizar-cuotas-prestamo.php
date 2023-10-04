@@ -14,6 +14,9 @@ if ($Res_Prestamo) {
 
     $Res_PrestamosEnProceso = $Obj_Prestamos->ObtenerTotalPrestamosPorEstado('3');
     $Res_PrestamosPendientes = $Obj_Prestamos->ObtenerTotalPrestamosPorEstado('2');
+    $Res_PrestamosAtrasados = $Obj_Prestamos->ObtenerTotalPrestamosAtrasados();
+    $Res_PrestamosProximosPago = $Obj_Prestamos->ObtenerTotalProximosPagos();
+
     $PrestamosEnProceso = $Res_PrestamosEnProceso->fetch_assoc()['total_prestamos'];
     $PrestamosPendientes = $Res_PrestamosPendientes->fetch_assoc()['total_prestamos'];
     $PrestamosAtrasados = $Res_PrestamosAtrasados->fetch_assoc()['total_prestamos'];

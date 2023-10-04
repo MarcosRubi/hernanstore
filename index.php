@@ -86,7 +86,7 @@ $Res_Prestamos = $Obj_prestamos->listarUltimosPrestamos();
         <div class="container-fluid">
           <div class="row">
             <div class="py-3 col-lg-6">
-              <?php require_once './components/Chart_investments_vs_expenses.php' ?>
+              <?php require_once './components/Chart_investments_vs_expanses.php' ?>
 
               <!-- /.card -->
             </div>
