@@ -13,10 +13,14 @@ $filter = $_POST['filter'];
 
 switch ($filter) {
     case 'day':
-        $Res_Ganancias = $Obj_Prestamos->ObtenerGananciasPrevistas(date("Y-m-d"), date("Y-m-d"));
+        $Res_GananciasActuales = $Obj_Prestamos->ObtenerGananciasActuales(date("Y-m-d"), date("Y-m-d"));
+        $Res_GananciasPrevistas = $Obj_Prestamos->ObtenerGananciasPrevistas(date("Y-m-d"), date("Y-m-d"));
+
         $Res_PrestamosAcivos = $Obj_Prestamos->ObtenerPrestamosCreados(date("Y-m-d"), date("Y-m-d"));
         $Res_ClientesCreados = $Obj_Clientes->ObtenerClientesCreados(date("Y-m-d"), date("Y-m-d"));
+
         $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado(date("Y-m-d"), date("Y-m-d"), true);
+        $Res_CapitalPagado = $Obj_Prestamos->ObtenerCapitalPagado(date("Y-m-d"), date("Y-m-d"),);
         break;
     case 'week':
         $fechaActual = new DateTime(); // Obtener la fecha actual
@@ -25,10 +29,14 @@ switch ($filter) {
         $inicioSemana = $fechaActual->format('Y-m-d'); // Fecha de inicio de la semana (lunes)
         $finSemana = $fechaActual->modify('+6 days')->format('Y-m-d'); // Fecha de fin de la semana (domingo)
 
-        $Res_Ganancias = $Obj_Prestamos->ObtenerGananciasPrevistas($inicioSemana, $finSemana);
+        $Res_GananciasActuales = $Obj_Prestamos->ObtenerGananciasActuales($inicioSemana, $finSemana);
+        $Res_GananciasPrevistas = $Obj_Prestamos->ObtenerGananciasPrevistas($inicioSemana, $finSemana);
+
         $Res_PrestamosAcivos = $Obj_Prestamos->ObtenerPrestamosCreados($inicioSemana, $finSemana);
         $Res_ClientesCreados = $Obj_Clientes->ObtenerClientesCreados($inicioSemana, $finSemana);
+
         $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado($inicioSemana, $finSemana, true);
+        $Res_CapitalPagado = $Obj_Prestamos->ObtenerCapitalPagado($inicioSemana, $finSemana);
         break;
     case 'month':
         $fechaActual = new DateTime(); // Obtener la fecha actual
@@ -39,26 +47,39 @@ switch ($filter) {
         // Obtener el último día del mes actual
         $finMes = $fechaActual->format('Y-m-t');
 
-        $Res_Ganancias = $Obj_Prestamos->ObtenerGananciasPrevistas($inicioMes, $finMes);
+        $Res_GananciasActuales = $Obj_Prestamos->ObtenerGananciasActuales($inicioMes, $finMes);
+        $Res_GananciasPrevistas = $Obj_Prestamos->ObtenerGananciasPrevistas($inicioMes, $finMes);
+
         $Res_PrestamosAcivos = $Obj_Prestamos->ObtenerPrestamosCreados($inicioMes, $finMes);
         $Res_ClientesCreados = $Obj_Clientes->ObtenerClientesCreados($inicioMes, $finMes);
+
         $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado($inicioMes, $finMes, true);
+        $Res_CapitalPagado = $Obj_Prestamos->ObtenerCapitalPagado($inicioMes, $finMes);
         break;
 
     default:
-        $Res_Ganancias = $Obj_Prestamos->ObtenerGananciasPrevistas(date("Y-01-01"), date("Y-m-d"));
+        $Res_GananciasActuales = $Obj_Prestamos->ObtenerGananciasActuales(date("Y-01-01"), date("Y-m-d"));
+        $Res_GananciasPrevistas = $Obj_Prestamos->ObtenerGananciasPrevistas(date("Y-01-01"), date("Y-m-d"));
+
         $Res_PrestamosAcivos = $Obj_Prestamos->ObtenerPrestamosCreados(date("Y-01-01"), date("Y-m-d"));
         $Res_ClientesCreados = $Obj_Clientes->ObtenerClientesCreados(date("Y-01-01"), date("Y-m-d"));
+
         $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado(date("Y-01-01"), date("Y-m-d"), true);
+        $Res_CapitalPagado = $Obj_Prestamos->ObtenerCapitalPagado(date("Y-01-01"), date("Y-m-d"));
         break;
 }
 
+$totalGananciasActuales = doubleval($Res_GananciasActuales->fetch_assoc()['suma_ganancias']);
+$totalGananciasPrevistas = $Res_GananciasPrevistas->fetch_assoc()['suma_ganancias'];
 
-$totalGanancias = $Res_Ganancias->fetch_assoc()['suma_ganancias'];
 $totalPrestamosActivos = $Res_PrestamosAcivos->fetch_assoc()['prestamos_activos'];
 $totalClientesCreados = $Res_ClientesCreados->fetch_assoc()['clientes_creados'];
-$totalCapitalPrestado = $Res_CapitalPrestado->fetch_assoc()['suma_prestamos'];
 
+$totalCapitalPrestado = $Res_CapitalPrestado->fetch_assoc()['suma_prestamos'];
+$totalCapitalPagado = $Res_CapitalPagado->fetch_assoc()['capital_pagado'];
+
+$totalCapitalPendientePago = $totalCapitalPrestado - $totalCapitalPagado;
+$totalGananciasPendientePago = $totalGananciasPrevistas - $totalGananciasActuales;
 ?>
 
 <div class="card-body">
@@ -67,9 +88,9 @@ $totalCapitalPrestado = $Res_CapitalPrestado->fetch_assoc()['suma_prestamos'];
             <!-- small box -->
             <div class="small-box bg-info">
                 <div class="inner">
-                    <h3><?= $Obj_Reset->FormatoDinero($totalGanancias) ?></h3>
-
-                    <p>Ganancias</p>
+                    <h3><?= $Obj_Reset->FormatoDinero($totalGananciasPrevistas) ?></h3>
+                    <span>Ganancias</span>
+                    <span class="d-block text-center">Pendiente de cobro: <b><?= $Obj_Reset->FormatoDinero($totalGananciasPendientePago) ?></b></span>
                 </div>
                 <div class="icon">
                     <i class="ion ion-cash"></i>
@@ -84,7 +105,9 @@ $totalCapitalPrestado = $Res_CapitalPrestado->fetch_assoc()['suma_prestamos'];
                 <div class="inner">
                     <h3><?= $totalPrestamosActivos ?></h3>
 
-                    <p>Préstamos creados</p>
+                    <span>Préstamos creados</span>
+                    <span class="d-block text-center">&nbsp;</span>
+
                 </div>
                 <div class="icon">
                     <i class="ion ion-pie-graph"></i>
@@ -99,7 +122,9 @@ $totalCapitalPrestado = $Res_CapitalPrestado->fetch_assoc()['suma_prestamos'];
                 <div class="inner">
                     <h3><?= $totalClientesCreados ?></h3>
 
-                    <p>Nuevos clientes</p>
+                    <span>Nuevos clientes</span>
+                    <span class="d-block text-center">&nbsp;</span>
+
                 </div>
                 <div class="icon">
                     <i class="ion ion-person-add"></i>
@@ -114,7 +139,8 @@ $totalCapitalPrestado = $Res_CapitalPrestado->fetch_assoc()['suma_prestamos'];
                 <div class="inner">
                     <h3><?= $Obj_Reset->FormatoDinero($totalCapitalPrestado) ?></h3>
 
-                    <p>Capital prestado</p>
+                    <span>Capital prestado</span>
+                    <span class="d-block text-center">Pendiente de cobro: <b><?= $Obj_Reset->FormatoDinero($totalCapitalPendientePago) ?></b></span>
                 </div>
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>

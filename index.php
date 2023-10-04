@@ -63,7 +63,6 @@ $Res_Prestamos = $Obj_prestamos->listarUltimosPrestamos();
                       <i class="fas fa-wrench"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" role="menu">
-                      <a href="#" onclick="javascript:updateDataCards(event,'day')" class="dropdown-item ">Datos de hoy</a>
                       <a href="#" onclick="javascript:updateDataCards(event,'week')" class="dropdown-item">Datos de la semana</a>
                       <a href="#" onclick="javascript:updateDataCards(event,'month')" class="dropdown-item">Datos del mes</a>
                       <a href="#" onclick="javascript:updateDataCards(event,'year')" class="dropdown-item active">Datos del año</a>

@@ -97,6 +97,43 @@ class Cuotas extends DB
             ORDER BY calendar.mes;";
         return $this->EjecutarQuery($query);
     }
+    public function ObtenerIngresosPorSemanas()
+    {
+        $query = "SELECT
+        calendar.semana,
+        COALESCE(SUM(vta_listar_pagos.pago_cuota), 0) AS suma_cuotas
+            FROM (
+                SELECT WEEK(DATE_ADD(DATE_FORMAT(NOW(), '%Y-%m-01'), INTERVAL (n-1) WEEK)) AS semana
+                FROM (
+                    SELECT 1 AS n UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5
+                ) AS numbers
+            ) AS calendar
+            LEFT JOIN vta_listar_pagos
+            ON WEEK(vta_listar_pagos.fecha_pago) = calendar.semana
+            GROUP BY calendar.semana
+            ORDER BY calendar.semana;
+        ";
+        return $this->EjecutarQuery($query);
+    }
+    public function ObtenerIngresosPorSemanaActual()
+    {
+        $query = "SELECT
+        DATE(calendar.dia_semana) AS dia,
+        COALESCE(SUM(vta_listar_pagos.pago_cuota), 0) AS suma_cuotas
+            FROM (
+                SELECT
+                    DATE_ADD(NOW(), INTERVAL 1 - DAYOFWEEK(NOW()) DAY) + INTERVAL (n-1) DAY AS dia_semana
+                FROM (
+                    SELECT 1 AS n UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7
+                ) AS numbers
+            ) AS calendar
+            LEFT JOIN vta_listar_pagos
+                ON DATE(vta_listar_pagos.fecha_pago) = DATE(calendar.dia_semana)
+            GROUP BY dia
+            ORDER BY dia;
+        ";
+        return $this->EjecutarQuery($query);
+    }
 
     public function RecuperarFechaUltimoPago($id)
     {

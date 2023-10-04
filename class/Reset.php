@@ -162,4 +162,10 @@ class Reset extends DB
 
         return $fechasCuotas;
     }
+
+    public function obtenerNumSemanasMesActual()
+    {
+        $query = "SELECT WEEK(LAST_DAY(NOW())) - WEEK(DATE_FORMAT(NOW(),'%Y-%m-01')) + 1 AS num_semanas";
+        return $this->EjecutarQuery($query);
+    }
 }

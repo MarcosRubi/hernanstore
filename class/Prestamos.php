@@ -286,4 +286,44 @@ class Prestamos extends DB
             ORDER BY calendar.mes;";
         return $this->EjecutarQuery($query);
     }
+
+    public function ObtenerEgresosPorSemanas()
+    {
+        $query = "SELECT
+        calendar.semana,
+        COALESCE(SUM(tbl_prestamos.capital_prestamo), 0) AS suma_prestamos
+            FROM (
+                SELECT WEEK(DATE_ADD(DATE_FORMAT(NOW(), '%Y-%m-01'), INTERVAL (n-1) WEEK)) AS semana
+                FROM (
+                    SELECT 1 AS n UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5
+                ) AS numbers
+            ) AS calendar
+            LEFT JOIN tbl_prestamos
+            ON WEEK(tbl_prestamos.fecha_prestamo) = calendar.semana
+            AND tbl_prestamos.eliminado = 'N'
+            GROUP BY calendar.semana
+            ORDER BY calendar.semana;
+        ";
+        return $this->EjecutarQuery($query);
+    }
+    public function ObtenerEgresosPorSemanaActual()
+    {
+        $query = "SELECT
+        DATE(calendar.dia_semana) AS dia,
+        COALESCE(SUM(tbl_prestamos.capital_prestamo), 0) AS suma_prestamos
+        FROM (
+            SELECT
+                DATE_ADD(NOW(), INTERVAL 1 - DAYOFWEEK(NOW()) DAY) + INTERVAL (n-1) DAY AS dia_semana
+            FROM (
+                SELECT 1 AS n UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7
+            ) AS numbers
+        ) AS calendar
+        LEFT JOIN tbl_prestamos
+            ON DATE(tbl_prestamos.fecha_prestamo) = DATE(calendar.dia_semana)
+            AND tbl_prestamos.eliminado = 'N'
+        GROUP BY dia
+        ORDER BY dia;
+        ";
+        return $this->EjecutarQuery($query);
+    }
 }

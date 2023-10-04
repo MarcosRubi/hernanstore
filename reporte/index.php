@@ -171,10 +171,9 @@ require_once '../func/LoginValidator.php';
           <i class="fas fa-lg fa-wrench"></i>
         </button>
         <ul class="dropdown-menu" x-placement="top-start" x-out-of-boundaries="" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-160px, -84px, 0px);">
-          <li><a href="#" onclick="javascript:updateData(event,'year')" class="dropdown-item active">Datos del año</a></li>
-          <li><a href="#" onclick="javascript:updateData(event,'month')" class="dropdown-item">Datos del mes</a></li>
           <li><a href="#" onclick="javascript:updateData(event,'week')" class="dropdown-item">Datos de la semana</a></li>
-          <li><a href="#" onclick="javascript:updateData(event,'day')" class="dropdown-item ">Datos de hoy</a></li>
+          <li><a href="#" onclick="javascript:updateData(event,'month')" class="dropdown-item">Datos del mes</a></li>
+          <li><a href="#" onclick="javascript:updateData(event,'year')" class="dropdown-item active">Datos del año</a></li>
         </ul>
       </div>
     </div>
