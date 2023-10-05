@@ -22,7 +22,7 @@ $DatosPrestamo = $Res_DatosPrestamos->fetch_assoc();
 $numCuotas = $Res_DatosCuotas->num_rows + 1;
 $cuotasRestantes = $DatosPrestamo['num_cuotas'];
 $plazoEntrePagos = $Obj_Reset->PlazoEntrePagos($DatosPrestamo['id_plazo_pago']);
-$fechaUltimoPago = $DatosPrestamo['fecha_primer_pago'];
+$fechaUltimoPago = $numCuotas - 1 === 0 ? $DatosPrestamo['fecha_primer_pago'] : $DatosPrestamo['fecha_siguiente_pago'];
 
 $fechasPagos = $Obj_Reset->GenerarFechasCuotas($fechaUltimoPago, $cuotasRestantes, $plazoEntrePagos);
 
@@ -47,8 +47,6 @@ if ($ValorAgregadoSiguienteCuota <= 0) {
 } else {
     $ValorAgregadoSiguienteCuota = $ValorAgregadoSiguienteCuota + $DatosPrestamo['valor_cuota'];
 }
-
-
 
 ?>
 <div class="">
@@ -153,7 +151,7 @@ if ($ValorAgregadoSiguienteCuota <= 0) {
                                                         if ($i + $numCuotas - 1 === $numCuotas) {
                                                         ?>
                                                             <div class="input-group date" id="dateStart" data-target-input="nearest">
-                                                                <input type="text" class="form-control datetimepicker-input" data-target="#dateStart" data-inputmask-alias="datetime" placeholder="dd-mm-yyyy" name="txtFechaPago" id="date-start" value="<?= $Obj_Reset->FechaInvertir($fechasPagos[$i + $numCuotas - 2]) ?>">
+                                                                <input type="text" class="form-control datetimepicker-input" data-target="#dateStart" data-inputmask-alias="datetime" placeholder="dd-mm-yyyy" name="txtFechaPago" id="date-start" value="<?= $Obj_Reset->FechaInvertir($fechasPagos[$i - 1]) ?>">
                                                                 <div class="input-group-append" data-target="#dateStart" data-toggle="datetimepicker">
                                                                     <div class="input-group-text"><i class="fa fa-calendar"></i>
                                                                     </div>
@@ -161,7 +159,7 @@ if ($ValorAgregadoSiguienteCuota <= 0) {
                                                             </div>
                                                         <?php } else {
                                                         ?>
-                                                            <input type="text" class="form-control" value="<?= $Obj_Reset->FechaInvertir($fechasPagos[$i + $numCuotas - 2]) ?>" readonly />
+                                                            <input type="text" class="form-control" value="<?= $Obj_Reset->FechaInvertir($fechasPagos[$i - 1]) ?>" readonly />
                                                         <?php } ?>
                                                     </div>
                                                 </td>
@@ -185,7 +183,7 @@ if ($ValorAgregadoSiguienteCuota <= 0) {
                                                 </td>
                                             </tr>
                                             <?php if ($i + $numCuotas - 1 === $numCuotas) { ?>
-                                                <input type="text" class="form-control d-none" name="txtFechaSiguientePago" value="<?= $Obj_Reset->FechaInvertir($fechasPagos[$i + $numCuotas - 1]) ?>" readonly />
+                                                <input type="text" class="form-control d-none" name="txtFechaSiguientePago" value="<?= $Obj_Reset->FechaInvertir($fechasPagos[$i + $numCuotas - 1]) ?>" readonly id="fecha_siguiente_pago" />
                                             <?php }
                                             ?>
                                         <?php  } ?>

@@ -161,6 +161,7 @@ class Prestamos extends DB
             id_cliente = '" . $id . "'";
         return $this->EjecutarQuery($query);
     }
+
     public function ObtenerGananciasPorCliente($id)
     {
         $query = "SELECT
@@ -235,28 +236,15 @@ class Prestamos extends DB
 
     public function ObtenerTotalPrestamosAtrasados()
     {
-        $query = "SELECT
-        COALESCE(COUNT(tbl_prestamos.id_prestamo), 0) AS total_prestamos
-            FROM
-                tbl_prestamos
-            WHERE
-                tbl_prestamos.eliminado = 'N'
-                AND tbl_prestamos.fecha_siguiente_pago < CURDATE()
-				AND tbl_prestamos.id_estado = 3;";
+        $query = "SELECT COUNT(id_prestamo) AS total_prestamos FROM vta_prestamos WHERE id_estado = '3' AND  vta_prestamos.fecha_siguiente_pago < CURDATE() ORDER BY
+        fecha_siguiente_pago ";
         return $this->EjecutarQuery($query);
     }
     public function ObtenerTotalProximosPagos()
     {
-        $query = "SELECT
-        COALESCE(COUNT(tbl_prestamos.id_prestamo), 0) AS total_prestamos
-            FROM
-                tbl_prestamos
-            WHERE
-                tbl_prestamos.eliminado = 'N'
-                AND tbl_prestamos.id_estado = 3
-                AND tbl_prestamos.fecha_siguiente_pago >= CURDATE() + INTERVAL 1 DAY
-                AND tbl_prestamos.fecha_siguiente_pago <= CURDATE() + INTERVAL 5 DAY;
-            ";
+        $query = "SELECT COUNT(id_prestamo) AS total_prestamos FROM vta_prestamos WHERE id_estado = '3'  AND vta_prestamos.fecha_siguiente_pago >= CURDATE() 
+            AND vta_prestamos.fecha_siguiente_pago <= CURDATE() + INTERVAL 5 DAY ORDER BY
+            fecha_siguiente_pago ";
         return $this->EjecutarQuery($query);
     }
 

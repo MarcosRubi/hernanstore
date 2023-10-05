@@ -21,7 +21,7 @@ class Cuotas extends DB
 
     public function ObtenerUltimoPagoCuota($id)
     {
-        $query = "SELECT * FROM vta_listar_cuotas_prestamos WHERE id_prestamo='" . $id . "' ORDER BY id_cuota DESC LIMIT 1";
+        $query = "SELECT id_cuota, fecha_pago FROM tbl_cuotas WHERE id_prestamo='" . $id . "' AND eliminado='N' ORDER BY id_cuota DESC LIMIT 1";
         return $this->EjecutarQuery($query);
     }
 
@@ -132,14 +132,6 @@ class Cuotas extends DB
             GROUP BY dia
             ORDER BY dia;
         ";
-        return $this->EjecutarQuery($query);
-    }
-
-    public function RecuperarFechaUltimoPago($id)
-    {
-        $query = "SELECT fecha_pago
-        FROM tbl_cuotas
-        WHERE id_cuota = '" . $id . "'";
         return $this->EjecutarQuery($query);
     }
 }
