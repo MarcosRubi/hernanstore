@@ -3,28 +3,28 @@ require_once '../func/LoginValidator.php';
 require_once '../bd/bd.php';
 require_once '../class/Prestamos.php';
 require_once '../class/Cuotas.php';
+require_once '../class/TransaccionesInversores.php';
 require_once '../class/Reset.php';
 
 $Obj_Prestamos = new Prestamos();
 $Obj_Cuotas = new Cuotas();
+$Obj_TransaccionesInversores = new TransaccionesInversores();
 $Obj_Reset = new Reset();
 
-$Res_Egresos = $Obj_Prestamos->ObtenerEgresosPorMes();
-$Res_Ingresos = $Obj_Cuotas->ObtenerIngresosPorMes();
-
 $egresos = array();
+$egresosInversores = array();
+$ingresosInversores = array();
 $ingresos = array();
 $labels = array();
+
+$sumarValores = function ($a, $b) {
+    return $a + $b;
+};
+
 
 $filter = $_POST['filter'];
 
 switch ($filter) {
-    case 'day':
-        $Res_GananciasActuales = $Obj_Prestamos->ObtenerGananciasActuales(date("Y-m-d"), date("Y-m-d"));
-        $Res_GananciasPrevistas = $Obj_Prestamos->ObtenerGananciasPrevistas(date("Y-m-d"), date("Y-m-d"));
-
-        $labels = json_encode(['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00~23:59']);
-        break;
     case 'week':
         $fechaActual = new DateTime(); // Obtener la fecha actual
         $fechaActual->setISODate(date('Y'), date('W')); // Establecer la semana actual
@@ -34,6 +34,7 @@ switch ($filter) {
 
         $Res_Egresos = $Obj_Prestamos->ObtenerEgresosPorSemanaActual();
         $Res_Ingresos = $Obj_Cuotas->ObtenerIngresosPorSemanaActual();
+        $Res_EstadisticasInversores = $Obj_TransaccionesInversores->ObtenerEstadisticasPorSemanaActual();
 
         $labels = json_encode(['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']);
         break;
@@ -54,6 +55,7 @@ switch ($filter) {
 
         $Res_Egresos = $Obj_Prestamos->ObtenerEgresosPorSemanas();
         $Res_Ingresos = $Obj_Cuotas->ObtenerIngresosPorSemanas();
+        $Res_EstadisticasInversores = $Obj_TransaccionesInversores->ObtenerEstadisticasPorSemana();
 
         $labels = json_encode($labels);
         break;
@@ -61,6 +63,7 @@ switch ($filter) {
     default:
         $Res_Egresos = $Obj_Prestamos->ObtenerEgresosPorMes();
         $Res_Ingresos = $Obj_Cuotas->ObtenerIngresosPorMes();
+        $Res_EstadisticasInversores = $Obj_TransaccionesInversores->ObtenerEstadisticasPorMes();
         $labels = json_encode(['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']);
         break;
 }
@@ -68,12 +71,24 @@ switch ($filter) {
 while ($DatosPrestamos = $Res_Egresos->fetch_assoc()) {
     $egresos[] = doubleval($DatosPrestamos["suma_prestamos"]);
 }
+
+while ($EstadisticasInversores = $Res_EstadisticasInversores->fetch_assoc()) {
+    $egresosInversores[] = doubleval($EstadisticasInversores["total_egresos"]) + doubleval($EstadisticasInversores["total_ganancias"]);
+    $ingresosInversores[] = doubleval($EstadisticasInversores["total_ingresos"]);
+}
+
 while ($DatosCuotas = $Res_Ingresos->fetch_assoc()) {
     $ingresos[] = doubleval($DatosCuotas["suma_cuotas"]);
 }
 
-$jsonEgresos = json_encode($egresos);
-$jsonIngresos = json_encode($ingresos);
+
+$egresosCombinados = array_map($sumarValores, $egresos, $egresosInversores);
+$ingresosCombinados = array_map($sumarValores, $ingresos, $ingresosInversores);
+
+
+$jsonEgresos = json_encode($egresosCombinados);
+$jsonIngresos = json_encode($ingresosCombinados);
+
 ?>
 <div class="chart">
     <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>

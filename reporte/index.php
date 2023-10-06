@@ -88,73 +88,7 @@ require_once '../func/LoginValidator.php';
               </div>
             </div>
 
-            <div class="row">
-              <!-- DONUT CHART -->
-              <div class="col-md-4">
-                <div class="card card-danger">
-                  <div class="card-header">
-                    <h3 class="card-title">Ingresos de inversores</h3>
-
-                    <div class="card-tools">
-                      <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                      </button>
-                      <button type="button" class="btn btn-tool" data-card-widget="remove">
-                        <i class="fas fa-times"></i>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="card-body">
-                    <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                  </div>
-                  <!-- /.card-body -->
-                </div>
-              </div>
-
-              <!-- DONUT CHART -->
-              <div class="col-md-4">
-                <div class="card card-danger">
-                  <div class="card-header">
-                    <h3 class="card-title">Egresos de inversores</h3>
-
-                    <div class="card-tools">
-                      <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                      </button>
-                      <button type="button" class="btn btn-tool" data-card-widget="remove">
-                        <i class="fas fa-times"></i>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="card-body">
-                    <canvas id="donutChart2" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                  </div>
-                  <!-- /.card-body -->
-                </div>
-              </div>
-
-              <!-- DONUT CHART -->
-              <div class="col-md-4">
-                <div class="card card-danger">
-                  <div class="card-header">
-                    <h3 class="card-title">Ganancias de inversores</h3>
-
-                    <div class="card-tools">
-                      <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                        <i class="fas fa-minus"></i>
-                      </button>
-                      <button type="button" class="btn btn-tool" data-card-widget="remove">
-                        <i class="fas fa-times"></i>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="card-body">
-                    <canvas id="donutChart3" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                  </div>
-                </div>
-                <!-- /.card-body -->
-              </div>
-              <!-- /.card -->
+            <div class="row" id="donut-chart-investors">
             </div>
             <!-- /.col (RIGHT) -->
           </div>
@@ -200,51 +134,7 @@ require_once '../func/LoginValidator.php';
   <!-- AdminLTE for demo purposes -->
   <script src="../dist/js/demo.js"></script>
   <!-- Page specific script -->
-  <script>
-    $(function() {
-      //-------------
-      //- DONUT CHART -
-      //-------------
-      // Get context with jQuery - using jQuery's .get() method.
-      var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
-      var donutChartCanvas2 = $('#donutChart2').get(0).getContext('2d')
-      var donutChartCanvas3 = $('#donutChart3').get(0).getContext('2d')
-      var donutData = {
-        labels: [
-          'Inversor 1',
-          'Inversor 2',
-          'Inversor 3',
-        ],
-        datasets: [{
-          data: [700, 500, 400],
-          backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
-        }]
-      }
-      var donutOptions = {
-        maintainAspectRatio: false,
-        responsive: true,
-      }
-      //Create pie or douhnut chart
-      // You can switch between pie and douhnut using the method below.
-      new Chart(donutChartCanvas, {
-        type: 'doughnut',
-        data: donutData,
-        options: donutOptions
-      })
-      new Chart(donutChartCanvas2, {
-        type: 'doughnut',
-        data: donutData,
-        options: donutOptions
-      })
-      new Chart(donutChartCanvas3, {
-        type: 'doughnut',
-        data: donutData,
-        options: donutOptions
-      })
 
-
-    })
-  </script>
   <!-- Validaciones -->
   <script>
     let showChart = 'Line';
@@ -260,7 +150,7 @@ require_once '../func/LoginValidator.php';
       } else {
         showChart = 'Line'
       }
-      updateData(null, rangeTime)
+      updateDataChartLine(null, rangeTime)
     }
 
     function updateData(e, filterData) {
@@ -271,6 +161,7 @@ require_once '../func/LoginValidator.php';
       updateDataCards(e, filterData)
       updateDataChartLine(e, filterData)
       updateTableProgress(e, filterData)
+      updateDonutCharts(e, filterData)
 
       rangeTime = filterData
     }
@@ -278,7 +169,7 @@ require_once '../func/LoginValidator.php';
     function updateDataChartLine(e, filterData) {
       $.ajax({
         type: 'POST',
-        url: '<?= $_SESSION['path'] ?>' + '../components/' + showChart + 'chart_investments_expanses.php',
+        url: '<?= $_SESSION['path'] ?>' + '/components/' + showChart + 'chart_investments_expanses.php',
         data: {
           filter: filterData
         },
@@ -291,7 +182,7 @@ require_once '../func/LoginValidator.php';
     function updateDataCards(e, filterData) {
       $.ajax({
         type: 'POST',
-        url: '<?= $_SESSION['path'] ?>' + '../components/DataCards.php',
+        url: '<?= $_SESSION['path'] ?>' + '/components/DataCards.php',
         data: {
           filter: filterData
         },
@@ -304,12 +195,25 @@ require_once '../func/LoginValidator.php';
     function updateTableProgress(e, filterData) {
       $.ajax({
         type: 'POST',
-        url: '<?= $_SESSION['path'] ?>' + '../components/TableProgress.php',
+        url: '<?= $_SESSION['path'] ?>' + '/components/TableProgress.php',
         data: {
           filter: filterData
         },
         success: function(response) {
           $('#table-progress').html(response);
+        },
+      });
+    }
+
+    function updateDonutCharts(e, filterData) {
+      $.ajax({
+        type: 'POST',
+        url: '<?= $_SESSION['path'] ?>' + '/components/DonutChart_investors.php',
+        data: {
+          filter: filterData
+        },
+        success: function(response) {
+          $('#donut-chart-investors').html(response);
         },
       });
     }

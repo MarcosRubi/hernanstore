@@ -64,8 +64,8 @@ switch ($filter) {
         $Res_PrestamosAcivos = $Obj_Prestamos->ObtenerPrestamosCreados(date("Y-01-01"), date("Y-m-d"));
         $Res_ClientesCreados = $Obj_Clientes->ObtenerClientesCreados(date("Y-01-01"), date("Y-m-d"));
 
-        $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado(date("Y-01-01"), date("Y-m-d"), true);
-        $Res_CapitalPagado = $Obj_Prestamos->ObtenerCapitalPagado(date("Y-01-01"), date("Y-m-d"));
+        $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado(date("Y-01-01"), date("Y-12-31"), true);
+        $Res_CapitalPagado = $Obj_Prestamos->ObtenerCapitalPagado(date("Y-01-01"), date("Y-12-31"));
         break;
 }
 
@@ -80,6 +80,7 @@ $totalCapitalPagado = $Res_CapitalPagado->fetch_assoc()['capital_pagado'];
 
 $totalCapitalPendientePago = $totalCapitalPrestado - $totalCapitalPagado;
 $totalGananciasPendientePago = $totalGananciasPrevistas - $totalGananciasActuales;
+
 ?>
 
 <div class="card-body">

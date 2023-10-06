@@ -16,6 +16,7 @@ if (intval($_SESSION['id_rol']) > 3) {
     return;
 }
 
+
 ?>
 
 <!DOCTYPE html>
@@ -78,7 +79,7 @@ if (intval($_SESSION['id_rol']) > 3) {
                                             <?php while ($DatosInversor = $Res_Inversores->fetch_assoc()) { ?>
                                                 <tr data-widget="expandable-table" aria-expanded="false">
                                                     <td><a href="<?= $_SESSION['path'] . '/inversor/?id=' . $DatosInversor['id_inversor'] ?>"><?= $DatosInversor['nombre_inversor'] ?></a></td>
-                                                    <td><?= $Obj_Reset->FormatoDinero($DatosInversor['total_ingresos']) ?></td>
+                                                    <td><?= $Obj_Reset->FormatoDinero($DatosInversor['total_ingresos'] - $DatosInversor['total_egresos']) ?></td>
                                                     <td><?= $Obj_Reset->FormatoDinero($DatosInversor['total_ganancias']) ?></td>
                                                     <td style="width:25%">
                                                         <div class="d-flex justify-content-around">

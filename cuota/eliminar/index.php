@@ -46,6 +46,6 @@ if ($Res_Cuotas) {
 
     $_SESSION['msg'] = 'Cuota eliminada correctamente.';
     $_SESSION['type'] = 'success';
-    // header("Location:" . $_SESSION['path'] . "/prestamos/pago-cuota/?id=" . $_GET['id_prestamo']);
+    header("Location:" . $_SESSION['path'] . "/prestamos/pago-cuota/?id=" . $_GET['id_prestamo']);
     return;
 }

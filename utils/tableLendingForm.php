@@ -183,7 +183,7 @@ if ($ValorAgregadoSiguienteCuota <= 0) {
                                                 </td>
                                             </tr>
                                             <?php if ($i + $numCuotas - 1 === $numCuotas) { ?>
-                                                <input type="text" class="form-control d-none" name="txtFechaSiguientePago" value="<?= $Obj_Reset->FechaInvertir($fechasPagos[$i + $numCuotas - 1]) ?>" readonly id="fecha_siguiente_pago" />
+                                                <input type="text" class="form-control d-none" name="txtFechaSiguientePago" value="<?= $Obj_Reset->FechaInvertir($fechasPagos[$i]) ?>" readonly id="fecha_siguiente_pago" />
                                             <?php }
                                             ?>
                                         <?php  } ?>

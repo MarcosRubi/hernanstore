@@ -91,8 +91,8 @@ $totalCapitalPrestado == 0
                         <span class="d-block">Ganancia</span>
                     </td>
                     <td>
-                        <div class="progress progress-xs">
-                            <div class="progress-bar progress-bar-success" style="width: <?= $porcentajeInteresCompletado ?>%"></div>
+                        <div class="progress progress-sm rounded">
+                            <div class="progress-bar progress-bar-success rounded bg-success" style="width: <?= $porcentajeInteresCompletado ?>%"></div>
                         </div>
                         <span>Se ha cobrado <b><?= $Obj_Reset->FormatoDinero($totalGananciasActuales) ?></b> de <b><?= $Obj_Reset->FormatoDinero($totalGananciasPrevistas) ?></b> de los intereses</span>
                     </td>
@@ -103,8 +103,8 @@ $totalCapitalPrestado == 0
                         <span class="d-block">Capital prestado</span>
                     </td>
                     <td>
-                        <div class="progress progress-xs">
-                            <div class="progress-bar progress-bar-success" style="width: <?= $porcentajeCapitalPagado ?>%"></div>
+                        <div class="progress progress-sm rounded">
+                            <div class="progress-bar progress-bar-success rounded bg-success" style="width: <?= $porcentajeCapitalPagado ?>%"></div>
                         </div>
                         <span>Se ha cobrado <b><?= $Obj_Reset->FormatoDinero($totalCapitalPagado) ?></b> de <b><?= $Obj_Reset->FormatoDinero($totalCapitalPrestado) ?></b> del capital en prestamos activos</span>
                     </td>
