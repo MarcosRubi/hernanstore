@@ -88,7 +88,7 @@ require_once '../func/LoginValidator.php';
               </div>
             </div>
 
-            <div class="row" id="donut-chart-investors">
+            <div class="col-md-12 row" id="donut-chart-investors">
             </div>
             <!-- /.col (RIGHT) -->
           </div>
@@ -137,7 +137,7 @@ require_once '../func/LoginValidator.php';
 
   <!-- Validaciones -->
   <script>
-    let showChart = 'Line';
+    let showChart = 'Bar';
     let rangeTime = 'year';
 
     $(function() {

@@ -96,7 +96,7 @@ $totalGananciasPendientePago = $totalGananciasPrevistas - $totalGananciasActuale
                 <div class="icon">
                     <i class="ion ion-cash"></i>
                 </div>
-                <a href="#" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="<?= $_SESSION['path'] ?>/reporte/" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -113,7 +113,7 @@ $totalGananciasPendientePago = $totalGananciasPrevistas - $totalGananciasActuale
                 <div class="icon">
                     <i class="ion ion-pie-graph"></i>
                 </div>
-                <a href="#" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="<?= $_SESSION['path'] ?>/prestamos/listar/en-proceso/" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -130,7 +130,7 @@ $totalGananciasPendientePago = $totalGananciasPrevistas - $totalGananciasActuale
                 <div class="icon">
                     <i class="ion ion-person-add"></i>
                 </div>
-                <a href="#" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="<?= $_SESSION['path'] ?>/clientes/" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -146,7 +146,7 @@ $totalGananciasPendientePago = $totalGananciasPrevistas - $totalGananciasActuale
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="#" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="<?= $_SESSION['path'] ?>/reporte/" class="small-box-footer">Más detalles <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
     </div>

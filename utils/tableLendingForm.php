@@ -47,7 +47,6 @@ if ($ValorAgregadoSiguienteCuota <= 0) {
 } else {
     $ValorAgregadoSiguienteCuota = $ValorAgregadoSiguienteCuota + $DatosPrestamo['valor_cuota'];
 }
-
 ?>
 <div class="">
     <!-- Main content -->
@@ -67,75 +66,78 @@ if ($ValorAgregadoSiguienteCuota <= 0) {
                                             <th># Cuota</th>
                                             <th>Fecha de pago</th>
                                             <th>Valor cuota</th>
-                                            <th>Estado</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <div class="card  <?= $CapitalRestante === 0 ? '' : 'collapsed-card' ?>">
-                                            <div class="card-header bg-olive">
-                                                <h3 class="card-title">Ver historial de pagos</h3>
+                                        <?php
+                                        if ($cuotasFaltantes !== intval($DatosPrestamo['num_cuotas'])) {
+                                        ?>
+                                            <div class="card  <?= $CapitalRestante === 0 ? '' : 'collapsed-card' ?>">
+                                                <div class="card-header bg-olive">
+                                                    <h3 class="card-title">Ver historial de pagos</h3>
 
-                                                <div class="card-tools">
-                                                    <button type="button" class="btn btn-tool text-white" data-card-widget="collapse"><i class="fas <?= $CapitalRestante === 0 ? 'fa-minus' : 'fa-plus' ?> "></i>
-                                                    </button>
+                                                    <div class="card-tools">
+                                                        <button type="button" class="btn btn-tool text-white" data-card-widget="collapse"><i class="fas <?= $CapitalRestante === 0 ? 'fa-minus' : 'fa-plus' ?> "></i>
+                                                        </button>
+                                                    </div>
+                                                    <!-- /.card-tools -->
                                                 </div>
-                                                <!-- /.card-tools -->
-                                            </div>
-                                            <!-- /.card-header -->
-                                            <div class="card-body">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="form-group container-fluid">
-                                                        <span class="font-weight-bold text-lg"># cuota</span>
-                                                    </div>
-                                                    <div class="form-group container-fluid">
-                                                        <span class="font-weight-bold text-lg">Fecha de pago</span>
-                                                    </div>
-                                                    <div class="form-group container-fluid">
-                                                        <span class="font-weight-bold text-lg">Valor cuota</span>
-                                                    </div>
-                                                    <div class="form-group container-fluid">
-                                                        <span class="font-weight-bold text-lg">Estado</span>
-                                                    </div>
-                                                    <div class="d-flex align-items-center form-group">
-                                                        <span class="font-weight-bold text-lg mx-4">Acciones</span>
-
-                                                    </div>
-                                                </div>
-                                                <?php
-                                                if ($Res_DatosCuotas->num_rows > 0) {
-                                                    while ($DatosCuota = $Res_DatosCuotas->fetch_assoc()) {
-                                                ?>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="form-group container-fluid">
-                                                                <input type="text" class="form-control" value="<?= $DatosCuota['num_cuota'] ?>" readonly />
-                                                            </div>
-                                                            <div class="form-group container-fluid">
-                                                                <input type="text" class="form-control" value="<?= $Obj_Reset->FechaInvertir($DatosCuota['fecha_pago']) ?>" readonly />
-                                                            </div>
-                                                            <div class="form-group container-fluid">
-                                                                <input type="text" class="form-control" value="<?= $DatosCuota['pago_cuota']  ?>" readonly />
-                                                            </div>
-                                                            <div class="form-group container-fluid">
-                                                                <input type="text" value="<?= $DatosCuota['estado_cuota']  ?>" class="form-control" readonly>
-                                                            </div>
-                                                            <div class="d-flex align-items-center form-group">
-                                                                <a href="#" class=" btn bg-orange mx-2" title="Editar" onclick="javascript:editarCuota(<?= $DatosCuota['id_cuota'] ?>);">
-                                                                    <i class="fa fa-edit "></i>
-                                                                </a>
-                                                                <a href="#" class=" btn btn-danger mx-2" title="Eliminar" onclick="javascript:eliminarCuota(<?php echo $DatosCuota['id_cuota'] . "," .  $_GET['id'] ?>);">
-                                                                    <i class="fa fa-trash"></i>
-                                                                </a>
-
-                                                            </div>
+                                                <!-- /.card-header -->
+                                                <div class="card-body">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="form-group container-fluid">
+                                                            <span class="font-weight-bold text-lg"># cuota</span>
                                                         </div>
-                                                <?php
-                                                    }
-                                                }
-                                                ?>
+                                                        <div class="form-group container-fluid">
+                                                            <span class="font-weight-bold text-lg">Fecha de pago</span>
+                                                        </div>
+                                                        <div class="form-group container-fluid">
+                                                            <span class="font-weight-bold text-lg">Valor cuota</span>
+                                                        </div>
+                                                        <div class="form-group container-fluid">
+                                                            <span class="font-weight-bold text-lg">Estado</span>
+                                                        </div>
+                                                        <div class="d-flex align-items-center form-group">
+                                                            <span class="font-weight-bold text-lg mx-4">Acciones</span>
 
+                                                        </div>
+                                                    </div>
+                                                    <?php
+                                                    if ($Res_DatosCuotas->num_rows > 0) {
+                                                        while ($DatosCuota = $Res_DatosCuotas->fetch_assoc()) {
+                                                    ?>
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="form-group container-fluid">
+                                                                    <input type="text" class="form-control" value="<?= $DatosCuota['num_cuota'] ?>" readonly />
+                                                                </div>
+                                                                <div class="form-group container-fluid">
+                                                                    <input type="text" class="form-control" value="<?= $Obj_Reset->FechaInvertir($DatosCuota['fecha_pago']) ?>" readonly />
+                                                                </div>
+                                                                <div class="form-group container-fluid">
+                                                                    <input type="text" class="form-control" value="<?= $DatosCuota['pago_cuota']  ?>" readonly />
+                                                                </div>
+                                                                <div class="form-group container-fluid">
+                                                                    <input type="text" value="<?= $DatosCuota['estado_cuota']  ?>" class="form-control" readonly>
+                                                                </div>
+                                                                <div class="d-flex align-items-center form-group">
+                                                                    <a href="#" class=" btn bg-orange mx-2" title="Editar" onclick="javascript:editarCuota(<?= $DatosCuota['id_cuota'] ?>);">
+                                                                        <i class="fa fa-edit "></i>
+                                                                    </a>
+                                                                    <a href="#" class=" btn btn-danger mx-2" title="Eliminar" onclick="javascript:eliminarCuota(<?php echo $DatosCuota['id_cuota'] . "," .  $_GET['id'] ?>);">
+                                                                        <i class="fa fa-trash"></i>
+                                                                    </a>
+
+                                                                </div>
+                                                            </div>
+                                                    <?php
+                                                        }
+                                                    }
+                                                    ?>
+
+                                                </div>
+                                                <!-- /.card-body -->
                                             </div>
-                                            <!-- /.card-body -->
-                                        </div>
+                                        <?php  } ?>
 
 
                                         <?php for ($i = 1; $i <= $DatosPrestamo['num_cuotas'] - ($numCuotas - 1); $i++) { ?>
@@ -168,19 +170,6 @@ if ($ValorAgregadoSiguienteCuota <= 0) {
                                                         <input type="text" class="form-control" value="<?= $i + $numCuotas - 1 === $numCuotas ?  $ValorAgregadoSiguienteCuota : $DatosPrestamo['valor_cuota'] ?>" <?= $i + $numCuotas - 1 === $numCuotas ? '' : 'readonly' ?> <?= $i + $numCuotas - 1 === $numCuotas ? 'name="txtValorCuota"' : '' ?> />
                                                     </div>
                                                 </td>
-                                                <td>
-                                                    <div class="form-group container-fluid">
-                                                        <?php if ($i + $numCuotas - 1 === $numCuotas) { ?>
-                                                            <select class="form-control select2" style="width: 100%;" name="txtIdEstadoCuota">
-                                                                <?php while ($EstadosCuotas = $Res_EstadosCuotas->fetch_assoc()) { ?>
-                                                                    <option value="<?= $EstadosCuotas['id_estado_cuota'] ?>"><?= $EstadosCuotas['estado_cuota'] ?></option>
-                                                                <?php } ?>
-                                                            </select>
-                                                        <?php } else { ?>
-                                                            <input type="text" value="Pendiente" class="form-control" readonly>
-                                                        <?php  } ?>
-                                                    </div>
-                                                </td>
                                             </tr>
                                             <?php if ($i + $numCuotas - 1 === $numCuotas) { ?>
                                                 <input type="text" class="form-control d-none" name="txtFechaSiguientePago" value="<?= $Obj_Reset->FechaInvertir($fechasPagos[$i]) ?>" readonly id="fecha_siguiente_pago" />
@@ -191,6 +180,8 @@ if ($ValorAgregadoSiguienteCuota <= 0) {
                                 </table>
                                 <!-- /.form group -->
                                 <input type="hidden" value="<?= $_GET['id'] ?>" name="txtIdPrestamo" class="form-control">
+                                <input type="hidden" value="<?= $DatosPrestamo['valor_cuota'] ?>" name="valor_cuota" class="form-control">
+                                <input type="hidden" value="<?= $DatosPrestamo['fecha_siguiente_pago'] ?>" name="fecha_siguiente_pago" class="form-control">
                                 <?php if ($numCuotas - 1 !== intval($DatosPrestamo['num_cuotas'])) { ?>
                                     <div class="d-flex flex-wrap justify-content-center align-items-center">
                                         <div class="form-group pr-1 flex-grow-1 ">

@@ -92,7 +92,7 @@ class Prestamos extends DB
             '" . $this->capital_prestamo . "',
             '" . $this->num_cuotas . "',
             '" . $this->fecha_primer_pago . "',
-            '" . $this->fecha_primer_pago . "',
+            '" . $this->fecha_siguiente_pago . "',
             '" . $this->fecha_prestamo . "',
             '" . $this->ganancias . "',
             '" . $this->valor_cuota . "',

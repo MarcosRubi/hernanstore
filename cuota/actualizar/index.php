@@ -15,6 +15,7 @@ $Res_DatosCuotas = $Obj_Cuotas->buscarPorIdCuota($_GET['id']);
 $Res_EstadosCuotas = $Obj_Prestamos->listarEstadosCuotas();
 
 $DatosCuota = $Res_DatosCuotas->fetch_assoc();
+
 ?>
 <!DOCTYPE html>
 <html lang="es">

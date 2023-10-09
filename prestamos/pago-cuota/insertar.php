@@ -36,10 +36,21 @@ if (trim($_POST['txtFechaPago']) === '') {
     return;
 };
 
+if (doubleval(trim(strip_tags($_POST['txtValorCuota']))) <= 0 || $Obj_Reset->FechaInvertirGuardar(trim(strip_tags($_POST['txtFechaPago']))) > trim(strip_tags($_POST['fecha_siguiente_pago']))) {
+    $Obj_Cuotas->id_estado_cuota = 4;
+} else if ($Obj_Reset->FechaInvertirGuardar(trim(strip_tags($_POST['txtFechaPago']))) < trim(strip_tags($_POST['fecha_siguiente_pago']))) {
+    $Obj_Cuotas->id_estado_cuota = 6;
+} else if (doubleval(trim(strip_tags($_POST['txtValorCuota']))) > doubleval(trim(strip_tags($_POST['valor_cuota'])))) {
+    $Obj_Cuotas->id_estado_cuota = 5;
+} else if (doubleval(trim(strip_tags($_POST['txtValorCuota']))) === doubleval(trim(strip_tags($_POST['valor_cuota'])))) {
+    $Obj_Cuotas->id_estado_cuota = 2;
+} else if (doubleval(trim(strip_tags($_POST['txtValorCuota']))) < doubleval(trim(strip_tags($_POST['valor_cuota'])))) {
+    $Obj_Cuotas->id_estado_cuota = 3;
+}
+
 $Obj_Cuotas->pago_cuota = doubleval(trim(strip_tags($_POST['txtValorCuota'])));
 $Obj_Cuotas->num_cuota = intval(trim(strip_tags($_POST['txtNumCuota'])));
 $Obj_Cuotas->fecha_pago = $Obj_Reset->FechaInvertirGuardar(trim(strip_tags($_POST['txtFechaPago'])));
-$Obj_Cuotas->id_estado_cuota = intval(trim(strip_tags($_POST['txtIdEstadoCuota'])));
 $Obj_Cuotas->id_prestamo = intval(trim(strip_tags($_POST['txtIdPrestamo'])));
 
 $fechaSiguientePago = $Obj_Reset->FechaInvertirGuardar(trim(strip_tags($_POST['txtFechaSiguientePago'])));
