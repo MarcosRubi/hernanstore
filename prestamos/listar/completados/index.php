@@ -60,7 +60,7 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('4', 'fecha_prestamo D
                                                 <th>Cliente</th>
                                                 <th>Fecha del préstamo</th>
                                                 <th>Capital prestado</th>
-                                                <th>Ganancias previstas</th>
+                                                <th>Ganancias</th>
                                                 <th># de cuotas</th>
                                                 <th>Acciones</th>
                                             </tr>

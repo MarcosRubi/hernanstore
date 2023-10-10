@@ -64,12 +64,12 @@ $Res_TransaccionesInversor = $Obj_TransaccionesInversores->listarMovimientosInve
                                 <div class="card">
                                     <div class="card-header">
                                         <div class="mt-3 mb-2 d-flex justify-content-between">
-                                            <h3 class="card-title">Transacciones del inversor <b><?= $DatosInversor['nombre_inversor'] ?></b> </h3>
+                                            <h3 class="card-title">Transacciones de <b><?= $DatosInversor['nombre_inversor'] ?></b> </h3>
                                             <a href="../inversores/" class="btn btn-primary">Listar todos los inversores</a>
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <table id="table-transactions" class="table table-bordered table-hover">
+                                        <table id="table-transactions" class="table table-bordered table-striped table-hover">
                                             <thead>
                                                 <tr>
                                                     <th>Capital de transacción</th>

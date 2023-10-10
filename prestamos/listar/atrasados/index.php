@@ -2,10 +2,12 @@
 require_once '../../../func/LoginValidator.php';
 require_once '../../../bd/bd.php';
 require_once '../../../class/Prestamos.php';
+require_once '../../../class/Cuotas.php';
 require_once '../../../class/Reset.php';
 
 
 $Obj_Prestamos = new Prestamos();
+$Obj_Cuotas = new Cuotas();
 $Obj_Reset = new Reset();
 
 $Res_Prestamos = $Obj_Prestamos->listarPrestamosAtrasados();
@@ -59,14 +61,20 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosAtrasados();
                                             <tr>
                                                 <th>Cliente</th>
                                                 <th>Capital prestado</th>
-                                                <th>Ganancias previstas</th>
+                                                <th>Ganancias</th>
+                                                <th>Abonado</th>
+                                                <th>Pendiente</th>
                                                 <th># de cuotas</th>
                                                 <th>Próximo pago</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php while ($DatosPrestamos = $Res_Prestamos->fetch_assoc()) { ?>
+                                            <?php while ($DatosPrestamos = $Res_Prestamos->fetch_assoc()) {
+                                                $Res_CapitalPagado = $Obj_Cuotas->CapitalPagado($DatosPrestamos['id_prestamo']);
+
+                                                $capitalPagado = $Res_CapitalPagado->fetch_assoc()['total'];
+                                                $CapitalRestante = $DatosPrestamos['capital_prestamo'] + $DatosPrestamos['ganancias'] - $capitalPagado; ?>
                                                 <tr>
                                                     <td>
                                                         <p><a href="<?= $_SESSION['path'] . '/prestamos/listar/cliente/?id=' . $DatosPrestamos['id_cliente'] ?>"><?= $DatosPrestamos['nombre_cliente'] ?></a></p>
@@ -76,6 +84,12 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosAtrasados();
                                                     </td>
                                                     <td>
                                                         <p><?= $Obj_Reset->FormatoDinero($DatosPrestamos['ganancias']) ?></p>
+                                                    </td>
+                                                    <td>
+                                                        <p><?= $Obj_Reset->FormatoDinero($capitalPagado) ?></p>
+                                                    </td>
+                                                    <td>
+                                                        <p><?= $Obj_Reset->FormatoDinero($CapitalRestante) ?></p>
                                                     </td>
                                                     <td>
                                                         <p><?= $DatosPrestamos['num_cuotas'] ?></p>
