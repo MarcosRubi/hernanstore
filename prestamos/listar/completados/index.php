@@ -54,7 +54,7 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('4', 'fecha_prestamo D
                                     <h3 class="card-title">Préstamos completados</h3>
                                 </div>
                                 <div class="card-body">
-                                    <table id="table-payments" class="table table-bordered table-hover">
+                                    <table id="table-payments" class="table table-bordered table-striped table-hover">
                                         <thead>
                                             <tr>
                                                 <th>Cliente</th>

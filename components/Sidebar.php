@@ -116,6 +116,14 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="<?= $_SESSION['path'] ?>/caja-chica/" class="nav-link">
+                            <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                            <p>
+                                Caja Chica
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="<?= $_SESSION['path'] ?>/empleados/" class="nav-link">
                             <i class="nav-icon fas fa-users-cog"></i>
                             <p>
@@ -130,7 +138,6 @@
                                 Inversores
                             </p>
                         </a>
-                    </li>
                     </li>
                 <?php
                 }

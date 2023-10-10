@@ -21,10 +21,12 @@ switch ($filter) {
         break;
     case 'week':
         $fechaActual = new DateTime(); // Obtener la fecha actual
-        $fechaActual->setISODate(date('Y'), date('W')); // Establecer la semana actual
+        $fechaActual->modify('last sunday'); // Establecer el último domingo como el inicio de la semana
+        $inicioSemana = $fechaActual->format('Y-m-d'); // Fecha de inicio de la semana (domingo)
 
-        $inicioSemana = $fechaActual->format('Y-m-d'); // Fecha de inicio de la semana (lunes)
-        $finSemana = $fechaActual->modify('+6 days')->format('Y-m-d'); // Fecha de fin de la semana (domingo)
+        // Avanzar al siguiente lunes
+        $fechaActual->modify('next monday');
+        $finSemana = $fechaActual->format('Y-m-d'); // Fecha de fin de la semana (lunes)
 
         $Res_Datos = $Obj_TransaccionesInversores->ObtenerEstadisticasDeInversores($inicioSemana, $finSemana);
 

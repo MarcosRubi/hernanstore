@@ -54,7 +54,7 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosAtrasados();
                                     <h3 class="card-title">Préstamos con cuotas atrasadas</h3>
                                 </div>
                                 <div class="card-body">
-                                    <table id="table-payments" class="table table-bordered table-hover">
+                                    <table id="table-payments" class="table table-bordered table-striped table-hover">
                                         <thead>
                                             <tr>
                                                 <th>Cliente</th>

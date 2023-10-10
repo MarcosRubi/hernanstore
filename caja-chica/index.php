@@ -1,13 +1,16 @@
 <?php
 require_once '../func/LoginValidator.php';
 require_once '../bd/bd.php';
-require_once '../class/Inversores.php';
+require_once '../class/Cuotas.php';
+require_once '../class/Prestamos.php';
 require_once '../class/Reset.php';
 
-$Obj_Inversores = new Inversores();
+$Obj_Cuotas = new Cuotas();
+$Obj_Prestamos = new Prestamos();
 $Obj_Reset = new Reset();
 
-$Res_Inversores = $Obj_Inversores->listarTodo();
+$Res_Cuotas = $Obj_Cuotas->ObtenerIngresosAnualesPorSemanas();
+$Res_Prestamos = $Obj_Prestamos->ObtenergresosAnualesPorSemanas();
 
 if (intval($_SESSION['id_rol']) > 3) {
     $_SESSION['msg'] = 'Acción no autorizada.';
@@ -16,6 +19,21 @@ if (intval($_SESSION['id_rol']) > 3) {
     return;
 }
 
+$resultados_combinados = array();
+
+while ($row_cuotas = $Res_Cuotas->fetch_assoc()) {
+    $semana = $row_cuotas['semana'];
+    $resultados_combinados[$semana]['suma_cuotas'] = $row_cuotas['suma_cuotas'];
+    $resultados_combinados[$semana]['fecha_inicial_semana'] = $row_cuotas['fecha_inicial_semana'];
+    $resultados_combinados[$semana]['fecha_final_semana'] = $row_cuotas['fecha_final_semana'];
+}
+
+while ($row_prestamos = $Res_Prestamos->fetch_assoc()) {
+    $semana = $row_prestamos['semana'];
+    $resultados_combinados[$semana]['suma_prestamos'] = $row_prestamos['suma_prestamos'];
+}
+
+$year_actual = date("Y"); // Obtener el año actual en formato de cuatro dígitos
 
 ?>
 
@@ -25,7 +43,7 @@ if (intval($_SESSION['id_rol']) > 3) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Inversores | Hernan Store</title>
+    <title>Caja Chica | Hernan Store</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -58,57 +76,46 @@ if (intval($_SESSION['id_rol']) > 3) {
                         <div class="mt-5 col-12">
                             <div class="card ">
                                 <div class="flex-wrap px-4 py-2 d-flex align-items-center justify-content-between">
-                                    <h3 class="card-title">Listado de inversores</h3>
-                                    <a href="<?= $_SESSION['path'] ?>/inversores/nuevo/" class=" btn btn-primary d-flex align-items-center">
-                                        <i class="pr-1 nav-icon fas fa-user-plus"></i>
-                                        Nuevo inversor
+                                    <h3 class="card-title">Listado de acciones</h3>
+                                    <a href="<?= $_SESSION['path'] ?>/caja-chica/nuevo/" class=" btn btn-primary d-flex align-items-center">
+                                        <i class="pr-1 nav-icon fas fa-plus-square"></i>
+                                        Nuevo movimiento
                                     </a>
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
-                                    <table id="table_investors" class="table table-bordered table-striped table-hover">
+                                    <table id="table_investors" class="table table-bordered table-striped  table-hover">
                                         <thead>
                                             <tr>
-                                                <th>Nombre</th>
-                                                <th>Capital invertido</th>
-                                                <th>Ganancias</th>
+                                                <th># Semana</th>
+                                                <th>Desde</th>
+                                                <th>Hasta</th>
+                                                <th>Ingresos</th>
+                                                <th>Egresos</th>
+                                                <th>Total</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php while ($DatosInversor = $Res_Inversores->fetch_assoc()) { ?>
-                                                <tr data-widget="expandable-table" aria-expanded="false">
-                                                    <td><a href="<?= $_SESSION['path'] . '/inversor/?id=' . $DatosInversor['id_inversor'] ?>"><?= $DatosInversor['nombre_inversor'] ?></a></td>
-                                                    <td><?= $Obj_Reset->FormatoDinero($DatosInversor['total_ingresos'] - $DatosInversor['total_egresos']) ?></td>
-                                                    <td><?= $Obj_Reset->FormatoDinero($DatosInversor['total_ganancias']) ?></td>
-                                                    <td style="width:25%">
-                                                        <div class="d-flex justify-content-around">
-                                                            <?php if ($_SESSION['id_rol'] <= 3) { ?>
-                                                                <a class="mx-1 btn btn-md bg-success" title="Transacción" onclick="javascript:realizarTransaccion(<?= $DatosInversor['id_inversor'] ?>);">
-                                                                    <i class="fa fa-hand-holding-usd"></i>
-                                                                </a>
-                                                                <a class="mx-1 btn btn-md bg-lightblue" title="Editar" onclick="javascript:abrirFormEditar(<?= $DatosInversor['id_inversor'] ?>);">
-                                                                    <i class="fa fa-edit"></i>
-                                                                </a>
-                                                                <a class="mx-1 btn btn-md bg-danger" title="Eliminar" onclick="javascript:eliminarInversor(<?= $DatosInversor['id_inversor'] ?>);">
-                                                                    <i class="fa fa-trash"></i>
-                                                                </a>
-                                                        </div>
-                                                    <?php } ?>
-                                                    </td>
-                                                </tr>
-                                                <tr class="expandable-body">
-                                                    <td colspan="4">
-                                                        <p>
-                                                            <?= $DatosInversor['detalles'] ?>
-                                                        </p>
-                                                    </td>
-                                                </tr>
-                                            <?php } ?>
+                                            <?php foreach ($resultados_combinados as $semana => $datos) {
+                                                $year_fecha = date("Y", strtotime($datos['fecha_inicial_semana']));
+                                                if ($year_actual === $year_fecha) {
+                                            ?>
+                                                    <tr>
+                                                        <td><?= $semana ?></td>
+                                                        <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($datos['fecha_inicial_semana'])) ?></td>
+                                                        <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($datos['fecha_final_semana'])) ?></td>
+                                                        <td><?= $Obj_Reset->FormatoDinero($datos['suma_cuotas']) ?></td>
+                                                        <td><?= $Obj_Reset->FormatoDinero($datos['suma_prestamos']) ?></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                            <?php }
+                                            } ?>
+
                                         </tbody>
                                     </table>
                                 </div>
-                                <!-- /.card-body -->
                                 <!-- /.card-body -->
                             </div>
                             <!-- /.card -->

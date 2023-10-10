@@ -78,10 +78,10 @@ $CapitalRestante = $DatosPrestamo['capital_prestamo'] + $DatosPrestamo['ganancia
                                                     <th>Cliente</th>
                                                     <th>Fecha Solicitud</th>
                                                     <th>Monto a pagar</th>
-                                                    <th>Monto restante</th>
+                                                    <th>Abonado</th>
+                                                    <th>Pendiente</th>
                                                     <th>Cuotas</th>
                                                     <th>Período Pagos</th>
-                                                    <th>Estado</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -89,10 +89,10 @@ $CapitalRestante = $DatosPrestamo['capital_prestamo'] + $DatosPrestamo['ganancia
                                                     <td><a href="<?= $_SESSION['path'] ?>/prestamos/listar/cliente/?id=<?= $DatosPrestamo['id_cliente'] ?>"><?= $DatosPrestamo['nombre_cliente'] ?></a></td>
                                                     <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamo['fecha_prestamo'])) ?></td>
                                                     <td><?= $Obj_Reset->FormatoDinero($DatosPrestamo['capital_prestamo'] + $DatosPrestamo['ganancias']) ?></td>
+                                                    <td><?= $Obj_Reset->FormatoDinero($capitalPagado) ?></td>
                                                     <td><?= $Obj_Reset->FormatoDinero($CapitalRestante) ?></td>
                                                     <td><?= $DatosPrestamo['num_cuotas'] ?></td>
                                                     <td><?= $DatosPrestamo['plazo_pago'] ?></td>
-                                                    <td><?= $DatosPrestamo['nombre_estado'] ?></td>
                                                 </tr>
                                                 <tr class="expandable-body">
                                                     <td colspan="7">

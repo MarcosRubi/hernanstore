@@ -77,7 +77,7 @@ if (intval($_SESSION['id_rol']) > 3) {
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
-                                    <table id="table_employees" class="table table-bordered table-hover">
+                                    <table id="table_employees" class="table table-bordered table-striped table-hover">
                                         <thead>
                                             <tr>
                                                 <th>Nombre</th>

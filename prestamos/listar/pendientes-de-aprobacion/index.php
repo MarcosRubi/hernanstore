@@ -54,7 +54,7 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('2');
                                     <h3 class="card-title">Préstamos pendientes de aprobación</h3>
                                 </div>
                                 <div class="card-body">
-                                    <table id="table-payments" class="table table-bordered table-hover">
+                                    <table id="table-payments" class="table table-bordered table-striped table-hover">
                                         <thead>
                                             <tr>
                                                 <th>Cliente</th>

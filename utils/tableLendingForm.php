@@ -66,6 +66,7 @@ if ($ValorAgregadoSiguienteCuota <= 0) {
                                             <th># Cuota</th>
                                             <th>Fecha de pago</th>
                                             <th>Valor cuota</th>
+                                            <th style="width:120px;"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -143,7 +144,7 @@ if ($ValorAgregadoSiguienteCuota <= 0) {
                                         <?php for ($i = 1; $i <= $DatosPrestamo['num_cuotas'] - ($numCuotas - 1); $i++) { ?>
                                             <tr>
                                                 <td>
-                                                    <div class="form-group ">
+                                                    <div class="form-group">
                                                         <input type="text" class="form-control" <?= $i + $numCuotas - 1 === $numCuotas ? 'name="txtNumCuota"' : '' ?> value="<?= $i + $numCuotas - 1 ?>" readonly />
                                                     </div>
                                                 </td>
@@ -170,6 +171,11 @@ if ($ValorAgregadoSiguienteCuota <= 0) {
                                                         <input type="text" class="form-control" value="<?= $i + $numCuotas - 1 === $numCuotas ?  $ValorAgregadoSiguienteCuota : $DatosPrestamo['valor_cuota'] ?>" <?= $i + $numCuotas - 1 === $numCuotas ? '' : 'readonly' ?> <?= $i + $numCuotas - 1 === $numCuotas ? 'name="txtValorCuota"' : '' ?> />
                                                     </div>
                                                 </td>
+                                                <td>
+                                                    <?php if ($numCuotas - 1 !== intval($DatosPrestamo['num_cuotas'])) { ?>
+                                                        <?= $i + $numCuotas - 1 === $numCuotas ? '<button class="btn btn-primary" type="submit">Agregar pago</button>' : '' ?>
+                                                    <?php  } ?>
+                                                </td>
                                             </tr>
                                             <?php if ($i + $numCuotas - 1 === $numCuotas) { ?>
                                                 <input type="text" class="form-control d-none" name="txtFechaSiguientePago" value="<?= $Obj_Reset->FechaInvertir($fechasPagos[$i]) ?>" readonly id="fecha_siguiente_pago" />
@@ -182,16 +188,7 @@ if ($ValorAgregadoSiguienteCuota <= 0) {
                                 <input type="hidden" value="<?= $_GET['id'] ?>" name="txtIdPrestamo" class="form-control">
                                 <input type="hidden" value="<?= $DatosPrestamo['valor_cuota'] ?>" name="valor_cuota" class="form-control">
                                 <input type="hidden" value="<?= $DatosPrestamo['fecha_siguiente_pago'] ?>" name="fecha_siguiente_pago" class="form-control">
-                                <?php if ($numCuotas - 1 !== intval($DatosPrestamo['num_cuotas'])) { ?>
-                                    <div class="d-flex flex-wrap justify-content-center align-items-center">
-                                        <div class="form-group pr-1 flex-grow-1 ">
-                                            <a href="../listar/cliente/?id=<?= $DatosPrestamo['id_cliente'] ?>" class="btn btn-lg btn-secondary text-center btn-block" type="reset">Cancelar</a>
-                                        </div>
-                                        <div class="form-group pl-1 flex-grow-1">
-                                            <button class="btn btn-primary btn-lg btn-block" type="submit">Realizar pago cuota</button>
-                                        </div>
-                                    </div>
-                                <?php  } ?>
+
                             </form>
                         </div>
                         <!-- /.card-body -->
