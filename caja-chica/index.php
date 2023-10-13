@@ -3,14 +3,10 @@ require_once '../func/LoginValidator.php';
 require_once '../bd/bd.php';
 require_once '../class/Cuotas.php';
 require_once '../class/Prestamos.php';
+require_once '../class/TransaccionesAdicionales.php';
+require_once '../class/TransaccionesInversores.php';
 require_once '../class/Reset.php';
 
-$Obj_Cuotas = new Cuotas();
-$Obj_Prestamos = new Prestamos();
-$Obj_Reset = new Reset();
-
-$Res_Cuotas = $Obj_Cuotas->ObtenerIngresosAnualesPorSemanas();
-$Res_Prestamos = $Obj_Prestamos->ObtenergresosAnualesPorSemanas();
 
 if (intval($_SESSION['id_rol']) > 3) {
     $_SESSION['msg'] = 'Acción no autorizada.';
@@ -18,6 +14,17 @@ if (intval($_SESSION['id_rol']) > 3) {
     header("Location:" . $_SESSION['path']);
     return;
 }
+
+$Obj_Cuotas = new Cuotas();
+$Obj_Prestamos = new Prestamos();
+$Obj_TransaccionesAdicionales = new TransaccionesAdicionales();
+$Obj_TransaccionesInversores = new TransaccionesInversores();
+$Obj_Reset = new Reset();
+
+$Res_Cuotas = $Obj_Cuotas->ObtenerIngresosAnualesPorSemanas('2023-01-01', date("Y-m-d"));
+$Res_Prestamos = $Obj_Prestamos->ObtenerEgresosAnualesPorSemanas('2023-01-01', date("Y-m-d"));
+$Res_TransaccionesAdicionales = $Obj_TransaccionesAdicionales->ObtenerEgresosAnualesPorSemanas('2023-01-01', date("Y-m-d"));
+$Res_TransaccionesInversores = $Obj_TransaccionesInversores->ObtenerEgresosAnualesPorSemanas('2023-01-01', date("Y-m-d"));
 
 $resultados_combinados = array();
 
@@ -33,7 +40,26 @@ while ($row_prestamos = $Res_Prestamos->fetch_assoc()) {
     $resultados_combinados[$semana]['suma_prestamos'] = $row_prestamos['suma_prestamos'];
 }
 
-$year_actual = date("Y"); // Obtener el año actual en formato de cuatro dígitos
+while ($row_transacciones = $Res_TransaccionesAdicionales->fetch_assoc()) {
+    $semana = $row_transacciones['semana'];
+    if (!isset($resultados_combinados[$semana])) {
+        $resultados_combinados[$semana] = array();
+    }
+
+    // Suma 'total_ingresos' a 'suma_cuotas' y 'total_egresos' a 'suma_prestamos'
+    $resultados_combinados[$semana]['suma_cuotas'] += $row_transacciones['total_ingresos'];
+    $resultados_combinados[$semana]['suma_prestamos'] += $row_transacciones['total_egresos'];
+}
+while ($row_transaccionesInversores = $Res_TransaccionesInversores->fetch_assoc()) {
+    $semana = $row_transaccionesInversores['semana'];
+    if (!isset($resultados_combinados[$semana])) {
+        $resultados_combinados[$semana] = array();
+    }
+
+    // Suma 'total_ingresos' a 'suma_cuotas' y 'total_egresos' a 'suma_prestamos'
+    $resultados_combinados[$semana]['suma_cuotas'] += $row_transaccionesInversores['total_ingresos'];
+    $resultados_combinados[$semana]['suma_prestamos'] += $row_transaccionesInversores['total_egresos'];
+}
 
 ?>
 
@@ -77,14 +103,20 @@ $year_actual = date("Y"); // Obtener el año actual en formato de cuatro dígito
                             <div class="card ">
                                 <div class="flex-wrap px-4 py-2 d-flex align-items-center justify-content-between">
                                     <h3 class="card-title">Listado de acciones</h3>
-                                    <a href="<?= $_SESSION['path'] ?>/caja-chica/nuevo/" class=" btn btn-primary d-flex align-items-center">
-                                        <i class="pr-1 nav-icon fas fa-plus-square"></i>
-                                        Nuevo movimiento
-                                    </a>
+                                    <div class="d-flex align-items-center">
+                                        <a onclick="javascript:listarTransacciones()" class=" btn btn-info d-flex align-items-center mr-2">
+                                            <i class="pr-1 nav-icon fas fa-list"></i>
+                                            Listar transacciones
+                                        </a>
+                                        <a onclick="javascript:realizarMovimiento()" class=" btn btn-primary d-flex align-items-center">
+                                            <i class="pr-1 nav-icon fas fa-plus-square"></i>
+                                            Nueva transacción
+                                        </a>
+                                    </div>
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
-                                    <table id="table_investors" class="table table-bordered table-striped  table-hover">
+                                    <table id="table_details" class="table table-bordered table-striped  table-hover">
                                         <thead>
                                             <tr>
                                                 <th># Semana</th>
@@ -98,20 +130,25 @@ $year_actual = date("Y"); // Obtener el año actual en formato de cuatro dígito
                                         </thead>
                                         <tbody>
                                             <?php foreach ($resultados_combinados as $semana => $datos) {
-                                                $year_fecha = date("Y", strtotime($datos['fecha_inicial_semana']));
-                                                if ($year_actual === $year_fecha) {
+                                                $total = $datos['suma_cuotas'] - $datos['suma_prestamos'];
                                             ?>
-                                                    <tr>
-                                                        <td><?= $semana ?></td>
-                                                        <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($datos['fecha_inicial_semana'])) ?></td>
-                                                        <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($datos['fecha_final_semana'])) ?></td>
-                                                        <td><?= $Obj_Reset->FormatoDinero($datos['suma_cuotas']) ?></td>
-                                                        <td><?= $Obj_Reset->FormatoDinero($datos['suma_prestamos']) ?></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-                                            <?php }
-                                            } ?>
+                                                <tr>
+                                                    <td><?= $semana ?></td>
+                                                    <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($datos['fecha_inicial_semana'])) ?></td>
+                                                    <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($datos['fecha_final_semana'])) ?></td>
+                                                    <td><?= $Obj_Reset->FormatoDinero($datos['suma_cuotas']) ?></td>
+                                                    <td><?= $Obj_Reset->FormatoDinero($datos['suma_prestamos']) ?></td>
+                                                    <td><?= $Obj_Reset->FormatoDinero($total) ?></td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-around">
+                                                            <a href="<?= $_SESSION['path'] ?>/caja-chica/detalles/?inicio=<?= $datos['fecha_inicial_semana'] ?>&fin=<?= $datos['fecha_final_semana']  ?>" target="_blank"" class=" mx-1 btn btn-md bg-olive d-flex align-items-center" title="Ver detalles">
+                                                                <i class="fa fa-eye pr-2"></i>
+                                                                <span>Ver detalles</span>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            <?php } ?>
 
                                         </tbody>
                                     </table>
@@ -126,7 +163,6 @@ $year_actual = date("Y"); // Obtener el año actual en formato de cuatro dígito
                 </div>
                 <!-- /.container-fluid -->
             </section>
-            <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
         <?php require_once '../components/Footer.php' ?>
@@ -154,42 +190,44 @@ $year_actual = date("Y"); // Obtener el año actual en formato de cuatro dígito
     <script src="../dist/js/demo.js"></script>
     <!-- Page specific script -->
     <script>
-        function abrirFormEditar(id) {
-            const ventanaAncho = 1000;
-            const ventanaAlto = 800;
-            const ventanaX = (screen.availWidth - ventanaAncho) / 2;
-            const ventanaY = (screen.availHeight - ventanaAlto) / 2;
-
-            window.open(
-                '<?= $_SESSION['path'] ?>/inversores/editar/?id=' + id,
-                'Editar datos del inversor',
-                'width=' + ventanaAncho + ',height=' + ventanaAlto + ',left=' + ventanaX + ',top=' + ventanaY
-            );
+        $(function() {
+            $("#table_details").DataTable({
+                "responsive": true,
+                "lengthChange": true,
+                "autoWidth": false,
+                "ordering": false,
+            });
+        });
+    </script>
+    <script>
+        function logout(path) {
+            window.location.href = path + '/func/SessionDestroy.php';
         }
 
-        function realizarTransaccion(id) {
+        function realizarMovimiento() {
             const ventanaAncho = 1000;
             const ventanaAlto = 800;
             const ventanaX = (screen.availWidth - ventanaAncho) / 2;
             const ventanaY = (screen.availHeight - ventanaAlto) / 2;
 
             window.open(
-                '<?= $_SESSION['path'] ?>/inversores/transaccion/?id=' + id,
+                '<?= $_SESSION['path'] ?>/caja-chica/nueva-transaccion/',
                 'Transacción',
                 'width=' + ventanaAncho + ',height=' + ventanaAlto + ',left=' + ventanaX + ',top=' + ventanaY
             );
         }
 
-        function eliminarInversor(id) {
-            let confirmacion = confirm("¿Está seguro que desea eliminar este inversor?");
+        function listarTransacciones() {
+            const ventanaAncho = 1000;
+            const ventanaAlto = 800;
+            const ventanaX = (screen.availWidth - ventanaAncho) / 2;
+            const ventanaY = (screen.availHeight - ventanaAlto) / 2;
 
-            if (confirmacion) {
-                window.location.href = '<?= $_SESSION['path'] ?>/inversores/eliminar/?id=' + id
-            }
-        }
-
-        function logout(path) {
-            window.location.href = path + '/func/SessionDestroy.php';
+            window.open(
+                '<?= $_SESSION['path'] ?>/caja-chica/transacciones/',
+                'Transacciones',
+                'width=' + ventanaAncho + ',height=' + ventanaAlto + ',left=' + ventanaX + ',top=' + ventanaY
+            );
         }
     </script>
     <script>

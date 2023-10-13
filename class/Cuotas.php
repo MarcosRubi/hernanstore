@@ -135,27 +135,41 @@ class Cuotas extends DB
         return $this->EjecutarQuery($query);
     }
 
-    public function ObtenerIngresosAnualesPorSemanas()
+    public function ObtenerIngresosAnualesPorSemanas($fechaInicio, $fechaFin)
     {
         $query = "SELECT
-        calendar.semana,
+        DATE_FORMAT(DATE_ADD(vta_listar_pagos.fecha_pago, INTERVAL 1-DAYOFWEEK(vta_listar_pagos.fecha_pago) DAY), '%Y-%U') AS semana,
         COALESCE(SUM(vta_listar_pagos.pago_cuota), 0) AS suma_cuotas,
-        MIN(fecha_inicial_semana) AS fecha_inicial_semana,
-        MAX(fecha_final_semana) AS fecha_final_semana
-        FROM (
-            SELECT
-                (n + 1) AS semana,
-                DATE_ADD(DATE_FORMAT(NOW(), '%Y-01-01'), INTERVAL n WEEK) AS fecha_inicial_semana,
-                DATE_ADD(DATE_ADD(DATE_FORMAT(NOW(), '%Y-01-01'), INTERVAL n WEEK), INTERVAL 6 DAY) AS fecha_final_semana
-            FROM (
-                SELECT 0 AS n UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10 UNION SELECT 11 UNION SELECT 12 UNION SELECT 13 UNION SELECT 14 UNION SELECT 15 UNION SELECT 16 UNION SELECT 17 UNION SELECT 18 UNION SELECT 19 UNION SELECT 20 UNION SELECT 21 UNION SELECT 22 UNION SELECT 23 UNION SELECT 24 UNION SELECT 25 UNION SELECT 26 UNION SELECT 27 UNION SELECT 28 UNION SELECT 29 UNION SELECT 30 UNION SELECT 31 UNION SELECT 32 UNION SELECT 33 UNION SELECT 34 UNION SELECT 35 UNION SELECT 36 UNION SELECT 37 UNION SELECT 38 UNION SELECT 39 UNION SELECT 40 UNION SELECT 41 UNION SELECT 42 UNION SELECT 43 UNION SELECT 44 UNION SELECT 45 UNION SELECT 46 UNION SELECT 47 UNION SELECT 48 UNION SELECT 49 UNION SELECT 50 UNION SELECT 51 UNION SELECT 52 UNION SELECT 53 UNION SELECT 54 UNION SELECT 55 UNION SELECT 56
-            ) AS numbers
-        ) AS calendar
-        LEFT JOIN vta_listar_pagos
-            ON DATE(vta_listar_pagos.fecha_pago) BETWEEN fecha_inicial_semana AND fecha_final_semana
-        GROUP BY calendar.semana
-        ORDER BY calendar.semana;
+        MIN(DATE_ADD(vta_listar_pagos.fecha_pago, INTERVAL 1-DAYOFWEEK(vta_listar_pagos.fecha_pago) DAY)) AS fecha_inicial_semana,
+        MAX(DATE_ADD(vta_listar_pagos.fecha_pago, INTERVAL 7-DAYOFWEEK(vta_listar_pagos.fecha_pago) DAY)) AS fecha_final_semana
+        FROM vta_listar_pagos
+        WHERE DATE(vta_listar_pagos.fecha_pago) >= '" . $fechaInicio . "' AND DATE(vta_listar_pagos.fecha_pago) <= '" . $fechaFin . "'
+        GROUP BY semana
+        ORDER BY semana;
         ";
+        return $this->EjecutarQuery($query);
+    }
+
+    public function ObtenerIngresosPorFechas($fechaInicio, $fechaFin)
+    {
+        $query = "SELECT
+        tbl_cuotas.pago_cuota, 
+        tbl_cuotas.fecha_pago, 
+        tbl_prestamos.id_prestamo, 
+        tbl_clientes.nombre_cliente
+    FROM
+        tbl_cuotas
+        INNER JOIN
+        tbl_prestamos
+        ON 
+            tbl_cuotas.id_prestamo = tbl_prestamos.id_prestamo
+        INNER JOIN
+        tbl_clientes
+        ON 
+            tbl_prestamos.id_cliente = tbl_clientes.id_cliente
+    WHERE
+        tbl_cuotas.eliminado = 'N' AND
+        tbl_cuotas.fecha_pago BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "'";
         return $this->EjecutarQuery($query);
     }
 }

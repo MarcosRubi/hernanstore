@@ -3,11 +3,13 @@ require_once './func/LoginValidator.php';
 require_once './bd/bd.php';
 require_once './class/Prestamos.php';
 require_once './class/TransaccionesInversores.php';
+require_once './class/TransaccionesAdicionales.php';
 require_once './class/Cuotas.php';
 
 $Obj_Prestamos = new Prestamos();
 $Obj_Cuotas = new Cuotas();
 $Obj_TransaccionesInversores = new TransaccionesInversores();
+$Obj_TransaccionesAdicionales = new TransaccionesAdicionales();
 
 $sumarValores = function ($a, $b) {
     return $a + $b;
@@ -15,6 +17,7 @@ $sumarValores = function ($a, $b) {
 
 $Res_Egresos = $Obj_Prestamos->ObtenerEgresosPorMes();
 $Res_Ingresos = $Obj_Cuotas->ObtenerIngresosPorMes();
+$Res_TransaccionesAdicionales = $Obj_TransaccionesAdicionales->ObtenerEstadisticasPorMes();
 $Res_GananciasPrevistas = $Obj_Prestamos->ObtenerGananciasPrevistas(date('Y-01-01'), date('Y-12-31'));
 $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado(date('Y-01-01'), date('Y-12-31'));
 $Res_EstadisticasInversores = $Obj_TransaccionesInversores->ObtenerEstadisticasPorMes();
@@ -23,6 +26,8 @@ $egresos = array();
 $ingresos = array();
 $egresosInversores = array();
 $ingresosInversores = array();
+$IngresosTransaccionesAdicionales = array();
+$EgresosTransaccionesAdicionales = array();
 
 $gananciasPrevistas = $Res_GananciasPrevistas->fetch_assoc()['suma_ganancias'];
 $capitalPrestado = $Res_CapitalPrestado->fetch_assoc()['suma_prestamos'];
@@ -35,13 +40,20 @@ while ($EstadisticasInversores = $Res_EstadisticasInversores->fetch_assoc()) {
     $egresosInversores[] = doubleval($EstadisticasInversores["total_egresos"]) + doubleval($EstadisticasInversores["total_ganancias"]);
     $ingresosInversores[] = doubleval($EstadisticasInversores["total_ingresos"]);
 }
+while ($transaccionesAdicionales = $Res_TransaccionesAdicionales->fetch_assoc()) {
+    $EgresosTransaccionesAdicionales[] = doubleval($transaccionesAdicionales["total_egresos"]) + doubleval($transaccionesAdicionales["total_ganancias"]);
+    $IngresosTransaccionesAdicionales[] = doubleval($transaccionesAdicionales["total_ingresos"]);
+}
 
 while ($DatosCuotas = $Res_Ingresos->fetch_assoc()) {
     $ingresos[] = doubleval($DatosCuotas["suma_cuotas"]);
 }
 
-$egresosCombinados = array_map($sumarValores, $egresos, $egresosInversores);
-$ingresosCombinados = array_map($sumarValores, $ingresos, $ingresosInversores);
+$preEgresosCombinados = array_map($sumarValores, $egresos, $egresosInversores);
+$preIngresosCombinados = array_map($sumarValores, $ingresos, $ingresosInversores);
+
+$egresosCombinados = array_map($sumarValores, $preEgresosCombinados, $EgresosTransaccionesAdicionales);
+$ingresosCombinados = array_map($sumarValores, $preIngresosCombinados, $IngresosTransaccionesAdicionales);
 
 $jsonEgresos = json_encode($egresosCombinados);
 $jsonIngresos = json_encode($ingresosCombinados);

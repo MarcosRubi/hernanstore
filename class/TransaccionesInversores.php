@@ -168,4 +168,51 @@ class TransaccionesInversores extends DB
         ";
         return $this->EjecutarQuery($query);
     }
+
+    public function ObtenerEgresosAnualesPorSemanas($fechaInicio, $fechaFin)
+    {
+        $query = "SELECT
+            DATE_FORMAT( DATE_ADD( tbl_movimientos_inversores.fecha, INTERVAL 1 - DAYOFWEEK( tbl_movimientos_inversores.fecha ) DAY ), '%Y-%U' ) AS semana,
+            COALESCE ( SUM( CASE WHEN tbl_movimientos_inversores.id_tipo_movimiento IN ( 3, 4 ) THEN tbl_movimientos_inversores.monto ELSE 0 END ), 0 ) AS total_egresos,
+            COALESCE ( SUM( CASE WHEN tbl_movimientos_inversores.id_tipo_movimiento = 2 THEN tbl_movimientos_inversores.monto ELSE 0 END ), 0 ) AS total_ingresos,
+            MIN(
+            DATE_ADD( tbl_movimientos_inversores.fecha, INTERVAL 1 - DAYOFWEEK( tbl_movimientos_inversores.fecha ) DAY )) AS fecha_inicial_semana,
+            MAX(
+            DATE_ADD( tbl_movimientos_inversores.fecha, INTERVAL 7 - DAYOFWEEK( tbl_movimientos_inversores.fecha ) DAY )) AS fecha_final_semana 
+        FROM
+            tbl_movimientos_inversores 
+        WHERE
+            DATE ( tbl_movimientos_inversores.fecha ) >= '" . $fechaInicio . "' 
+            AND DATE ( tbl_movimientos_inversores.fecha ) <= '" . $fechaFin . "' 
+            AND tbl_movimientos_inversores.eliminado = 'N' 
+            GROUP BY
+                semana 
+            ORDER BY
+                semana;
+        ";
+        return $this->EjecutarQuery($query);
+    }
+    public function ObtenerEstadisticasPorFechas($fechaInicio, $fechaFin)
+    {
+        $query = "SELECT
+        tbl_movimientos_inversores.monto, 
+        tbl_tipos_movimientos.nombre_tipo_movimiento, 
+        tbl_movimientos_inversores.fecha, 
+        tbl_inversores.nombre_inversor
+        FROM
+            tbl_inversores
+            INNER JOIN
+            tbl_movimientos_inversores
+            ON 
+                tbl_inversores.id_inversor = tbl_movimientos_inversores.id_inversor
+            INNER JOIN
+            tbl_tipos_movimientos
+            ON 
+                tbl_movimientos_inversores.id_tipo_movimiento = tbl_tipos_movimientos.id_tipo_movimiento
+        WHERE
+            tbl_movimientos_inversores.eliminado = 'N' AND
+            tbl_movimientos_inversores.fecha BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "'
+        ";
+        return $this->EjecutarQuery($query);
+    }
 }

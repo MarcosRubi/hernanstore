@@ -4,11 +4,13 @@ require_once '../bd/bd.php';
 require_once '../class/Prestamos.php';
 require_once '../class/Cuotas.php';
 require_once '../class/TransaccionesInversores.php';
+require_once '../class/TransaccionesAdicionales.php';
 require_once '../class/Reset.php';
 
 $Obj_Prestamos = new Prestamos();
 $Obj_Cuotas = new Cuotas();
 $Obj_TransaccionesInversores = new TransaccionesInversores();
+$Obj_TransaccionesAdicionales = new TransaccionesAdicionales();
 $Obj_Reset = new Reset();
 
 $egresos = array();
@@ -16,6 +18,8 @@ $egresosInversores = array();
 $ingresosInversores = array();
 $ingresos = array();
 $labels = array();
+$IngresosTransaccionesAdicionales = array();
+$EgresosTransaccionesAdicionales = array();
 
 $sumarValores = function ($a, $b) {
     return $a + $b;
@@ -37,6 +41,7 @@ switch ($filter) {
         $Res_Egresos = $Obj_Prestamos->ObtenerEgresosPorSemanaActual();
         $Res_Ingresos = $Obj_Cuotas->ObtenerIngresosPorSemanaActual();
         $Res_EstadisticasInversores = $Obj_TransaccionesInversores->ObtenerEstadisticasPorSemanaActual();
+        $Res_TransaccionesAdicionales = $Obj_TransaccionesAdicionales->ObtenerEstadisticasPorSemanaActual();
 
         $labels = json_encode(['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']);
         break;
@@ -58,6 +63,7 @@ switch ($filter) {
         $Res_Egresos = $Obj_Prestamos->ObtenerEgresosPorSemanas();
         $Res_Ingresos = $Obj_Cuotas->ObtenerIngresosPorSemanas();
         $Res_EstadisticasInversores = $Obj_TransaccionesInversores->ObtenerEstadisticasPorSemana();
+        $Res_TransaccionesAdicionales = $Obj_TransaccionesAdicionales->ObtenerEstadisticasPorSemanas();
 
         $labels = json_encode($labels);
         break;
@@ -65,6 +71,7 @@ switch ($filter) {
     default:
         $Res_Egresos = $Obj_Prestamos->ObtenerEgresosPorMes();
         $Res_Ingresos = $Obj_Cuotas->ObtenerIngresosPorMes();
+        $Res_TransaccionesAdicionales = $Obj_TransaccionesAdicionales->ObtenerEstadisticasPorMes();
         $Res_EstadisticasInversores = $Obj_TransaccionesInversores->ObtenerEstadisticasPorMes();
         $labels = json_encode(['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']);
         break;
@@ -78,15 +85,21 @@ while ($EstadisticasInversores = $Res_EstadisticasInversores->fetch_assoc()) {
     $egresosInversores[] = doubleval($EstadisticasInversores["total_egresos"]) + doubleval($EstadisticasInversores["total_ganancias"]);
     $ingresosInversores[] = doubleval($EstadisticasInversores["total_ingresos"]);
 }
+while ($transaccionesAdicionales = $Res_TransaccionesAdicionales->fetch_assoc()) {
+    $EgresosTransaccionesAdicionales[] = doubleval($transaccionesAdicionales["total_egresos"]) + doubleval($transaccionesAdicionales["total_ganancias"]);
+    $IngresosTransaccionesAdicionales[] = doubleval($transaccionesAdicionales["total_ingresos"]);
+}
 
 while ($DatosCuotas = $Res_Ingresos->fetch_assoc()) {
     $ingresos[] = doubleval($DatosCuotas["suma_cuotas"]);
 }
 
 
-$egresosCombinados = array_map($sumarValores, $egresos, $egresosInversores);
-$ingresosCombinados = array_map($sumarValores, $ingresos, $ingresosInversores);
+$preEgresosCombinados = array_map($sumarValores, $egresos, $egresosInversores);
+$preIngresosCombinados = array_map($sumarValores, $ingresos, $ingresosInversores);
 
+$egresosCombinados = array_map($sumarValores, $preEgresosCombinados, $EgresosTransaccionesAdicionales);
+$ingresosCombinados = array_map($sumarValores, $preIngresosCombinados, $IngresosTransaccionesAdicionales);
 
 $jsonEgresos = json_encode($egresosCombinados);
 $jsonIngresos = json_encode($ingresosCombinados);

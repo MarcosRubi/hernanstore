@@ -2,12 +2,10 @@
 require_once '../../../func/LoginValidator.php';
 require_once '../../../bd/bd.php';
 require_once '../../../class/Prestamos.php';
-require_once '../../../class/Cuotas.php';
 require_once '../../../class/Reset.php';
 
 
 $Obj_Prestamos = new Prestamos();
-$Obj_Cuotas = new Cuotas();
 $Obj_Reset = new Reset();
 
 $Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('2');
@@ -56,25 +54,19 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('2');
                                     <h3 class="card-title">Préstamos pendientes de aprobación</h3>
                                 </div>
                                 <div class="card-body">
-                                    <table id="table-payments" class="table table-bordered table-striped table-hover">
+                                    <table id="table-payments" class="table table-bordered table-striped  table-hover">
                                         <thead>
                                             <tr>
                                                 <th>Cliente</th>
                                                 <th>Capital prestado</th>
-                                                <th>Ganancias</th>
-                                                <th>Abonado</th>
-                                                <th>Pendiente</th>
+                                                <th>Ganancias previstas</th>
                                                 <th># de cuotas</th>
                                                 <th>Primer pago</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php while ($DatosPrestamos = $Res_Prestamos->fetch_assoc()) {
-                                                $Res_CapitalPagado = $Obj_Cuotas->CapitalPagado($DatosPrestamos['id_prestamo']);
-
-                                                $capitalPagado = $Res_CapitalPagado->fetch_assoc()['total'];
-                                                $CapitalRestante = $DatosPrestamos['capital_prestamo'] + $DatosPrestamos['ganancias'] - $capitalPagado; ?>
+                                            <?php while ($DatosPrestamos = $Res_Prestamos->fetch_assoc()) { ?>
                                                 <tr>
                                                     <td>
                                                         <p><a href="<?= $_SESSION['path'] . '/prestamos/listar/cliente/?id=' . $DatosPrestamos['id_cliente'] ?>"><?= $DatosPrestamos['nombre_cliente'] ?></a></p>
@@ -84,12 +76,6 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('2');
                                                     </td>
                                                     <td>
                                                         <p><?= $Obj_Reset->FormatoDinero($DatosPrestamos['ganancias']) ?></p>
-                                                    </td>
-                                                    <td>
-                                                        <p><?= $Obj_Reset->FormatoDinero($capitalPagado) ?></p>
-                                                    </td>
-                                                    <td>
-                                                        <p><?= $Obj_Reset->FormatoDinero($CapitalRestante) ?></p>
                                                     </td>
                                                     <td>
                                                         <p><?= $DatosPrestamos['num_cuotas'] ?></p>
