@@ -343,7 +343,8 @@ class Prestamos extends DB
                 tbl_prestamos.id_cliente = tbl_clientes.id_cliente
         WHERE
             tbl_prestamos.eliminado = 'N'
-        AND DATE(tbl_prestamos.fecha_prestamo) >= '" . $fechaInicio . "' AND DATE(tbl_prestamos.fecha_prestamo) <= '" . $fechaFin . "' AND tbl_prestamos.eliminado = 'N'
+        AND DATE(tbl_prestamos.fecha_prestamo) >= '" . $fechaInicio . "' AND DATE(tbl_prestamos.fecha_prestamo) <= '" . $fechaFin . "' AND tbl_prestamos.eliminado = 'N' 
+        ORDER BY tbl_prestamos.fecha_prestamo
         ";
         return $this->EjecutarQuery($query);
     }

@@ -211,7 +211,8 @@ class TransaccionesInversores extends DB
                 tbl_movimientos_inversores.id_tipo_movimiento = tbl_tipos_movimientos.id_tipo_movimiento
         WHERE
             tbl_movimientos_inversores.eliminado = 'N' AND
-            tbl_movimientos_inversores.fecha BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "'
+            tbl_movimientos_inversores.fecha BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "' 
+        ORDER BY tbl_movimientos_inversores.fecha
         ";
         return $this->EjecutarQuery($query);
     }

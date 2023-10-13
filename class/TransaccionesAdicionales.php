@@ -166,7 +166,8 @@ class TransaccionesAdicionales extends DB
             tbl_transacciones_adicionales.id_tipo_movimiento = tbl_tipos_movimientos.id_tipo_movimiento
     WHERE
         tbl_transacciones_adicionales.eliminado = 'N' AND
-        tbl_transacciones_adicionales.fecha BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "'
+        tbl_transacciones_adicionales.fecha BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "' 
+        ORDER BY tbl_transacciones_adicionales.fecha
         ";
         return $this->EjecutarQuery($query);
     }

@@ -169,7 +169,8 @@ class Cuotas extends DB
             tbl_prestamos.id_cliente = tbl_clientes.id_cliente
     WHERE
         tbl_cuotas.eliminado = 'N' AND
-        tbl_cuotas.fecha_pago BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "'";
+        tbl_cuotas.fecha_pago BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "'
+    ORDER BY tbl_cuotas.fecha_pago";
         return $this->EjecutarQuery($query);
     }
 }
