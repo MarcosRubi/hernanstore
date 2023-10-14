@@ -57,8 +57,13 @@ if (intval($_SESSION['id_rol']) > 3 || intval($DatosEmpleado['id_rol']) === 2 ||
                     <input type="hidden" name="id_empleado" value="<?= $DatosEmpleado['id_empleado'] ?>">
                     <div class="row">
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block">Restablecer contraseña</button>
-                            <button type="reset" class="btn btn-secondary btn-block" onclick="javascript:window.close();">Cancelar</button>
+                            <button type="submit" class="btn btn-primary btn-block d-flex align-items-center justify-content-center">
+                                <i class="fa fa-edit mr-1"></i>
+                                <span>Restablecer contraseña</span>
+                            </button>
+                            <button type="reset" class="btn btn-secondary btn-block d-flex align-items-center justify-content-center" onclick="javascript:window.close();">
+                                <i class="fa fa-times mr-1"></i>
+                                <span>Cancelar</span></button>
                         </div>
                         <!-- /.col -->
                     </div>

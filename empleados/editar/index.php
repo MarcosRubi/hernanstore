@@ -115,10 +115,14 @@ if (($_SESSION['id_rol'] === 2 && intval($DatosEmpleado['id_rol']) === 2) ||
                         <input type="hidden" name="url_foto" value="<?= $DatosEmpleado['url_foto'] ?>">
                         <label class="mb-3 text-sm text-center text-danger">El empleado debe cerrar sesión y volver a ingresar para visualizar los cambios</label>
                         <div class="form-group container-fluid">
-                            <button class="btn btn-primary btn-lg btn-block" type="submit">Actualizar datos</button>
+                            <button class="btn btn-primary btn-lg btn-block" type="submit">
+                                <i class="fa fa-edit"></i>
+                                <span>Actualizar datos</span>
+                            </button>
                         </div>
                         <div class="form-group container-fluid">
-                            <button class="text-center btn btn-block" type="reset" onclick="javascript:closeForm();">Cancelar</button>
+                            <button class="text-center btn btn-block" type="reset" onclick="javascript:closeForm();">
+                                <span>Cancelar</span></button>
                         </div>
                 </div>
                 <!-- /.form group -->

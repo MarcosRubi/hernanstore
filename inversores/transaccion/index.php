@@ -92,7 +92,10 @@ if ($_SESSION['id_rol'] > 3) {
                         </div>
                         <input type="hidden" name="id_inversor" value="<?= $DatosInversor['id_inversor'] ?>">
                         <div class="form-group container-fluid">
-                            <button class="btn btn-primary btn-lg btn-block" type="submit">Agregar transacción</button>
+                            <button class="btn btn-primary btn-lg btn-block d-flex align-items-center justify-content-center" type="submit">
+                                <i class="fa fa-plus-square pr-2"></i>
+                                <span>Agregar transacción</span>
+                            </button>
                         </div>
                         <div class="form-group container-fluid">
                             <button class="text-center btn btn-block" type="reset" onclick="javascript:closeForm();">Cancelar</button>

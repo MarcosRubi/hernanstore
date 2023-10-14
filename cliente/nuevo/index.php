@@ -85,7 +85,10 @@ require_once '../../func/LoginValidator.php';
                                     <!-- /.input group -->
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn btn-primary btn-lg btn-block" type="submit">Agregar</button>
+                                    <button class="btn btn-primary btn-lg btn-block d-flex align-items-center justify-content-center" type="submit">
+                                        <i class="pr-2 nav-icon fas fa-plus-square"></i>
+                                        <span>Agregar cliente</span>
+                                    </button>
                                 </div>
                                 <div class="form-group">
                                     <button class="text-center btn btn-block" type="reset" onclick="javascript:goBack();">Cancelar</button>

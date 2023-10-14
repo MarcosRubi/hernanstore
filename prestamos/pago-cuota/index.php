@@ -105,7 +105,9 @@ $CapitalRestante = $DatosPrestamo['capital_prestamo'] + $DatosPrestamo['ganancia
                                                             </div>
                                                             <input type="hidden" name="id_prestamo" value="<?= $DatosPrestamo['id_prestamo'] ?>">
                                                             <div class="d-flex justify-content-center">
-                                                                <button class="btn btn-primary btn-lg font-weight-bold" id="btn-actualizar">Actualizar detalles del préstamo</button>
+                                                                <button class="btn btn-primary btn-lg font-weight-bold" id="btn-actualizar">
+                                                                    <i class="fas fa-pen-square pr-2"></i>
+                                                                    <span>Actualizar detalles del préstamo</span></button>
                                                             </div>
                                                             </p>
                                                         </form>

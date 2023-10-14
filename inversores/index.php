@@ -85,13 +85,16 @@ if (intval($_SESSION['id_rol']) > 3) {
                                                         <div class="d-flex justify-content-around">
                                                             <?php if ($_SESSION['id_rol'] <= 3) { ?>
                                                                 <a class="mx-1 btn btn-md bg-success" title="Transacción" onclick="javascript:realizarTransaccion(<?= $DatosInversor['id_inversor'] ?>);">
-                                                                    <i class="fa fa-hand-holding-usd"></i>
+                                                                    <i class="fas fa-plus-square pr-1"></i>
+                                                                    <span>Transacción</span>
                                                                 </a>
                                                                 <a class="mx-1 btn btn-md bg-lightblue" title="Editar" onclick="javascript:abrirFormEditar(<?= $DatosInversor['id_inversor'] ?>);">
-                                                                    <i class="fa fa-edit"></i>
+                                                                    <i class="fa fa-edit pr-1"></i>
+                                                                    <span>Editar</span>
                                                                 </a>
                                                                 <a class="mx-1 btn btn-md bg-danger" title="Eliminar" onclick="javascript:eliminarInversor(<?= $DatosInversor['id_inversor'] ?>);">
-                                                                    <i class="fa fa-trash"></i>
+                                                                    <i class="fa fa-trash pr-1"></i>
+                                                                    <span>Eliminar</span>
                                                                 </a>
                                                         </div>
                                                     <?php } ?>

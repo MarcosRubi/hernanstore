@@ -74,7 +74,10 @@ $DatosCliente = $Res_Clientes->fetch_assoc();
                                     <div class="card-header">
                                         <div class="mt-3 mb-2 d-flex justify-content-between">
                                             <h5 class='display-5'>Información personal</h5>
-                                            <a href="../clientes/" class="btn btn-primary">Listar todos los clientes</a>
+                                            <a href="../clientes/" class="btn btn-primary d-flex align-items-center">
+                                                <i class="pr-2 nav-icon fas fa-list"></i>
+                                                <span>Listar todos los clientes</span>
+                                            </a>
                                         </div>
                                     </div>
                                     <!-- /.card-header -->
@@ -122,8 +125,9 @@ $DatosCliente = $Res_Clientes->fetch_assoc();
                                                         </td>
                                                         <td>
                                                             <?php if (intval($_SESSION['id_rol']) <= 3) { ?>
-                                                                <a href="#" class=" btn btn-danger" title="Eliminar" onclick="javascript:eliminarCliente(<?= $DatosCliente['id_cliente'] ?>);">
-                                                                    <i class="fa fa-trash"></i>
+                                                                <a href="#" class=" btn btn-danger d-inline-flex align-items-center" title="Eliminar" onclick="javascript:eliminarCliente(<?= $DatosCliente['id_cliente'] ?>);">
+                                                                    <i class="fa fa-trash pr-2"></i>
+                                                                    <span>Eliminar</span>
                                                                 </a>
                                                             <?php } ?>
                                                         </td>

@@ -89,7 +89,10 @@ if (intval($_SESSION['id_rol']) > 3) {
                                 </div>
                             </div>
                             <div class="form-group container-fluid">
-                                <button class="btn btn-primary btn-lg btn-block" type="submit">Crear cuenta</button>
+                                <button class="btn btn-primary btn-lg btn-block" type="submit">
+                                    <i class="fa fa-user-plus pr-2"></i>
+                                    <span>Crear cuenta</span>
+                                </button>
                             </div>
                             <div class="form-group container-fluid">
                                 <button class="text-center btn btn-block" type="reset" onclick="javascript:goBack();">Cancelar</button>

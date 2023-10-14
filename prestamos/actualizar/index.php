@@ -210,10 +210,15 @@ if (!isset($_GET['id'])) {
                                         <!-- /.form group -->
                                         <div class="d-flex flex-wrap justify-content-center align-items-center">
                                             <div class="form-group pr-1 flex-grow-1 ">
-                                                <button class="btn btn-lg btn-secondary text-center btn-block" type="reset" onclick="javascript:history.back();">Cancelar</button>
+                                                <button class="btn btn-lg btn-secondary text-center btn-block d-flex align-items-center justify-content-center" type="reset" onclick="javascript:history.back();">
+                                                    <i class="fas fa-times mr-2"></i>
+                                                    <span>Cancelar</span></button>
                                             </div>
                                             <div class="form-group pl-1 flex-grow-1">
-                                                <button class="btn btn-primary btn-lg btn-block" type="submit">Actualizar préstamo</button>
+                                                <button class="btn btn-primary btn-lg btn-block d-flex align-items-center justify-content-center" type="submit">
+                                                    <i class="fas fa-pen-square pr-2"></i>
+                                                    <span>Actualizar préstamo</span>
+                                                </button>
                                             </div>
                                         </div>
                                 </form>

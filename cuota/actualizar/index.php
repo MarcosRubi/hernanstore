@@ -100,10 +100,15 @@ $DatosCuota = $Res_DatosCuotas->fetch_assoc();
                                     <input type="hidden" value="<?= $_GET['id'] ?>" name="txtIdCuota" class="form-control">
                                     <div class="d-flex flex-wrap justify-content-center align-items-center">
                                         <div class="form-group pr-1 flex-grow-1 ">
-                                            <button onclick="javascript:window.close();" class="btn btn-lg btn-secondary text-center btn-block" type="reset">Cancelar</button>
+                                            <button onclick="javascript:window.close();" class="btn btn-lg btn-secondary text-center btn-block d-flex align-items-center justify-content-center" type="reset">
+                                                <i class="fa fa-times pr-2"></i>
+                                                <span>Cancelar</span></button>
                                         </div>
                                         <div class="form-group pl-1 flex-grow-1">
-                                            <button class="btn btn-primary btn-lg btn-block" type="submit">Actualizar cuota</button>
+                                            <button class="btn btn-primary btn-lg btn-block d-flex align-items-center justify-content-center" type="submit">
+                                                <i class="fas fa-plus-square pr-2"></i>
+                                                <span>Actualizar cuota</span>
+                                            </button>
                                         </div>
                                     </div>
                                 </form>

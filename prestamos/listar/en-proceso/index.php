@@ -103,17 +103,21 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('3');
                                                     <td>
                                                         <a href="#" class=" btn bg-success mx-2 my-2" title="Pago cuota" onclick="javascript:pagoCuota(<?= $DatosPrestamos['id_prestamo'] ?>);">
                                                             <i class="fa fa-hand-holding-usd"></i>
+                                                            <span>Abonar</span>
                                                         </a>
                                                         <a href="#" class=" btn btn-info mx-2 my-2" title="Imprimir" onclick="javascript:imprimirPrestamo(<?= $DatosPrestamos['id_prestamo'] ?>);">
                                                             <i class="fa fa-print"></i>
+                                                            <span>Imprimir</span>
                                                         </a>
                                                         <?php if (intval($_SESSION['id_rol']) <= 3) {
                                                         ?>
                                                             <a href="#" class=" btn bg-orange mx-2 my-2" title="Editar" onclick="javascript:editarPrestamo(<?= $DatosPrestamos['id_prestamo'] ?>);">
                                                                 <i class="fa fa-edit "></i>
+                                                                <span>Editar</span>
                                                             </a>
                                                             <a href="#" class=" btn btn-danger mx-2 my-2" title="Eliminar" onclick="javascript:eliminarPrestamo(<?php echo $DatosPrestamos['id_prestamo'] . "," .  $DatosPrestamos['id_cliente'] ?>);">
                                                                 <i class="fa fa-trash"></i>
+                                                                <span>Eliminar</span>
                                                             </a>
                                                         <?php }
                                                         ?>

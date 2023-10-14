@@ -88,9 +88,11 @@ if (isset($_GET['s'])) {
                               <a class="mx-1 btn btn-primary" title="Nuevo Préstamo" onclick="nuevoPrestamo(<?= $DatosCliente['id_cliente'] ?>);">
                                 <i class="fa fa-dollar-sign fa-lg"></i>
                                 <sup><i class="fa fa-plus"></i></sup>
+                                <span>Crear préstamo</span>
                               </a>
                               <a href="#" class="px-3 mx-1 btn btn-success" title="Listar Préstamos" onclick="listarPrestamos(<?= $DatosCliente['id_cliente'] ?>);">
                                 <i class="fa fa-list fa-lg"></i>
+                                <span>Listar préstamos</span>
                               </a>
                             </div>
                           </td>

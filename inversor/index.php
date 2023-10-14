@@ -65,7 +65,10 @@ $Res_TransaccionesInversor = $Obj_TransaccionesInversores->listarMovimientosInve
                                     <div class="card-header">
                                         <div class="mt-3 mb-2 d-flex justify-content-between">
                                             <h3 class="card-title">Transacciones de <b><?= $DatosInversor['nombre_inversor'] ?></b> </h3>
-                                            <a href="../inversores/" class="btn btn-primary">Listar todos los inversores</a>
+                                            <a href="../inversores/" class="btn btn-primary">
+                                                <i class="fa fa-plus-square pr-2"></i>
+                                                <span>Listar todos los inversores</span>
+                                            </a>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -94,10 +97,12 @@ $Res_TransaccionesInversor = $Obj_TransaccionesInversores->listarMovimientosInve
                                                             <?php if (intval($_SESSION['id_rol']) <= 3) {
                                                             ?>
                                                                 <a href="#" class=" btn bg-orange mx-2 my-2" title="Editar" onclick="javascript:editarTransaccion(<?php echo $DatosTransaccion['id_movimiento_inversor'] . "," .  $DatosInversor['id_inversor'] ?>);">
-                                                                    <i class="fa fa-edit "></i>
+                                                                    <i class="fa fa-edit  pr-2"></i>
+                                                                    <span>Editar</span>
                                                                 </a>
                                                                 <a href="#" class=" btn btn-danger mx-2 my-2" title="Eliminar" onclick="javascript:eliminarTransaccion(<?= $DatosTransaccion['id_movimiento_inversor'] ?>);">
-                                                                    <i class="fa fa-trash"></i>
+                                                                    <i class="fa fa-trash pr-2"></i>
+                                                                    <span>Eliminar</span>
                                                                 </a>
                                                             <?php }
                                                             ?>

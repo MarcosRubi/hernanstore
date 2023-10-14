@@ -105,11 +105,11 @@ while ($row_transaccionesInversores = $Res_TransaccionesInversores->fetch_assoc(
                                     <h3 class="card-title">Listado de acciones</h3>
                                     <div class="d-flex align-items-center">
                                         <a onclick="javascript:listarTransacciones()" class=" btn btn-info d-flex align-items-center mr-2">
-                                            <i class="pr-1 nav-icon fas fa-list"></i>
+                                            <i class="pr-2 nav-icon fas fa-list"></i>
                                             Listar transacciones
                                         </a>
                                         <a onclick="javascript:realizarMovimiento()" class=" btn btn-primary d-flex align-items-center">
-                                            <i class="pr-1 nav-icon fas fa-plus-square"></i>
+                                            <i class="pr-2 nav-icon fas fa-plus-square"></i>
                                             Nueva transacción
                                         </a>
                                     </div>
