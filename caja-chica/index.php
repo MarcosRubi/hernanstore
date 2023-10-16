@@ -129,8 +129,10 @@ while ($row_transaccionesInversores = $Res_TransaccionesInversores->fetch_assoc(
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php foreach ($resultados_combinados as $semana => $datos) {
-                                                $total = $datos['suma_cuotas'] - $datos['suma_prestamos'];
+                                            <?php
+                                            $total = 0;
+                                            foreach ($resultados_combinados as $semana => $datos) {
+                                                $total = $total + $datos['suma_cuotas'] - $datos['suma_prestamos'];
                                             ?>
                                                 <tr>
                                                     <td><?= $semana ?></td>

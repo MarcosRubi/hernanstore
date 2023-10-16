@@ -92,9 +92,9 @@ session_start();
             <div class="card card-outline card-primary">
               <div class="card-body">
                 <p class="login-box-msg">Ingrese su dirección de correo electrónico vinculado a su cuenta para enviar un código.</p>
-                <form action="recover-password.html" method="post">
+                <form id="form-reset-password" method="post">
                   <div class="mb-3 input-group">
-                    <input type="email" class="form-control" placeholder="Email">
+                    <input type="email" name="txtEmailVerify" class="form-control" placeholder="Email">
                     <div class="input-group-append">
                       <div class="input-group-text">
                         <span class="fas fa-envelope"></span>
@@ -102,8 +102,10 @@ session_start();
                     </div>
                   </div>
                   <div class="row">
+
                     <div class="col-12">
-                      <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-request-code" data-dismiss="modal">Envíar código</a>
+                      <button type="submit" class="btn btn-primary btn-block" id="btn-reset-password">Enviar código</a>
+                        <button class="btn text-primary btn-block mt-3" id="btn-show-step-2">Tengo un código</button>
                     </div>
                     <!-- /.col -->
                   </div>
@@ -131,9 +133,9 @@ session_start();
             <div class="card card-outline card-primary">
               <div class="card-body">
                 <p class="login-box-msg">Ingrese el código enviado a su dirección de correo electrónico vinculado a su cuenta.</p>
-                <form action="#" method="post">
+                <form id="form-validate-key" method="post">
                   <div class="mb-3 input-group">
-                    <input type="text" class="form-control" placeholder="Código">
+                    <input type="text" name="txtCodeVerify" class="form-control" placeholder="Código">
                     <div class="input-group-append">
                       <div class="input-group-text">
                         <span class="fas fa-unlock"></span>
@@ -142,7 +144,8 @@ session_start();
                   </div>
                   <div class="row">
                     <div class="col-12">
-                      <button type="submit" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-new-password" data-dismiss="modal">Verificar código</button>
+                      <button type="submit" class="btn btn-primary btn-block" id="btn-validate-key">Verificar código</button>
+                      <span class="text-danger small text-center mt-2 d-block">El código es de un solo uso, en caso de no usarse expira en 10 minutos desde que fue enviado</span>
                     </div>
                     <!-- /.col -->
                   </div>
@@ -170,9 +173,9 @@ session_start();
             <p class="login-box-msg">Ingrese su nueva contraseña.</p>
             <div class="card card-outline card-primary">
               <div class="card-body">
-                <form action="#" method="post">
+                <form id="form-new-password" method="post">
                   <div class="mb-3 input-group">
-                    <input type="password" class="form-control" placeholder="Nueva contraseña">
+                    <input type="password" name="txtNewPassword" class="form-control" placeholder="Nueva contraseña">
                     <div class="input-group-append">
                       <div class="input-group-text">
                         <span class="fas fa-lock"></span>
@@ -181,7 +184,7 @@ session_start();
                   </div>
                   <div class="row">
                     <div class="col-12">
-                      <button type="submit" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal-new-password" data-dismiss="modal">Actualizar contraseña</button>
+                      <button type="submit" class="btn btn-primary btn-block" id="btn-new-password">Actualizar contraseña</button>
                     </div>
                     <!-- /.col -->
                   </div>
@@ -226,6 +229,91 @@ session_start();
       echo showMessage($_SESSION['type'], $_SESSION['msg']);
     }
     ?>
+  </script>
+  <script>
+    $(document).ready(function() {
+      $("#btn-reset-password").click(function(e) {
+        e.preventDefault(); // Evita que se envíe el formulario de manera tradicional
+
+        // Obtén los datos del formulario
+        var formData = $("#form-reset-password").serialize();
+
+        // Realiza una solicitud AJAX para actualizar los detalles del préstamo
+        $.ajax({
+          type: "POST",
+          url: "../func/verifyEmail.php",
+          data: formData,
+          success: function(response) {
+            // Verifica si la respuesta indica éxito
+            if (response.success) {
+              // Muestra el mensaje de éxito
+              toastr.success(response.message);
+              $("#modal-reset-password").modal("hide");
+              $("#modal-request-code").modal("show");
+            } else {
+              // Muestra el mensaje de error
+              toastr.error(response.message);
+            }
+          },
+        });
+      });
+      $("#btn-validate-key").click(function(e) {
+        e.preventDefault(); // Evita que se envíe el formulario de manera tradicional
+
+        // Obtén los datos del formulario
+        var formData = $("#form-validate-key").serialize();
+
+        // Realiza una solicitud AJAX para actualizar los detalles del préstamo
+        $.ajax({
+          type: "POST",
+          url: "../func/verifyCode.php",
+          data: formData,
+          success: function(response) {
+            // Verifica si la respuesta indica éxito
+            if (response.success) {
+              // Muestra el mensaje de éxito
+              $("#modal-new-password").modal("show");
+              $("#modal-request-code").modal("hide");
+            } else {
+              // Muestra el mensaje de error
+              toastr.error(response.message);
+            }
+          },
+        });
+      });
+      $("#btn-new-password").click(function(e) {
+        e.preventDefault(); // Evita que se envíe el formulario de manera tradicional
+
+        // Obtén los datos del formulario
+        var formData = $("#form-new-password").serialize();
+
+        console.log(formData)
+
+        // Realiza una solicitud AJAX para actualizar los detalles del préstamo
+        $.ajax({
+          type: "POST",
+          url: "../func/resetPassword.php",
+          data: formData,
+          success: function(response) {
+            // Verifica si la respuesta indica éxito
+            if (response.success) {
+              // Muestra el mensaje de éxito
+              toastr.success(response.message);
+              $("#modal-new-password").modal("hide");
+            } else {
+              // Muestra el mensaje de error
+              toastr.error(response.message);
+            }
+          },
+        });
+      });
+
+      $("#btn-show-step-2").click(function(e) {
+        e.preventDefault()
+        $("#modal-reset-password").modal("hide");
+        $("#modal-request-code").modal("show");
+      })
+    });
   </script>
 </body>
 
