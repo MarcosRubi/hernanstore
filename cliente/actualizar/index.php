@@ -3,6 +3,12 @@ require_once '../../func/LoginValidator.php';
 require_once '../../bd/bd.php';
 require_once '../../class/Clientes.php';
 
+if (intval($_SESSION['id_rol']) > 3) {
+    $_SESSION['msg'] = 'Acción no autorizada.';
+    $_SESSION['type'] = 'error';
+    header("Location:" . $_SESSION['path']);
+    return;
+}
 
 $Obj_Clientes = new Clientes();
 

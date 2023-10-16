@@ -4,6 +4,13 @@ require_once '../bd/bd.php';
 require_once '../class/Prestamos.php';
 require_once '../class/Reset.php';
 
+if (intval($_SESSION['id_rol']) > 3) {
+    $_SESSION['msg'] = 'Acción no autorizada.';
+    $_SESSION['type'] = 'error';
+    header("Location:" . $_SESSION['path']);
+    return;
+}
+
 $Obj_Prestamos = new Prestamos();
 $Obj_Reset = new Reset();
 

@@ -5,6 +5,12 @@ require_once '../class/Inversores.php';
 require_once '../class/TransaccionesInversores.php';
 require_once '../class/Reset.php';
 
+if (intval($_SESSION['id_rol']) > 3) {
+    $_SESSION['msg'] = 'Acción no autorizada.';
+    $_SESSION['type'] = 'error';
+    header("Location:" . $_SESSION['path']);
+    return;
+}
 
 $Obj_Inversores = new Inversores();
 $Obj_TransaccionesInversores = new TransaccionesInversores();

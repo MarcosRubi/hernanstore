@@ -159,9 +159,12 @@ $DatosCliente = $Res_Clientes->fetch_assoc();
                                     </div>
                                 </div>
                                 <input type="hidden" name="id" value="<?= $DatosCliente['id_cliente'] ?>">
-                                <div class="d-flex justify-content-center">
-                                    <button class="btn btn-primary btn-lg font-weight-bold" id="btn-actualizar">Actualizar información</button>
-                                </div>
+                                <?php
+                                if (intval($_SESSION['id_rol']) <= 3) { ?>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="btn btn-primary btn-lg font-weight-bold" id="btn-actualizar">Actualizar información</button>
+                                    </div>
+                                <?php } ?>
                                 </form>
                             </div>
                         </div>

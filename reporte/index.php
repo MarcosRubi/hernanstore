@@ -1,5 +1,11 @@
 <?php
 require_once '../func/LoginValidator.php';
+if (intval($_SESSION['id_rol']) > 3) {
+  $_SESSION['msg'] = 'Acción no autorizada.';
+  $_SESSION['type'] = 'error';
+  header("Location:" . $_SESSION['path']);
+  return;
+}
 
 ?>
 

@@ -15,7 +15,7 @@ if (isset($_SESSION['emailResetPassword'])) {
 
 	if ($code === "") {
 		$response['error'] = true;
-		$response['message'] = 'Ingrese el código.';
+		$response['message'] = 'Ingrese el código';
 
 		header('Content-Type: application/json');
 		echo json_encode($response);
@@ -23,7 +23,7 @@ if (isset($_SESSION['emailResetPassword'])) {
 	}
 	if ($code != $key) {
 		$response['error'] = true;
-		$response['message'] = 'El código es incorrecto.';
+		$response['message'] = 'El código es incorrecto';
 
 		header('Content-Type: application/json');
 		echo json_encode($response);
@@ -41,7 +41,7 @@ if (isset($_SESSION['emailResetPassword'])) {
 	return;
 } else {
 	$response['error'] = true;
-	$response['message'] = 'Realce los pasos previos para restablecer la contraseña.';
+	$response['message'] = 'Realice los pasos previos para restablecer la contraseña';
 
 	header('Content-Type: application/json');
 	echo json_encode($response);

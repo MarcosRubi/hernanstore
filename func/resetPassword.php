@@ -48,7 +48,7 @@ if (isset($_SESSION['emailResetPassword'])) {
 	}
 } else {
 	$response['error'] = true;
-	$response['message'] = 'Realce los pasos previos para restablecer la contraseña.';
+	$response['message'] = 'Realice los pasos previos para restablecer la contraseña.';
 
 	header('Content-Type: application/json');
 	echo json_encode($response);
