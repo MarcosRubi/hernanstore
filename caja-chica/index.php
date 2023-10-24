@@ -21,10 +21,10 @@ $Obj_TransaccionesAdicionales = new TransaccionesAdicionales();
 $Obj_TransaccionesInversores = new TransaccionesInversores();
 $Obj_Reset = new Reset();
 
-$Res_Cuotas = $Obj_Cuotas->ObtenerIngresosAnualesPorSemanas('2023-01-01', date("Y-m-d"));
-$Res_Prestamos = $Obj_Prestamos->ObtenerEgresosAnualesPorSemanas('2023-01-01', date("Y-m-d"));
-$Res_TransaccionesAdicionales = $Obj_TransaccionesAdicionales->ObtenerEgresosAnualesPorSemanas('2023-01-01', date("Y-m-d"));
-$Res_TransaccionesInversores = $Obj_TransaccionesInversores->ObtenerEgresosAnualesPorSemanas('2023-01-01', date("Y-m-d"));
+$Res_Cuotas = $Obj_Cuotas->ObtenerIngresosAnualesPorSemanas('2023-01-01', date("Y-12-31"));
+$Res_Prestamos = $Obj_Prestamos->ObtenerEgresosAnualesPorSemanas('2023-01-01', date("Y-12-31"));
+$Res_TransaccionesAdicionales = $Obj_TransaccionesAdicionales->ObtenerEgresosAnualesPorSemanas('2023-01-01', date("Y-12-31"));
+$Res_TransaccionesInversores = $Obj_TransaccionesInversores->ObtenerEgresosAnualesPorSemanas('2023-01-01', date("Y-12-31"));
 
 $resultados_combinados = array();
 
@@ -37,7 +37,9 @@ while ($row_cuotas = $Res_Cuotas->fetch_assoc()) {
 
 while ($row_prestamos = $Res_Prestamos->fetch_assoc()) {
     $semana = $row_prestamos['semana'];
-    $resultados_combinados[$semana]['suma_prestamos'] = $row_prestamos['suma_prestamos'];
+    $resultados_combinados[$semana]['suma_prestamos'] = $row_prestamos['suma_prestamos'] ;
+    $resultados_combinados[$semana]['fecha_inicial_semana'] = $row_prestamos['fecha_inicial_semana'];
+    $resultados_combinados[$semana]['fecha_final_semana'] = $row_prestamos['fecha_final_semana'];
 }
 
 while ($row_transacciones = $Res_TransaccionesAdicionales->fetch_assoc()) {
@@ -53,14 +55,16 @@ while ($row_transacciones = $Res_TransaccionesAdicionales->fetch_assoc()) {
 while ($row_transaccionesInversores = $Res_TransaccionesInversores->fetch_assoc()) {
     $semana = $row_transaccionesInversores['semana'];
     if (!isset($resultados_combinados[$semana])) {
-        $resultados_combinados[$semana] = array();
+        $resultados_combinados[$semana] = array(
+            'suma_cuotas' => 0,
+            'suma_prestamos' => 0
+        );
     }
 
     // Suma 'total_ingresos' a 'suma_cuotas' y 'total_egresos' a 'suma_prestamos'
     $resultados_combinados[$semana]['suma_cuotas'] += $row_transaccionesInversores['total_ingresos'];
     $resultados_combinados[$semana]['suma_prestamos'] += $row_transaccionesInversores['total_egresos'];
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -132,13 +136,14 @@ while ($row_transaccionesInversores = $Res_TransaccionesInversores->fetch_assoc(
                                             <?php
                                             $total = 0;
                                             foreach ($resultados_combinados as $semana => $datos) {
-                                                $total = $total + $datos['suma_cuotas'] - $datos['suma_prestamos'];
+                                                $sumaCuota = isset($datos['suma_cuotas']) ? $datos['suma_cuotas'] : 0;
+                                                $total = $total + $sumaCuota - $datos['suma_prestamos'];
                                             ?>
                                                 <tr>
                                                     <td><?= $semana ?></td>
                                                     <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($datos['fecha_inicial_semana'])) ?></td>
                                                     <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($datos['fecha_final_semana'])) ?></td>
-                                                    <td><?= $Obj_Reset->FormatoDinero($datos['suma_cuotas']) ?></td>
+                                                    <td><?= isset($datos['suma_cuotas']) ? $Obj_Reset->FormatoDinero($datos['suma_cuotas']) : '$0.00' ?></td>
                                                     <td><?= $Obj_Reset->FormatoDinero($datos['suma_prestamos']) ?></td>
                                                     <td><?= $Obj_Reset->FormatoDinero($total) ?></td>
                                                     <td>

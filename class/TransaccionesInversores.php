@@ -216,4 +216,18 @@ class TransaccionesInversores extends DB
         ";
         return $this->EjecutarQuery($query);
     }
+
+    public function ObtenerTotalInvertido()
+    {
+        $query = "SELECT SUM(
+            CASE
+                WHEN id_tipo_movimiento = 3 THEN -monto
+                ELSE monto
+            END
+        ) AS saldo
+        FROM tbl_movimientos_inversores
+        WHERE eliminado = 'N' AND id_tipo_movimiento = 2;
+        ";
+        return $this->EjecutarQuery($query);
+    }
 }

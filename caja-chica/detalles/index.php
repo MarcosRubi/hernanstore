@@ -128,9 +128,9 @@ $Res_TransaccionesInversoresDetalles = $Obj_TransaccionesInversores->ObtenerEsta
                                             ?>
                                                 <tr>
                                                     <td><?= $semana ?></td>
-                                                    <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($datos['fecha_inicial_semana'])) ?></td>
-                                                    <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($datos['fecha_final_semana'])) ?></td>
-                                                    <td><?= $Obj_Reset->FormatoDinero($datos['suma_cuotas']) ?></td>
+                                                    <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($fechaInicio)) ?></td>
+                                                    <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($fechaFin)) ?></td>
+                                                    <td><?= isset($datos['suma_cuotas']) ? $Obj_Reset->FormatoDinero($datos['suma_cuotas']) : '$0.00' ?></td>
                                                     <td><?= $Obj_Reset->FormatoDinero($datos['suma_prestamos']) ?></td>
                                                 </tr>
                                             <?php } ?>
@@ -144,76 +144,82 @@ $Res_TransaccionesInversoresDetalles = $Obj_TransaccionesInversores->ObtenerEsta
                             <!-- /.card -->
                         </div>
                         <!-- /.col -->
-                        <div class="mt-5 col-12">
-                            <div class="card ">
-                                <div class="flex-wrap px-4 py-2 d-flex align-items-center justify-content-between">
-                                    <h3 class="card-title">Detalles sobre capital entrante por cuotas (Ingresos)</h3>
-                                </div>
-                                <!-- /.card-header -->
-                                <div class="card-body">
-                                    <table id="table_incomes" class="table table-bordered table-striped  table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Nombre</th>
-                                                <th>Fecha</th>
-                                                <th>Valor</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php while ($DatosCuota = $Res_CuotasDetalles->fetch_assoc()) {
-                                                if ($DatosCuota['pago_cuota'] > 0) {
-                                            ?>
-                                                    <tr>
-                                                        <td><?= $DatosCuota['nombre_cliente'] ?></td>
-                                                        <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosCuota['fecha_pago'])) ?></td>
-                                                        <td><?= $Obj_Reset->FormatoDinero($DatosCuota['pago_cuota']) ?></td>
-                                                    </tr>
-                                            <?php }
-                                            } ?>
+                        <?php if ($Res_CuotasDetalles->num_rows > 0) { ?>
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- /.card-body -->
-
-                            </div>
-                            <!-- /.card -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="mt-5 col-12">
-                            <div class="card ">
-                                <div class="flex-wrap px-4 py-2 d-flex align-items-center justify-content-between">
-                                    <h3 class="card-title">Detalles sobre capital saliente por préstamos realizados (Egresos)</h3>
-                                </div>
-                                <!-- /.card-header -->
-                                <div class="card-body">
-                                    <table id="table_expenses" class="table table-bordered table-striped  table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Nombre</th>
-                                                <th>Fecha</th>
-                                                <th>Valor</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php while ($DatosPrestamo = $Res_PrestamosDetalles->fetch_assoc()) {
-                                            ?>
+                            <div class="mt-5 col-12">
+                                <div class="card ">
+                                    <div class="flex-wrap px-4 py-2 d-flex align-items-center justify-content-between">
+                                        <h3 class="card-title">Detalles sobre capital entrante por cuotas (Ingresos)</h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <table id="table_incomes" class="table table-bordered table-striped  table-hover">
+                                            <thead>
                                                 <tr>
-                                                    <td><?= $DatosPrestamo['nombre_cliente'] ?></td>
-                                                    <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamo['fecha_prestamo'])) ?></td>
-                                                    <td><?= $Obj_Reset->FormatoDinero($DatosPrestamo['capital_prestamo']) ?></td>
+                                                    <th>Nombre</th>
+                                                    <th>Fecha</th>
+                                                    <th>Valor</th>
                                                 </tr>
-                                            <?php } ?>
+                                            </thead>
+                                            <tbody>
+                                                <?php while ($DatosCuota = $Res_CuotasDetalles->fetch_assoc()) {
+                                                    if ($DatosCuota['pago_cuota'] > 0) {
+                                                ?>
+                                                        <tr>
+                                                            <td><?= $DatosCuota['nombre_cliente'] ?></td>
+                                                            <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosCuota['fecha_pago'])) ?></td>
+                                                            <td><?= $Obj_Reset->FormatoDinero($DatosCuota['pago_cuota']) ?></td>
+                                                        </tr>
+                                                <?php }
+                                                } ?>
 
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- /.card-body -->
+
                                 </div>
-                                <!-- /.card-body -->
-
+                                <!-- /.card -->
                             </div>
-                            <!-- /.card -->
-                        </div>
+                        <?php } ?>
+
                         <!-- /.col -->
+                        <?php if ($Res_PrestamosDetalles->num_rows > 0) { ?>
+                            <div class="mt-5 col-12">
+                                <div class="card ">
+                                    <div class="flex-wrap px-4 py-2 d-flex align-items-center justify-content-between">
+                                        <h3 class="card-title">Detalles sobre capital saliente por préstamos realizados (Egresos)</h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <table id="table_expenses" class="table table-bordered table-striped  table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nombre</th>
+                                                    <th>Fecha</th>
+                                                    <th>Valor</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php while ($DatosPrestamo = $Res_PrestamosDetalles->fetch_assoc()) {
+                                                ?>
+                                                    <tr>
+                                                        <td><?= $DatosPrestamo['nombre_cliente'] ?></td>
+                                                        <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamo['fecha_prestamo'])) ?></td>
+                                                        <td><?= $Obj_Reset->FormatoDinero($DatosPrestamo['capital_prestamo']) ?></td>
+                                                    </tr>
+                                                <?php } ?>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- /.card-body -->
+
+                                </div>
+                                <!-- /.card -->
+                            </div>
+                            <!-- /.col -->
+                        <?php  } ?>
 
                         <?php if ($Res_TransaccionesDetalles->num_rows > 0) { ?>
                             <div class="mt-5 col-12">

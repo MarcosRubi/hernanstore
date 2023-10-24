@@ -67,6 +67,9 @@ if (intval($_SESSION['id_rol']) > 3) {
         <div class="container-fluid">
           <div class="row">
             <div class="col-md-12">
+              <div id="table-porcentage-investors"></div>
+            </div>
+            <div class="col-md-12">
               <div id="table-progress"></div>
             </div>
             <div class="col-md-12">
@@ -148,6 +151,7 @@ if (intval($_SESSION['id_rol']) > 3) {
 
     $(function() {
       updateData(null, rangeTime);
+      getPorcentageInvestors()
     });
 
     function toggleShowChart() {
@@ -220,6 +224,15 @@ if (intval($_SESSION['id_rol']) > 3) {
         },
         success: function(response) {
           $('#donut-chart-investors').html(response);
+        },
+      });
+    }
+    function getPorcentageInvestors() {
+      $.ajax({
+        type: 'POST',
+        url: '<?= $_SESSION['path'] ?>' + '/components/porcentage_investors.php',
+        success: function(response) {
+          $('#table-porcentage-investors').html(response);
         },
       });
     }
