@@ -72,7 +72,11 @@ $mediaTotal = ($valorPrestamo + $gananciaInteres) /  $numeroCuotas;
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php for ($i = 1; $i <= intval(trim($_POST['formData']['txtNumCuotas'])); $i++) { ?>
+                                    <?php for ($i = 1; $i <= intval(trim($_POST['formData']['txtNumCuotas'])); $i++) {
+                                        if($i === intval(trim($_POST['formData']['txtNumCuotas']))){
+                                        ?>
+                                            <input type="text" class="d-none" name="txtFechaUltimoPago" value="<?= $fechasPagos[$i -1 ] ?>" id="fechaUltimoPago">
+                                        <?php } ?>
                                         <tr>
                                             <td>
                                                 <p><?= $i ?></p>

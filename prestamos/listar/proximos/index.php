@@ -60,12 +60,13 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosProximosPago();
                                         <thead>
                                             <tr>
                                                 <th>Cliente</th>
-                                                <th>Capital prestado</th>
+                                                <th>Monto prestado</th>
                                                 <th>Ganancias</th>
                                                 <th>Abonado</th>
                                                 <th>Pendiente</th>
-                                                <th># de cuotas</th>
+                                                <th>cuotas</th>
                                                 <th>Próximo pago</th>
+                                                <th>Fin del préstamo</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -96,6 +97,9 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosProximosPago();
                                                     </td>
                                                     <td>
                                                         <p><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamos['fecha_siguiente_pago'])) ?></p>
+                                                    </td>
+                                                    <td>
+                                                        <p><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamos['fecha_fin_prestamo'])) ?></p>
                                                     </td>
                                                     <td>
                                                         <a href="#" class=" btn bg-success mx-2 my-2" title="Pago cuota" onclick="javascript:pagoCuota(<?= $DatosPrestamos['id_prestamo'] ?>);">

@@ -59,9 +59,10 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('4', 'fecha_prestamo D
                                             <tr>
                                                 <th>Cliente</th>
                                                 <th>Fecha del préstamo</th>
-                                                <th>Capital prestado</th>
+                                                <th>Monto prestado</th>
                                                 <th>Ganancias</th>
-                                                <th># de cuotas</th>
+                                                <th>cuotas</th>
+                                                <th>Fin del préstamo</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -82,6 +83,9 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('4', 'fecha_prestamo D
                                                     </td>
                                                     <td>
                                                         <p><?= $DatosPrestamos['num_cuotas'] ?></p>
+                                                    </td>
+                                                    <td>
+                                                        <p><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamos['fecha_fin_prestamo'])) ?></p>
                                                     </td>
                                                     <td>
                                                         <a href="#" class=" btn btn-info mx-2 my-2" title="Imprimir" onclick="javascript:imprimirPrestamo(<?= $DatosPrestamos['id_prestamo'] ?>);">

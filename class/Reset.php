@@ -32,6 +32,8 @@ class Reset extends DB
         // Divide la fecha en día, mes y año
         list($dia, $mes, $anio) = explode('-', $fecha);
 
+        if($mes === '00'){return "Sin registro";}
+
         // Nombres de los meses en español
         $mesesEnEspanol = array(
             '01' => 'Enero',

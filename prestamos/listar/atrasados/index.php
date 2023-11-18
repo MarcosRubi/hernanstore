@@ -12,6 +12,8 @@ $Obj_Reset = new Reset();
 
 $Res_Prestamos = $Obj_Prestamos->listarPrestamosAtrasados();
 
+
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -53,19 +55,20 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosAtrasados();
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">Préstamos con cuotas atrasadas</h3>
+                                    <h3 class="card-title">Préstamos atrasados</h3>
                                 </div>
                                 <div class="card-body">
                                     <table id="table-payments" class="table table-bordered table-striped table-hover">
                                         <thead>
                                             <tr>
                                                 <th>Cliente</th>
-                                                <th>Capital prestado</th>
+                                                <th>Monto prestado</th>
                                                 <th>Ganancias</th>
                                                 <th>Abonado</th>
                                                 <th>Pendiente</th>
-                                                <th># de cuotas</th>
+                                                <th>cuotas</th>
                                                 <th>Próximo pago</th>
+                                                <th>Fin del préstamo</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -74,7 +77,8 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosAtrasados();
                                                 $Res_CapitalPagado = $Obj_Cuotas->CapitalPagado($DatosPrestamos['id_prestamo']);
 
                                                 $capitalPagado = $Res_CapitalPagado->fetch_assoc()['total'];
-                                                $CapitalRestante = $DatosPrestamos['capital_prestamo'] + $DatosPrestamos['ganancias'] - $capitalPagado; ?>
+                                                $CapitalRestante = $DatosPrestamos['capital_prestamo'] + $DatosPrestamos['ganancias'] - $capitalPagado;
+                                            ?>
                                                 <tr>
                                                     <td>
                                                         <p><a href="<?= $_SESSION['path'] . '/prestamos/listar/cliente/?id=' . $DatosPrestamos['id_cliente'] ?>"><?= $DatosPrestamos['nombre_cliente'] ?></a></p>
@@ -96,6 +100,9 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosAtrasados();
                                                     </td>
                                                     <td>
                                                         <p><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamos['fecha_siguiente_pago'])) ?></p>
+                                                    </td>
+                                                    <td>
+                                                        <p><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamos['fecha_fin_prestamo'])) ?></p>
                                                     </td>
                                                     <td>
                                                         <a href="#" class=" btn bg-success mx-2 my-2" title="Pago cuota" onclick="javascript:pagoCuota(<?= $DatosPrestamos['id_prestamo'] ?>);">

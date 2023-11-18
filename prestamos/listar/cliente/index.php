@@ -96,11 +96,12 @@ if (!isset($_GET['id'])) {
                                         <thead>
                                             <tr>
                                                 <th>Fecha del préstamo</th>
-                                                <th>Capital prestado</th>
+                                                <th>Monto prestado</th>
                                                 <th>Ganancias previstas</th>
-                                                <th># de cuotas</th>
+                                                <th>cuotas</th>
                                                 <th>Estado</th>
                                                 <th>Periodo de pagos</th>
+                                                <th>Fin del préstamo</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -125,7 +126,9 @@ if (!isset($_GET['id'])) {
                                                     <td>
                                                         <p><?= $DatosPrestamos['plazo_pago'] ?></p>
                                                     </td>
-
+                                                    <td>
+                                                        <p><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamos['fecha_fin_prestamo'])) ?></p>
+                                                    </td>
                                                     <td>
                                                         <?php if (intval($DatosPrestamos['id_estado']) === 3) {
                                                         ?>

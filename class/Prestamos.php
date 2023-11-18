@@ -5,6 +5,7 @@ class Prestamos extends DB
     public $num_cuotas;
     public $fecha_primer_pago;
     public $fecha_siguiente_pago;
+    public $fecha_fin_prestamo;
     public $fecha_prestamo;
     public $ganancias;
     public $valor_cuota;
@@ -29,13 +30,21 @@ class Prestamos extends DB
         $query = "SELECT * FROM vta_listar_prestamos WHERE id_cliente = '" . $id . "' ORDER BY fecha_prestamo DESC";
         return $this->EjecutarQuery($query);
     }
+    
+    public function listarPrestamosAtrasados()
+    {
+        $query = "SELECT * FROM vta_listar_prestamos_atrasados ORDER BY fecha_fin_prestamo DESC";
+        return $this->EjecutarQuery($query);
+    }
+    
+
     public function listarPrestamosPorEstado($id_estado, $order = 'fecha_siguiente_pago')
     {
         $query = "SELECT * FROM vta_prestamos WHERE id_estado = '" . $id_estado . "' ORDER BY
         $order ";
         return $this->EjecutarQuery($query);
     }
-    public function listarPrestamosAtrasados()
+    public function listarPrestamosConPagosAtrasados()
     {
         $query = "SELECT * FROM vta_prestamos WHERE id_estado = '3' AND  vta_prestamos.fecha_siguiente_pago < CURDATE() ORDER BY
         fecha_siguiente_pago ";
@@ -81,6 +90,7 @@ class Prestamos extends DB
             num_cuotas,
             fecha_primer_pago,
             fecha_siguiente_pago,
+            fecha_fin_prestamo,
             fecha_prestamo,
             ganancias,
             valor_cuota,
@@ -93,6 +103,7 @@ class Prestamos extends DB
             '" . $this->num_cuotas . "',
             '" . $this->fecha_primer_pago . "',
             '" . $this->fecha_siguiente_pago . "',
+            '" . $this->fecha_fin_prestamo . "',
             '" . $this->fecha_prestamo . "',
             '" . $this->ganancias . "',
             '" . $this->valor_cuota . "',
@@ -234,12 +245,18 @@ class Prestamos extends DB
         return $this->EjecutarQuery($query);
     }
 
-    public function ObtenerTotalPrestamosAtrasados()
+    public function ObtenerTotalPagosPrestamosAtrasados()
     {
         $query = "SELECT COUNT(id_prestamo) AS total_prestamos FROM vta_prestamos WHERE id_estado = '3' AND  vta_prestamos.fecha_siguiente_pago < CURDATE() ORDER BY
         fecha_siguiente_pago ";
         return $this->EjecutarQuery($query);
     }
+    public function ObtenerTotalPrestamosAtrasados()
+    {
+        $query = "SELECT COUNT(id_prestamo) AS total_prestamos FROM vta_listar_prestamos_atrasados ORDER BY fecha_fin_prestamo DESC";
+        return $this->EjecutarQuery($query);
+    }
+
     public function ObtenerTotalProximosPagos()
     {
         $query = "SELECT COUNT(id_prestamo) AS total_prestamos FROM vta_prestamos WHERE id_estado = '3'  AND vta_prestamos.fecha_siguiente_pago >= CURDATE() 

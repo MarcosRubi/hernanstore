@@ -60,6 +60,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="<?= $_SESSION['path'] ?>/prestamos/listar/atrasados/" class="nav-link">
+                        <i class="nav-icon fas fa-calendar-times"></i>
+                        <p>
+                            Atrasados
+                        </p>
+                        <span class="badge badge-danger right"><?= $_SESSION['prestamos_atrasados'] ?></span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="<?= $_SESSION['path'] ?>/prestamos/listar/pendientes-de-aprobacion/" class="nav-link">
                         <i class="nav-icon fas fa-comments-dollar"></i>
                         <p>
@@ -72,12 +81,12 @@
 
                 <li class="nav-header">PAGOS</li>
                 <li class="nav-item">
-                    <a href="<?= $_SESSION['path'] ?>/prestamos/listar/atrasados/" class="nav-link">
+                    <a href="<?= $_SESSION['path'] ?>/prestamos/listar/cuotas-atrasadas/" class="nav-link">
                         <i class="nav-icon fas fa-calendar-times"></i>
                         <p>
                             Atrasados
                         </p>
-                        <span class="badge badge-danger right"><?= $_SESSION['prestamos_atrasados'] ?></span>
+                        <span class="badge badge-danger right"><?= $_SESSION['prestamos_pagos_atrasados'] ?></span>
                     </a>
                 </li>
                 <li class="nav-item">

@@ -59,12 +59,12 @@ $Obj_Prestamos->ActualizarFechaSiguentePago($fechaSiguientePago, intval(trim(str
 $Res_Cuotas = $Obj_Cuotas->Insertar();
 
 if ($Res_Cuotas) {
-    $Res_PrestamosAtrasados = $Obj_Prestamos->ObtenerTotalPrestamosAtrasados();
+    $Res_PrestamosPagosAtrasados = $Obj_Prestamos->ObtenerTotalPagosPrestamosAtrasados();
     $Res_PrestamosProximosPago = $Obj_Prestamos->ObtenerTotalProximosPagos();
 
-    $PrestamosAtrasados = $Res_PrestamosAtrasados->fetch_assoc()['total_prestamos'];
+    $PrestamosPagosAtrasados = $Res_PrestamosPagosAtrasados->fetch_assoc()['total_prestamos'];
     $PrestatosProximoPago = $Res_PrestamosProximosPago->fetch_assoc()['total_prestamos'];
-    $_SESSION['prestamos_atrasados'] = $PrestamosAtrasados;
+    $_SESSION['prestamos_pagos_atrasados'] = $PrestamosPagosAtrasados;
     $_SESSION['prestamos_proximo_pago'] = $PrestatosProximoPago;
 
     $_SESSION['msg'] = 'Cuota realizada correctamente.';

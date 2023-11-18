@@ -198,6 +198,7 @@ if (!isset($_GET['id'])) {
                                         </div>
 
                                         <input type="text" class="form-control d-none" value="<?= $DatosCliente['id_cliente'] ?>" name="txtIdCliente" readonly>
+                                        <input type="text" class="form-control d-none" value="" name="txtFechaUltimoPago" id="txtFechaUltimoPago" readonly>
                                         <!-- /.form group -->
                                         <div class="d-flex flex-wrap justify-content-center align-items-center">
                                             <div class="form-group pr-1 flex-grow-1 ">
@@ -314,6 +315,9 @@ if (!isset($_GET['id'])) {
                 },
                 success: function(response) {
                     $('#table-results').html(response);
+                    var fechaUltimoPagoValue = $('#fechaUltimoPago').val();
+
+                    $('#txtFechaUltimoPago').val(fechaUltimoPagoValue);
                 }
             });
 
@@ -327,6 +331,7 @@ if (!isset($_GET['id'])) {
                     $('#tableInterestAssistant').html(response);
                 }
             });
+
         }
 
         function logout(path) {

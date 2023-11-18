@@ -2,13 +2,15 @@
 require_once '../../../func/LoginValidator.php';
 require_once '../../../bd/bd.php';
 require_once '../../../class/Prestamos.php';
+require_once '../../../class/Cuotas.php';
 require_once '../../../class/Reset.php';
 
 
 $Obj_Prestamos = new Prestamos();
+$Obj_Cuotas = new Cuotas();
 $Obj_Reset = new Reset();
 
-$Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('2');
+$Res_Prestamos = $Obj_Prestamos->listarPrestamosConPagosAtrasados();
 
 ?>
 <!DOCTYPE html>
@@ -17,7 +19,7 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('2');
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Listado de préstamos pendientes de aprobación | Hernan Store</title>
+    <title>Listado de préstamos atrasados | Hernan Store</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -51,23 +53,28 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('2');
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">Préstamos pendientes de aprobación</h3>
+                                    <h3 class="card-title">Préstamos con cuotas atrasadas</h3>
                                 </div>
                                 <div class="card-body">
-                                    <table id="table-payments" class="table table-bordered table-striped  table-hover">
+                                    <table id="table-payments" class="table table-bordered table-striped table-hover">
                                         <thead>
                                             <tr>
                                                 <th>Cliente</th>
                                                 <th>Monto prestado</th>
-                                                <th>Ganancias previstas</th>
-                                                <th>cuotas</th>
-                                                <th>Primer pago</th>
+                                                <th>Ganancias</th>
+                                                <th>Abonado</th>
+                                                <th>Pendiente</th>
+                                                <th>Próximo pago</th>
                                                 <th>Fin del préstamo</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php while ($DatosPrestamos = $Res_Prestamos->fetch_assoc()) { ?>
+                                            <?php while ($DatosPrestamos = $Res_Prestamos->fetch_assoc()) {
+                                                $Res_CapitalPagado = $Obj_Cuotas->CapitalPagado($DatosPrestamos['id_prestamo']);
+
+                                                $capitalPagado = $Res_CapitalPagado->fetch_assoc()['total'];
+                                                $CapitalRestante = $DatosPrestamos['capital_prestamo'] + $DatosPrestamos['ganancias'] - $capitalPagado; ?>
                                                 <tr>
                                                     <td>
                                                         <p><a href="<?= $_SESSION['path'] . '/prestamos/listar/cliente/?id=' . $DatosPrestamos['id_cliente'] ?>"><?= $DatosPrestamos['nombre_cliente'] ?></a></p>
@@ -79,15 +86,22 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('2');
                                                         <p><?= $Obj_Reset->FormatoDinero($DatosPrestamos['ganancias']) ?></p>
                                                     </td>
                                                     <td>
-                                                        <p><?= $DatosPrestamos['num_cuotas'] ?></p>
+                                                        <p><?= $Obj_Reset->FormatoDinero($capitalPagado) ?></p>
                                                     </td>
                                                     <td>
-                                                        <p><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamos['fecha_primer_pago'])) ?></p>
+                                                        <p><?= $Obj_Reset->FormatoDinero($CapitalRestante) ?></p>
+                                                    </td>
+                                                    <td>
+                                                        <p><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamos['fecha_siguiente_pago'])) ?></p>
                                                     </td>
                                                     <td>
                                                         <p><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamos['fecha_fin_prestamo'])) ?></p>
                                                     </td>
                                                     <td>
+                                                        <a href="#" class=" btn bg-success mx-2 my-2" title="Pago cuota" onclick="javascript:pagoCuota(<?= $DatosPrestamos['id_prestamo'] ?>);">
+                                                            <i class="fa fa-hand-holding-usd"></i>
+                                                            <span>Abonar</span>
+                                                        </a>
                                                         <a href="#" class=" btn btn-info mx-2 my-2" title="Imprimir" onclick="javascript:imprimirPrestamo(<?= $DatosPrestamos['id_prestamo'] ?>);">
                                                             <i class="fa fa-print"></i>
                                                             <span>Imprimir</span>
