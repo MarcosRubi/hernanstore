@@ -65,7 +65,8 @@ $Res_Prestamos = $Obj_prestamos->listarUltimosPrestamos();
                     <div class="dropdown-menu dropdown-menu-right" role="menu">
                       <a href="#" onclick="javascript:updateDataCards(event,'week')" class="dropdown-item">Datos de la semana</a>
                       <a href="#" onclick="javascript:updateDataCards(event,'month')" class="dropdown-item">Datos del mes</a>
-                      <a href="#" onclick="javascript:updateDataCards(event,'year')" class="dropdown-item active">Datos del año</a>
+                      <a href="#" onclick="javascript:updateDataCards(event,'year')" class="dropdown-item">Datos del año</a>
+                      <a href="#" onclick="javascript:updateDataCards(event,'all')" class="dropdown-item active">Todos los datos</a>
                     </div>
                   </div>
                 </div>
@@ -172,7 +173,7 @@ $Res_Prestamos = $Obj_prestamos->listarUltimosPrestamos();
     $(function() {
       <?php include 'utils/frmEditEmployeeValidate.php' ?>
 
-      updateDataCards(null, 'year');
+      updateDataCards(null, 'all');
     });
 
     <?php

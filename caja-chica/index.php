@@ -37,7 +37,7 @@ while ($row_cuotas = $Res_Cuotas->fetch_assoc()) {
 
 while ($row_prestamos = $Res_Prestamos->fetch_assoc()) {
     $semana = $row_prestamos['semana'];
-    $resultados_combinados[$semana]['suma_prestamos'] = $row_prestamos['suma_prestamos'] ;
+    $resultados_combinados[$semana]['suma_prestamos'] = $row_prestamos['suma_prestamos'];
     $resultados_combinados[$semana]['fecha_inicial_semana'] = $row_prestamos['fecha_inicial_semana'];
     $resultados_combinados[$semana]['fecha_final_semana'] = $row_prestamos['fecha_final_semana'];
 }
@@ -65,6 +65,20 @@ while ($row_transaccionesInversores = $Res_TransaccionesInversores->fetch_assoc(
     $resultados_combinados[$semana]['suma_cuotas'] += $row_transaccionesInversores['total_ingresos'];
     $resultados_combinados[$semana]['suma_prestamos'] += $row_transaccionesInversores['total_egresos'];
 }
+
+// Función de comparación personalizada para uksort
+function comparar_semanas($a, $b) {
+    // Extraer el número de semana de las claves
+    $numero_semana_a = intval(substr($a, 5));
+    $numero_semana_b = intval(substr($b, 5));
+
+    // Comparar los números de semana
+    return $numero_semana_a - $numero_semana_b;
+}
+
+// Ordenar el array por el valor de las claves ["2023-49"], ["2023-50"], etc.
+uksort($resultados_combinados, 'comparar_semanas');
+
 ?>
 
 <!DOCTYPE html>
@@ -134,18 +148,23 @@ while ($row_transaccionesInversores = $Res_TransaccionesInversores->fetch_assoc(
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $total = 0;
+                                            $totalAcumulado = 0;
                                             foreach ($resultados_combinados as $semana => $datos) {
                                                 $sumaCuota = isset($datos['suma_cuotas']) ? $datos['suma_cuotas'] : 0;
-                                                $total = $total + $sumaCuota - $datos['suma_prestamos'];
+                                                $sumaPrestamos = isset($datos['suma_prestamos']) ? $datos['suma_prestamos'] : 0;
+                                                // Calcular el total actual
+                                                $total = $sumaCuota - $sumaPrestamos;
+
+                                                // Acumular el total actual con el acumulado de semanas anteriores
+                                                $totalAcumulado += $total;
                                             ?>
                                                 <tr>
                                                     <td><?= $semana ?></td>
                                                     <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($datos['fecha_inicial_semana'])) ?></td>
                                                     <td><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($datos['fecha_final_semana'])) ?></td>
                                                     <td><?= isset($datos['suma_cuotas']) ? $Obj_Reset->FormatoDinero($datos['suma_cuotas']) : '$0.00' ?></td>
-                                                    <td><?= $Obj_Reset->FormatoDinero($datos['suma_prestamos']) ?></td>
-                                                    <td><?= $Obj_Reset->FormatoDinero($total) ?></td>
+                                                    <td><?= isset($datos['suma_prestamos']) ? $Obj_Reset->FormatoDinero($datos['suma_prestamos']) : '$0.00' ?></td>
+                                                    <td><?= $Obj_Reset->FormatoDinero($totalAcumulado) ?></td>
                                                     <td>
                                                         <div class="d-flex justify-content-around">
                                                             <a href="<?= $_SESSION['path'] ?>/caja-chica/detalles/?inicio=<?= $datos['fecha_inicial_semana'] ?>&fin=<?= $datos['fecha_final_semana']  ?>" target="_blank"" class=" mx-1 btn btn-md bg-olive d-flex align-items-center" title="Ver detalles">
@@ -155,7 +174,8 @@ while ($row_transaccionesInversores = $Res_TransaccionesInversores->fetch_assoc(
                                                         </div>
                                                     </td>
                                                 </tr>
-                                            <?php } ?>
+                                            <?php
+                                            } ?>
 
                                         </tbody>
                                     </table>

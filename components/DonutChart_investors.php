@@ -45,9 +45,12 @@ switch ($filter) {
 
         $Res_Datos = $Obj_TransaccionesInversores->ObtenerEstadisticasDeInversores($inicioMes, $finMes);
         break;
+    case 'year':
+        $Res_Datos = $Obj_TransaccionesInversores->ObtenerEstadisticasDeInversores(date("Y-01-01"), date("Y-m-d"));
+        break;
 
     default:
-        $Res_Datos = $Obj_TransaccionesInversores->ObtenerEstadisticasDeInversores(date("Y-01-01"), date("Y-m-d"));
+        $Res_Datos = $Obj_TransaccionesInversores->ObtenerEstadisticasDeInversores(date("2023-01-01"), date("Y-m-d"));
         break;
 }
 

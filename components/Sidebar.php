@@ -133,6 +133,14 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="<?= $_SESSION['path'] ?>/excedente/" class="nav-link">
+                            <i class="nav-icon fas fa-comments-dollar"></i>
+                            <p>
+                                Excedente
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="<?= $_SESSION['path'] ?>/empleados/" class="nav-link">
                             <i class="nav-icon fas fa-users-cog"></i>
                             <p>

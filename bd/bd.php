@@ -10,12 +10,11 @@ class DB
 
     public function __construct()
     {
-        $this->Server = "127.0.0.1";
+        $this->Server = "localhost";
         $this->User = "root";
         $this->Password = "";
         $this->DataBase = "db_hernanstore";
-
-        
+       
     }
 
     protected function ConectarDB()

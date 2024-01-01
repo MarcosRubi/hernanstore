@@ -25,7 +25,7 @@ if (intval($_POST['txtIdRol']) === 2 && $_SESSION['id_rol'] !== 2) {
     return;
 }
 
-$Res_EmpleadoCorreo = $Obj_Empleados->buscarEmpleadoPorCorreo(strip_tags(strtolower(trim($_POST['txtCorreo']))));
+$Res_EmpleadoCorreo = $Obj_Empleado->buscarEmpleadoPorCorreo(strip_tags(strtolower(trim($_POST['txtCorreo']))));
 if ($Res_EmpleadoCorreo->num_rows > 0) {
     $_SESSION['msg'] = 'El correo ya esta siendo utilizado por otra cuenta.';
     $_SESSION['type'] = 'error';

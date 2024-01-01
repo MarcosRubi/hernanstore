@@ -57,12 +57,20 @@ switch ($filter) {
         $Res_CapitalPagado = $Obj_Prestamos->ObtenerCapitalPagado($inicioMes, $finMes);
         break;
 
-    default:
+    case 'year':
         $Res_GananciasActuales = $Obj_Prestamos->ObtenerGananciasActuales(date("Y-01-01"), date("Y-m-d"));
         $Res_GananciasPrevistas = $Obj_Prestamos->ObtenerGananciasPrevistas(date("Y-01-01"), date("Y-m-d"));
 
         $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado(date("Y-01-01"), date("Y-m-d"), true);
         $Res_CapitalPagado = $Obj_Prestamos->ObtenerCapitalPagado(date("Y-01-01"), date("Y-m-d"));
+        break;
+
+    default:
+        $Res_GananciasActuales = $Obj_Prestamos->ObtenerGananciasActuales(date("2023-01-01"), date("Y-m-d"));
+        $Res_GananciasPrevistas = $Obj_Prestamos->ObtenerGananciasPrevistas(date("2023-01-01"), date("Y-m-d"));
+
+        $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado(date("2023-01-01"), date("Y-m-d"), true);
+        $Res_CapitalPagado = $Obj_Prestamos->ObtenerCapitalPagado(date("2023-01-01"), date("Y-m-d"));
         break;
 }
 

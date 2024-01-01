@@ -58,8 +58,11 @@ $ingresosCombinados = array_map($sumarValores, $preIngresosCombinados, $Ingresos
 $jsonEgresos = json_encode($egresosCombinados);
 $jsonIngresos = json_encode($ingresosCombinados);
 
-$porcentajeGanancias  = number_format(($gananciasPrevistas / $capitalPrestado) * 100, 3);
-
+if(intval($gananciasPrevistas) !== 0 && intval($capitalPrestado) !== 0){
+    $porcentajeGanancias  = number_format(($gananciasPrevistas / $capitalPrestado) * 100, 3);
+}else{
+    $porcentajeGanancias = 0.00;
+}
 ?>
 
 <div class="card">
