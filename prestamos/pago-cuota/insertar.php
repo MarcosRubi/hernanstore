@@ -59,12 +59,18 @@ $Obj_Prestamos->ActualizarFechaSiguentePago($fechaSiguientePago, intval(trim(str
 $Res_Cuotas = $Obj_Cuotas->Insertar();
 
 if ($Res_Cuotas) {
-    $Res_PrestamosPagosAtrasados = $Obj_Prestamos->ObtenerTotalPagosPrestamosAtrasados();
-    $Res_PrestamosProximosPago = $Obj_Prestamos->ObtenerTotalProximosPagos();
+    $Res_DatosSidebar = $Obj_Prestamos->DatosSidebar();
+    $DatosSidebar = $Res_DatosSidebar->fetch_assoc();
 
-    $PrestamosPagosAtrasados = $Res_PrestamosPagosAtrasados->fetch_assoc()['total_prestamos'];
-    $PrestatosProximoPago = $Res_PrestamosProximosPago->fetch_assoc()['total_prestamos'];
+    $PrestamosEnProceso = $DatosSidebar['total_prestamos_en_proceso'];
+    $PrestamosPendientes = $DatosSidebar['total_prestamos_pendientes'];
+    $PrestamosPagosAtrasados = $DatosSidebar['total_pagos_atrasados'];
+    $PrestamosAtrasados = $DatosSidebar['total_prestamos_atrasados'];
+    $PrestatosProximoPago = $DatosSidebar['total_proximos_pagos'];
+    $_SESSION['prestamos_pendientes'] = $PrestamosPendientes;
+    $_SESSION['prestamos_en_proceso'] = $PrestamosEnProceso;
     $_SESSION['prestamos_pagos_atrasados'] = $PrestamosPagosAtrasados;
+    $_SESSION['prestamos_atrasados'] = $PrestamosAtrasados;
     $_SESSION['prestamos_proximo_pago'] = $PrestatosProximoPago;
 
     $_SESSION['msg'] = 'Cuota realizada correctamente.';

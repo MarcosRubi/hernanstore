@@ -30,13 +30,13 @@ class Prestamos extends DB
         $query = "SELECT * FROM vta_listar_prestamos WHERE id_cliente = '" . $id . "' ORDER BY fecha_prestamo DESC";
         return $this->EjecutarQuery($query);
     }
-    
+
     public function listarPrestamosAtrasados()
     {
         $query = "SELECT * FROM vta_listar_prestamos_atrasados ORDER BY fecha_fin_prestamo DESC";
         return $this->EjecutarQuery($query);
     }
-    
+
 
     public function listarPrestamosPorEstado($id_estado, $order = 'fecha_siguiente_pago')
     {
@@ -235,35 +235,6 @@ class Prestamos extends DB
 
         return $this->EjecutarQuery($query);
     }
-    public function ObtenerTotalPrestamosPorEstado($id_estado)
-    {
-        $query = "SELECT
-        COALESCE(COUNT(tbl_prestamos.id_prestamo), 0) AS total_prestamos
-            FROM tbl_prestamos
-            WHERE tbl_prestamos.eliminado = 'N'
-            AND tbl_prestamos.id_estado = '" . $id_estado . "';";
-        return $this->EjecutarQuery($query);
-    }
-
-    public function ObtenerTotalPagosPrestamosAtrasados()
-    {
-        $query = "SELECT COUNT(id_prestamo) AS total_prestamos FROM vta_prestamos WHERE id_estado = '3' AND  vta_prestamos.fecha_siguiente_pago < CURDATE() ORDER BY
-        fecha_siguiente_pago ";
-        return $this->EjecutarQuery($query);
-    }
-    public function ObtenerTotalPrestamosAtrasados()
-    {
-        $query = "SELECT COUNT(id_prestamo) AS total_prestamos FROM vta_listar_prestamos_atrasados ORDER BY fecha_fin_prestamo DESC";
-        return $this->EjecutarQuery($query);
-    }
-
-    public function ObtenerTotalProximosPagos()
-    {
-        $query = "SELECT COUNT(id_prestamo) AS total_prestamos FROM vta_prestamos WHERE id_estado = '3'  AND vta_prestamos.fecha_siguiente_pago >= CURDATE() 
-            AND vta_prestamos.fecha_siguiente_pago <= CURDATE() + INTERVAL 5 DAY ORDER BY
-            fecha_siguiente_pago ";
-        return $this->EjecutarQuery($query);
-    }
 
     public function ObtenerEgresosPorMes()
     {
@@ -363,6 +334,12 @@ class Prestamos extends DB
         AND DATE(tbl_prestamos.fecha_prestamo) >= '" . $fechaInicio . "' AND DATE(tbl_prestamos.fecha_prestamo) <= '" . $fechaFin . "' AND tbl_prestamos.eliminado = 'N' 
         ORDER BY tbl_prestamos.fecha_prestamo
         ";
+        return $this->EjecutarQuery($query);
+    }
+
+    public function DatosSidebar()
+    {
+        $query = "SELECT * FROM vta_datos_sidebar";
         return $this->EjecutarQuery($query);
     }
 }

@@ -14,18 +14,9 @@ $Obj_Empleados->correo = $_POST['txtCorreo'];
 $Res_Empleado = $Obj_Empleados->buscarEmpleadoPorCorreo();
 $Datos_Empleado = $Res_Empleado->fetch_assoc();
 
-$Res_PrestamosEnProceso = $Obj_Prestamos->ObtenerTotalPrestamosPorEstado('3');
-$Res_PrestamosPendientes = $Obj_Prestamos->ObtenerTotalPrestamosPorEstado('2');
-$Res_PrestamosPagosAtrasados = $Obj_Prestamos->ObtenerTotalPagosPrestamosAtrasados();
-$Res_PrestamosAtrasados = $Obj_Prestamos->ObtenerTotalPrestamosAtrasados();
-$Res_PrestamosProximosPago = $Obj_Prestamos->ObtenerTotalProximosPagos();
 
-$PrestamosEnProceso = $Res_PrestamosEnProceso->fetch_assoc()['total_prestamos'];
-$PrestamosPendientes = $Res_PrestamosPendientes->fetch_assoc()['total_prestamos'];
-$PrestamosPagosAtrasados = $Res_PrestamosPagosAtrasados->fetch_assoc()['total_prestamos'];
-$PrestamosAtrasados = $Res_PrestamosAtrasados->fetch_assoc()['total_prestamos'];
-$PrestatosProximoPago = $Res_PrestamosProximosPago->fetch_assoc()['total_prestamos'];
-
+$Res_DatosSidebar = $Obj_Prestamos->DatosSidebar();
+$DatosSidebar = $Res_DatosSidebar->fetch_assoc();
 
 include './NameUser.php';
 
@@ -42,6 +33,12 @@ if ($Res_Empleado->num_rows > 0 && password_verify($_POST['txtContrasenna'], $Da
     $_SESSION['url_foto'] = $Datos_Empleado['url_foto'];
     $_SESSION['id_rol'] = intval($Datos_Empleado['id_rol']);
     $_SESSION['correo'] = $Datos_Empleado['correo'];
+
+    $PrestamosEnProceso = $DatosSidebar['total_prestamos_en_proceso'];
+    $PrestamosPendientes = $DatosSidebar['total_prestamos_pendientes'];
+    $PrestamosPagosAtrasados = $DatosSidebar['total_pagos_atrasados'];
+    $PrestamosAtrasados = $DatosSidebar['total_prestamos_atrasados'];
+    $PrestatosProximoPago = $DatosSidebar['total_proximos_pagos'];
     $_SESSION['prestamos_pendientes'] = $PrestamosPendientes;
     $_SESSION['prestamos_en_proceso'] = $PrestamosEnProceso;
     $_SESSION['prestamos_pagos_atrasados'] = $PrestamosPagosAtrasados;

@@ -52,13 +52,19 @@ $Obj_Prestamos->valor_cuota = number_format((doubleval(trim($_POST['txtValor']))
 $Res_Prestamos = $Obj_Prestamos->Insertar();
 
 if ($Res_Prestamos) {
-    $Res_PrestamosEnProceso = $Obj_Prestamos->ObtenerTotalPrestamosPorEstado('3');
-    $Res_PrestamosPendientes = $Obj_Prestamos->ObtenerTotalPrestamosPorEstado('2');
-    $PrestamosEnProceso = $Res_PrestamosEnProceso->fetch_assoc()['total_prestamos'];
-    $PrestamosPendientes = $Res_PrestamosPendientes->fetch_assoc()['total_prestamos'];
+    $Res_DatosSidebar = $Obj_Prestamos->DatosSidebar();
+    $DatosSidebar = $Res_DatosSidebar->fetch_assoc();
 
+    $PrestamosEnProceso = $DatosSidebar['total_prestamos_en_proceso'];
+    $PrestamosPendientes = $DatosSidebar['total_prestamos_pendientes'];
+    $PrestamosPagosAtrasados = $DatosSidebar['total_pagos_atrasados'];
+    $PrestamosAtrasados = $DatosSidebar['total_prestamos_atrasados'];
+    $PrestatosProximoPago = $DatosSidebar['total_proximos_pagos'];
     $_SESSION['prestamos_pendientes'] = $PrestamosPendientes;
     $_SESSION['prestamos_en_proceso'] = $PrestamosEnProceso;
+    $_SESSION['prestamos_pagos_atrasados'] = $PrestamosPagosAtrasados;
+    $_SESSION['prestamos_atrasados'] = $PrestamosAtrasados;
+    $_SESSION['prestamos_proximo_pago'] = $PrestatosProximoPago;
 
     $_SESSION['msg'] = 'Préstamo creado correctamente.';
     $_SESSION['type'] = 'success';

@@ -7,7 +7,6 @@ require_once '../class/TransaccionesAdicionales.php';
 require_once '../class/TransaccionesInversores.php';
 require_once '../class/Reset.php';
 
-
 if (intval($_SESSION['id_rol']) > 3) {
     $_SESSION['msg'] = 'Acción no autorizada.';
     $_SESSION['type'] = 'error';
@@ -45,13 +44,17 @@ while ($row_prestamos = $Res_Prestamos->fetch_assoc()) {
 while ($row_transacciones = $Res_TransaccionesAdicionales->fetch_assoc()) {
     $semana = $row_transacciones['semana'];
     if (!isset($resultados_combinados[$semana])) {
-        $resultados_combinados[$semana] = array();
+        $resultados_combinados[$semana] = array(
+            'suma_cuotas' => 0,
+            'suma_prestamos' => 0
+        );
     }
 
     // Suma 'total_ingresos' a 'suma_cuotas' y 'total_egresos' a 'suma_prestamos'
     $resultados_combinados[$semana]['suma_cuotas'] += $row_transacciones['total_ingresos'];
     $resultados_combinados[$semana]['suma_prestamos'] += $row_transacciones['total_egresos'];
 }
+
 while ($row_transaccionesInversores = $Res_TransaccionesInversores->fetch_assoc()) {
     $semana = $row_transaccionesInversores['semana'];
     if (!isset($resultados_combinados[$semana])) {
@@ -67,19 +70,28 @@ while ($row_transaccionesInversores = $Res_TransaccionesInversores->fetch_assoc(
 }
 
 // Función de comparación personalizada para uksort
-function comparar_semanas($a, $b) {
-    // Extraer el número de semana de las claves
-    $numero_semana_a = intval(substr($a, 5));
-    $numero_semana_b = intval(substr($b, 5));
+function comparar_semanas($a, $b)
+{
+    // Extraer el año y el número de semana de las claves
+    list($anio_a, $semana_a) = explode('-', $a);
+    list($anio_b, $semana_b) = explode('-', $b);
 
-    // Comparar los números de semana
-    return $numero_semana_a - $numero_semana_b;
+    // Comparar los años
+    $comparacion_anios = intval($anio_a) - intval($anio_b);
+
+    // Si los años son diferentes, devolver la comparación de años
+    if ($comparacion_anios !== 0) {
+        return $comparacion_anios;
+    }
+
+    // Si los años son iguales, comparar los números de semana
+    return intval($semana_a) - intval($semana_b);
 }
-
 // Ordenar el array por el valor de las claves ["2023-49"], ["2023-50"], etc.
 uksort($resultados_combinados, 'comparar_semanas');
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
