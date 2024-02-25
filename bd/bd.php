@@ -14,7 +14,6 @@ class DB
         $this->User = "root";
         $this->Password = "";
         $this->DataBase = "db_hernanstore";
-       
     }
 
     protected function ConectarDB()

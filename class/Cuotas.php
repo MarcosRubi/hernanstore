@@ -10,7 +10,7 @@ class Cuotas extends DB
 
     public function buscarPorIdPrestamo($id)
     {
-        $query = "SELECT * FROM vta_listar_cuotas_prestamos WHERE id_prestamo='" . $id . "'";
+        $query = "SELECT * FROM vta_listar_cuotas_prestamos WHERE id_prestamo='" . $id . "' ORDER BY id_cuota";
         return $this->EjecutarQuery($query);
     }
     public function buscarPorIdCuota($id)

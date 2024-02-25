@@ -20,7 +20,7 @@ switch ($filter) {
         $Res_ClientesCreados = $Obj_Clientes->ObtenerClientesCreados(date("Y-m-d"), date("Y-m-d"));
 
         $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado(date("Y-m-d"), date("Y-m-d"), true);
-        $Res_CapitalPagado = $Obj_Prestamos->ObtenerCapitalPagado(date("Y-m-d"), date("Y-m-d"),);
+        $Res_CapitalPagado = $Obj_Prestamos->ObtenerCapitalPagado(date("Y-m-d"), date("Y-m-d"));
         break;
     case 'week':
         $fechaActual = new DateTime(); // Obtener la fecha actual
@@ -80,6 +80,9 @@ switch ($filter) {
         $Res_CapitalPagado = $Obj_Prestamos->ObtenerCapitalPagado(date("2023-01-01"), date("Y-12-31"));
         break;
 }
+
+
+
 
 $totalGananciasActuales = doubleval($Res_GananciasActuales->fetch_assoc()['suma_ganancias']);
 $totalGananciasPrevistas = $Res_GananciasPrevistas->fetch_assoc()['suma_ganancias'];

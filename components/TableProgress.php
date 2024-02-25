@@ -22,7 +22,7 @@ switch ($filter) {
         $Res_GananciasPrevistas = $Obj_Prestamos->ObtenerGananciasPrevistas(date("Y-m-d"), date("Y-m-d"));
 
         $Res_CapitalPrestado = $Obj_Prestamos->ObtenerCapitalPrestado(date("Y-m-d"), date("Y-m-d"), true);
-        $Res_CapitalPagado = $Obj_Prestamos->ObtenerCapitalPagado(date("Y-m-d"), date("Y-m-d"),);
+        $Res_CapitalPagado = $Obj_Prestamos->ObtenerCapitalPagado(date("Y-m-d"), date("Y-m-d"));
 
         break;
     case 'week':

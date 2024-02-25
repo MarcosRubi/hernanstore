@@ -11,6 +11,7 @@ if (!isset($_GET['id'])) {
 
 $Res_Clientes = $Obj_Clientes->buscarPorId($_GET['id']);
 $DatosCliente = $Res_Clientes->fetch_assoc();
+
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +20,7 @@ $DatosCliente = $Res_Clientes->fetch_assoc();
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Inicio | Legacy Multiservice LLC</title>
+    <title>Perfil de cliente | Hernan Store</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
