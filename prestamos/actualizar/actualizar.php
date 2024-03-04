@@ -40,6 +40,7 @@ $Obj_Prestamos->num_cuotas = intval(trim(strip_tags($_POST['txtNumCuotas'])));
 $Obj_Prestamos->detalles = trim($_POST['txtDetalles']);
 $Obj_Prestamos->fecha_primer_pago = $Obj_Reset->FechaInvertirGuardar(trim(strip_tags($_POST['txtFechaPrimerPago'])));
 $Obj_Prestamos->fecha_prestamo = $Obj_Reset->FechaInvertirGuardar(trim(strip_tags($_POST['txtFechaInicio'])));
+$Obj_Prestamos->fecha_fin_prestamo = $_POST['txtFechaUltimoPago'];
 $Obj_Prestamos->id_estado = intval(trim(strip_tags($_POST['txtIdEstado'])));
 $Obj_Prestamos->id_cliente = intval(trim(strip_tags($_POST['txtIdCliente'])));
 $Obj_Prestamos->id_plazo_pago = intval(trim(strip_tags($_POST['txtIdPlazoPago'])));

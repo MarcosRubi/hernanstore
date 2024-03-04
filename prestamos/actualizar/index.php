@@ -207,6 +207,7 @@ if (!isset($_GET['id'])) {
 
                                         <input type="text" class="form-control d-none" value="<?= $DatosCliente['id_cliente'] ?>" name="txtIdCliente" readonly>
                                         <input type="text" class="form-control d-none" value="<?= $DatosPrestamo['id_prestamo'] ?>" name="txtIdPrestamo" readonly>
+                                        <input type="text" class="form-control d-none" value="" name="txtFechaUltimoPago" id="txtFechaUltimoPago" readonly>
                                         <!-- /.form group -->
                                         <div class="d-flex flex-wrap justify-content-center align-items-center">
                                             <div class="form-group pr-1 flex-grow-1 ">
@@ -223,6 +224,10 @@ if (!isset($_GET['id'])) {
                                         </div>
                                 </form>
                                 <!-- /.form group -->
+
+                                <div class="mb-3 rounded d-none">
+                                    <div id="table-results"></div>
+                                </div>
                             </div>
 
                             <!-- /.card-body -->
@@ -288,6 +293,8 @@ if (!isset($_GET['id'])) {
             $('#date-start-pay').on('input', function() {
                 changeData();
             });
+            const formData = obtenerDatosFormulario();
+            getLastDate(formData)
         })
     </script>
     <?php include '../../utils/frmEditLendingValidate.php' ?>
@@ -305,6 +312,7 @@ if (!isset($_GET['id'])) {
         function changeData() {
             const formData = obtenerDatosFormulario(); // Obtener los datos del formulario del modal
             getTable(formData);
+            getLastDate(formData);
         }
 
         function obtenerDatosFormulario() {
@@ -326,6 +334,22 @@ if (!isset($_GET['id'])) {
                 },
                 success: function(response) {
                     $('#tableInterestAssistant').html(response);
+                }
+            });
+        }
+
+        function getLastDate(formData) {
+            $.ajax({
+                url: '../../utils/tableLending.php',
+                method: 'POST',
+                data: {
+                    formData
+                },
+                success: function(response) {
+                    $('#table-results').html(response);
+                    var fechaUltimoPagoValue = $('#fechaUltimoPago').val();
+
+                    $('#txtFechaUltimoPago').val(fechaUltimoPagoValue);
                 }
             });
         }

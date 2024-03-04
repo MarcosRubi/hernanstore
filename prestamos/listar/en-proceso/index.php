@@ -12,8 +12,6 @@ $Obj_Reset = new Reset();
 
 $Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('3');
 
-
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -67,7 +65,7 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('3');
                                                 <th>Abonado</th>
                                                 <th>Pendiente</th>
                                                 <th>cuotas</th>
-                                                <th>Próximo pago</th>
+                                                <th>Inicio del préstamo</th>
                                                 <th>Fin del préstamo</th>
                                                 <th>Acciones</th>
                                             </tr>
@@ -99,7 +97,7 @@ $Res_Prestamos = $Obj_Prestamos->listarPrestamosPorEstado('3');
                                                         <p><?= $DatosPrestamos['num_cuotas'] ?></p>
                                                     </td>
                                                     <td>
-                                                        <p><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamos['fecha_siguiente_pago'])) ?></p>
+                                                        <p><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamos['fecha_prestamo'])) ?></p>
                                                     </td>
                                                     <td>
                                                         <p><?= $Obj_Reset->ReemplazarMes($Obj_Reset->FechaInvertir($DatosPrestamos['fecha_fin_prestamo'])) ?></p>

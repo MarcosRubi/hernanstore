@@ -122,6 +122,7 @@ class Prestamos extends DB
         detalles = '" . $this->detalles . "',
         fecha_primer_pago = '" . $this->fecha_primer_pago . "',
         fecha_prestamo = '" . $this->fecha_prestamo . "',
+        fecha_fin_prestamo = '" . $this->fecha_fin_prestamo . "',
         ganancias = '" . $this->ganancias . "',
         id_estado = '" . $this->id_estado . "',
         id_plazo_pago = '" . $this->id_plazo_pago . "',
